@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f8d8e5">
+<title>Class Timer | Teacher Toolbox</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#f8d8e5}
+body{display:flex;justify-content:center;align-items:flex-start;font-family:Arial,sans-serif}
+.stage{
+  position:relative;
+  width:min(100vw,1024px);
+  aspect-ratio:1024/1536;
+  overflow:hidden;
+  background:#fff;
+}
+.stage>img{width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
+.hotspot{
+  position:absolute;display:block;border:0;background:transparent;
+  border-radius:20px;cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+.hotspot:focus-visible{outline:4px solid rgba(255,91,146,.65)}
+
+/* top nav */
+.home{left:2.4%;top:13.3%;width:18.8%;height:4.9%}
+.phonics{left:21.1%;top:13.3%;width:19.1%;height:4.9%}
+.reading{left:40.1%;top:13.3%;width:19.5%;height:4.9%}
+.classroom{left:59.5%;top:13.3%;width:19.4%;height:4.9%}
+.favorites{left:78.6%;top:13.3%;width:19.2%;height:4.9%}
+
+/* preset timer buttons */
+.min1{left:12.1%;top:32.9%;width:22.8%;height:6.4%}
+.min2{left:38.3%;top:32.9%;width:22.8%;height:6.4%}
+.min5{left:64.8%;top:32.9%;width:22.8%;height:6.4%}
+.min10{left:23.4%;top:40.9%;width:24.2%;height:6.2%}
+.min15{left:50.8%;top:40.9%;width:24.2%;height:6.2%}
+
+/* dynamic clock covers the printed 05:00 */
+.clock{
+  position:absolute;left:11.2%;top:49.4%;width:77.8%;height:11.8%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:clamp(56px,14vw,145px);
+  letter-spacing:-0.04em;color:#303c50;background:#fff;
+  border:0;border-radius:2.7vw;
+  font-variant-numeric:tabular-nums;
+}
+
+/* custom input area */
+.custom-input{
+  position:absolute;left:45.4%;top:64.1%;width:18.7%;height:6.6%;
+  border:0;background:rgba(255,255,255,.94);border-radius:1.6vw;
+  text-align:center;color:#31445d;font-weight:800;
+  font-size:clamp(14px,2.6vw,27px);outline:none;
+}
+.custom-input::placeholder{color:#c7c0ba;font-weight:700}
+.set{left:68.6%;top:64.2%;width:14.8%;height:6.5%}
+
+.start{left:18.7%;top:72.0%;width:28.2%;height:6.8%}
+.pause{left:51.6%;top:72.0%;width:28.2%;height:6.8%}
+.reset{left:36.1%;top:79.2%;width:27.5%;height:6.1%}
+
+#toast{
+  position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(25px);
+  background:rgba(48,60,80,.95);color:#fff;padding:11px 17px;border-radius:999px;
+  font-weight:800;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:50
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+#done{
+  position:fixed;inset:0;display:none;place-items:center;
+  background:rgba(255,248,251,.82);z-index:60;padding:24px;
+}
+#done.show{display:grid}
+.done-card{
+  max-width:520px;text-align:center;background:white;
+  border:4px dashed #f0b6cc;border-radius:30px;padding:30px 34px;
+  box-shadow:0 20px 55px rgba(45,53,78,.18);color:#31445d;
+}
+.done-card .big{font-size:clamp(38px,9vw,76px);font-weight:900;line-height:1.05}
+.done-card p{font-weight:800;font-size:18px;margin:14px 0 0}
+
+@media(max-width:700px){
+  body{background:#fff}
+  .stage{width:100vw}
+}
+</style>
+</head>
+<body>
+<main class="stage" aria-label="Teacher Toolbox Class Timer">
+  <img src="timer-toolbox-home.png" alt="Pastel Teacher Toolbox Class Timer">
+
+  <a class="hotspot home" href="index.html" aria-label="Home"></a>
+  <a class="hotspot phonics" href="phonics.html" aria-label="Phonics"></a>
+  <a class="hotspot reading" href="reading.html" aria-label="Reading"></a>
+  <a class="hotspot classroom" href="#" data-coming="Classroom" aria-label="Classroom"></a>
+  <a class="hotspot favorites" href="#" data-coming="Favorites" aria-label="Favorites"></a>
+
+  <button class="hotspot min1" onclick="setMinutes(1)" aria-label="Set timer to 1 minute"></button>
+  <button class="hotspot min2" onclick="setMinutes(2)" aria-label="Set timer to 2 minutes"></button>
+  <button class="hotspot min5" onclick="setMinutes(5)" aria-label="Set timer to 5 minutes"></button>
+  <button class="hotspot min10" onclick="setMinutes(10)" aria-label="Set timer to 10 minutes"></button>
+  <button class="hotspot min15" onclick="setMinutes(15)" aria-label="Set timer to 15 minutes"></button>
+
+  <div id="clock" class="clock" aria-live="polite">05:00</div>
+
+  <input id="custom" class="custom-input" type="number" inputmode="numeric"
+         min="1" max="120" placeholder="e.g. 7" aria-label="Custom minutes">
+  <button class="hotspot set" onclick="setCustom()" aria-label="Set custom minutes"></button>
+
+  <button class="hotspot start" onclick="startTimer()" aria-label="Start timer"></button>
+  <button class="hotspot pause" onclick="pauseTimer()" aria-label="Pause timer"></button>
+  <button class="hotspot reset" onclick="resetTimer()" aria-label="Reset timer"></button>
+</main>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="done" onclick="dismissDone()">
+  <div class="done-card">
+    <div class="big">🎉 Time's Up! 🎉</div>
+    <p>Great job, everyone! Tap anywhere to close. 💕</p>
+  </div>
+</div>
+
+<script>
+let selected = 300;
+let remaining = 300;
+let interval = null;
+let endAt = null;
+
+const clock = document.getElementById('clock');
+const toast = document.getElementById('toast');
+const done = document.getElementById('done');
+
+function render(){
+  const m = Math.floor(remaining / 60);
+  const s = remaining % 60;
+  clock.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(showToast.t);
+  showToast.t = setTimeout(()=>toast.classList.remove('show'),1600);
+}
+
+function setMinutes(m){
+  pauseTimer(false);
+  selected = remaining = m * 60;
+  render();
+  showToast(m + ' minute' + (m===1?'':'s') + ' ready! ✨');
+}
+
+function setCustom(){
+  const m = parseInt(document.getElementById('custom').value,10);
+  if(m >= 1 && m <= 120) setMinutes(m);
+  else showToast('Choose 1–120 minutes 💕');
+}
+
+function startTimer(){
+  if(interval || remaining <= 0) return;
+  endAt = Date.now() + remaining * 1000;
+  showToast("You've got this! ⭐");
+  interval = setInterval(()=>{
+    remaining = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+    render();
+    if(remaining <= 0){
+      clearInterval(interval);
+      interval = null;
+      done.classList.add('show');
+      beep();
+    }
+  }, 250);
+}
+
+function pauseTimer(show=true){
+  if(interval){
+    remaining = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+    clearInterval(interval);
+    interval = null;
+    render();
+  }
+  if(show) showToast('Paused ⏸️');
+}
+
+function resetTimer(){
+  pauseTimer(false);
+  remaining = selected;
+  render();
+  done.classList.remove('show');
+  showToast('Ready when you are! 💕');
+}
+
+function dismissDone(){
+  done.classList.remove('show');
+}
+
+function beep(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = 660;
+    gain.gain.setValueAtTime(.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .55);
+    osc.start(); osc.stop(ctx.currentTime + .55);
+  }catch(e){}
+}
+
+document.querySelectorAll('[data-coming]').forEach(el=>{
+  el.addEventListener('click', e=>{
+    e.preventDefault();
+    showToast(el.dataset.coming + ' — coming soon! 💕');
+  });
+});
+
+render();
+</script>
+</body>
+</html>
