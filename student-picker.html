@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f8d8e5">
+<title>Student Picker | Teacher Toolbox</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#f8d8e5}
+body{display:flex;justify-content:center;align-items:flex-start;font-family:Arial,sans-serif}
+.stage{position:relative;width:min(100vw,1024px);aspect-ratio:1024/1536;overflow:hidden;background:#fff}
+.stage>img{width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
+.hotspot{position:absolute;border:0;background:transparent;border-radius:20px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hotspot:focus-visible{outline:4px solid rgba(255,91,146,.65)}
+
+.home{left:2.3%;top:13.4%;width:18.9%;height:4.8%}
+.phonics{left:21.2%;top:13.4%;width:19%;height:4.8%}
+.reading{left:40.2%;top:13.4%;width:19.2%;height:4.8%}
+.classroom{left:59.5%;top:13.4%;width:19.3%;height:4.8%}
+.favorites{left:78.8%;top:13.4%;width:18.8%;height:4.8%}
+
+.student-list-box{
+ position:absolute;left:6.7%;top:39.7%;width:35.2%;height:38.5%;
+ overflow:auto;padding:.3% 0;scrollbar-width:none;
+}
+.student-list-box::-webkit-scrollbar{display:none}
+.student-row{
+ min-height:54px;margin:0 0 5px 0;display:flex;align-items:center;
+ padding:0 10% 0 13%;font-weight:700;color:#303c50;
+ font-size:clamp(16px,2.05vw,23px);border-radius:18px;
+ background:rgba(255,255,255,.84);
+}
+.student-row::before{content:"♥";color:#f593b3;margin-right:12px;font-size:1.3em}
+.student-row.used{opacity:.42;text-decoration:line-through}
+
+.edit{left:29.8%;top:35.65%;width:13.3%;height:3.3%}
+.add{left:6.9%;top:78.98%;width:18.7%;height:3.8%}
+.remove{left:27.0%;top:78.98%;width:15.4%;height:3.8%}
+
+.selected{
+ position:absolute;left:51.2%;top:40.7%;width:38.5%;height:6.6%;
+ display:flex;align-items:center;justify-content:center;text-align:center;
+ font-weight:900;font-size:clamp(28px,5vw,58px);color:#303c50;
+ background:rgba(230,217,248,.92);border-radius:28px;
+}
+.pick{left:53.6%;top:49.5%;width:34.6%;height:5.6%}
+
+.option-remove{left:52.0%;top:68.0%;width:39.8%;height:5.0%}
+.option-confetti{left:52.0%;top:73.8%;width:39.8%;height:5.0%}
+.option-sound{left:52.0%;top:79.5%;width:39.8%;height:5.0%}
+
+.fake-check{
+ position:absolute;width:3%;aspect-ratio:1;border:2px solid #c69dea;border-radius:8px;
+ display:grid;place-items:center;background:#fff;font-weight:900;color:#f48bad;
+ font-size:clamp(12px,2vw,22px);pointer-events:none
+}
+.check1{left:52.35%;top:69.3%}
+.check2{left:52.35%;top:75.1%}
+.check3{left:52.35%;top:80.8%}
+.fake-check.on{border-color:#f1a0ba;background:#fff5f8}
+.fake-check.on::after{content:"✓"}
+
+.modal{position:fixed;inset:0;background:rgba(48,60,80,.28);display:none;place-items:center;z-index:50;padding:18px}
+.modal.show{display:grid}
+.card{width:min(92vw,520px);background:#fffafc;border:4px dashed #f2b1c8;border-radius:28px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.18);color:#303c50}
+.card h2{margin:0 0 10px;font-size:28px}
+.card p{margin:0 0 12px;line-height:1.4}
+textarea,input[type=text]{width:100%;border:2px solid #ead9ef;border-radius:16px;padding:12px;font:inherit;font-size:18px;background:white}
+textarea{min-height:250px;resize:vertical}
+.actions{display:flex;gap:10px;margin-top:14px}
+.actions button{flex:1;border:0;border-radius:18px;padding:13px;font-weight:800;font-size:17px;cursor:pointer}
+.save{background:#cdeedc;color:#303c50}
+.cancel{background:#f7d9e5;color:#303c50}
+
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(20px);background:#303c50;color:white;border-radius:999px;padding:11px 17px;font-weight:800;opacity:0;transition:.2s;z-index:70}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:65}
+.confetti span{position:absolute;top:-30px;font-size:22px;animation:fall 1.9s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.8}}
+</style>
+</head>
+<body>
+<main class="stage" aria-label="Teacher Toolbox Student Picker">
+<img src="student-picker-toolbox-home.png" alt="Pastel Teacher Toolbox Student Picker">
+
+<a class="hotspot home" href="index.html" aria-label="Home"></a>
+<a class="hotspot phonics" href="phonics.html" aria-label="Phonics"></a>
+<a class="hotspot reading" href="reading.html" aria-label="Reading"></a>
+<a class="hotspot classroom" href="#" data-coming="Classroom" aria-label="Classroom"></a>
+<a class="hotspot favorites" href="#" data-coming="Favorites" aria-label="Favorites"></a>
+
+<div id="list" class="student-list-box" aria-label="Student list"></div>
+<button class="hotspot edit" onclick="openEditor()" aria-label="Edit student list"></button>
+<button class="hotspot add" onclick="addStudent()" aria-label="Add student"></button>
+<button class="hotspot remove" onclick="removeLast()" aria-label="Remove last student"></button>
+
+<div id="selected" class="selected">Ready!</div>
+<button class="hotspot pick" onclick="pickStudent()" aria-label="Pick a student"></button>
+
+<button class="hotspot option-remove" onclick="toggleOption('remove')" aria-label="Toggle remove selected from next pick"></button>
+<button class="hotspot option-confetti" onclick="toggleOption('confetti')" aria-label="Toggle confetti"></button>
+<button class="hotspot option-sound" onclick="toggleOption('sound')" aria-label="Toggle sound"></button>
+<div id="check-remove" class="fake-check check1 on"></div>
+<div id="check-confetti" class="fake-check check2 on"></div>
+<div id="check-sound" class="fake-check check3"></div>
+</main>
+
+<div id="editor" class="modal" role="dialog" aria-modal="true">
+  <div class="card">
+    <h2>💕 Edit Student List</h2>
+    <p>Put one student name on each line.</p>
+    <textarea id="names"></textarea>
+    <div class="actions">
+      <button class="cancel" onclick="closeEditor()">Cancel</button>
+      <button class="save" onclick="saveEditor()">Save List</button>
+    </div>
+  </div>
+</div>
+
+<div id="addModal" class="modal" role="dialog" aria-modal="true">
+  <div class="card">
+    <h2>➕ Add Student</h2>
+    <input id="newName" type="text" placeholder="Student name">
+    <div class="actions">
+      <button class="cancel" onclick="closeAdd()">Cancel</button>
+      <button class="save" onclick="saveAdd()">Add</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<div id="confetti" class="confetti"></div>
+
+<script>
+const defaultStudents = ["Ava","Ben","Chloe","Dylan","Emma","Ethan","Grace","Harrison","Isabella","Jack"];
+let students = JSON.parse(localStorage.getItem("ttStudents") || "null") || defaultStudents;
+let used = JSON.parse(localStorage.getItem("ttUsedStudents") || "[]");
+let options = JSON.parse(localStorage.getItem("ttPickerOptions") || "null") || {remove:true,confetti:true,sound:false};
+
+const listEl = document.getElementById("list");
+const selectedEl = document.getElementById("selected");
+const toast = document.getElementById("toast");
+
+function save(){
+ localStorage.setItem("ttStudents", JSON.stringify(students));
+ localStorage.setItem("ttUsedStudents", JSON.stringify(used));
+ localStorage.setItem("ttPickerOptions", JSON.stringify(options));
+}
+
+function render(){
+ listEl.innerHTML = "";
+ students.forEach(name => {
+   const row = document.createElement("div");
+   row.className = "student-row" + (used.includes(name) ? " used" : "");
+   row.textContent = name;
+   listEl.appendChild(row);
+ });
+ document.getElementById("check-remove").classList.toggle("on", options.remove);
+ document.getElementById("check-confetti").classList.toggle("on", options.confetti);
+ document.getElementById("check-sound").classList.toggle("on", options.sound);
+}
+
+function pickStudent(){
+ if(!students.length) return showToast("Add some students first 💕");
+ let pool = options.remove ? students.filter(n => !used.includes(n)) : [...students];
+ if(!pool.length){
+   used = [];
+   pool = [...students];
+   showToast("New round started! ✨");
+ }
+ const current = pool[Math.floor(Math.random()*pool.length)];
+ selectedEl.textContent = current;
+ if(options.remove) used.push(current);
+ save(); render();
+ if(options.confetti) launchConfetti();
+ if(options.sound) beep();
+}
+
+function toggleOption(key){
+ options[key] = !options[key];
+ save(); render();
+}
+
+function openEditor(){
+ document.getElementById("names").value = students.join("\n");
+ document.getElementById("editor").classList.add("show");
+}
+function closeEditor(){document.getElementById("editor").classList.remove("show")}
+function saveEditor(){
+ const names = document.getElementById("names").value.split("\n").map(x=>x.trim()).filter(Boolean);
+ students = [...new Set(names)];
+ used = used.filter(n=>students.includes(n));
+ save(); render(); closeEditor(); showToast("Student list saved! 💕");
+}
+
+function addStudent(){
+ document.getElementById("newName").value="";
+ document.getElementById("addModal").classList.add("show");
+ setTimeout(()=>document.getElementById("newName").focus(),100);
+}
+function closeAdd(){document.getElementById("addModal").classList.remove("show")}
+function saveAdd(){
+ const name = document.getElementById("newName").value.trim();
+ if(!name) return;
+ if(!students.includes(name)) students.push(name);
+ save(); render(); closeAdd(); showToast(name + " added! ✨");
+}
+function removeLast(){
+ if(!students.length) return;
+ const name = students.pop();
+ used = used.filter(n=>n!==name);
+ save(); render(); showToast(name + " removed");
+}
+
+function showToast(msg){
+ toast.textContent = msg; toast.classList.add("show");
+ clearTimeout(showToast.t); showToast.t=setTimeout(()=>toast.classList.remove("show"),1500);
+}
+
+function beep(){
+ try{
+  const ctx = new (window.AudioContext||window.webkitAudioContext)();
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.connect(g);g.connect(ctx.destination);o.frequency.value=740;
+  g.gain.setValueAtTime(.1,ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.35);
+  o.start();o.stop(ctx.currentTime+.35);
+ }catch(e){}
+}
+
+function launchConfetti(){
+ const c=document.getElementById("confetti");
+ const chars=["💕","⭐","✨","🎉","💛","💜","💚"];
+ for(let i=0;i<36;i++){
+  const s=document.createElement("span");
+  s.textContent=chars[Math.floor(Math.random()*chars.length)];
+  s.style.left=(Math.random()*100)+"vw";
+  s.style.animationDelay=(Math.random()*.35)+"s";
+  s.style.fontSize=(16+Math.random()*18)+"px";
+  c.appendChild(s); setTimeout(()=>s.remove(),2400);
+ }
+}
+
+document.querySelectorAll("[data-coming]").forEach(el=>{
+ el.addEventListener("click",e=>{e.preventDefault();showToast(el.dataset.coming+" — coming soon! 💕")})
+});
+
+render();
+</script>
+</body>
+</html>
