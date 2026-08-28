@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7d6e3">
+<title>Morning Message | Teacher Toolbox</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#f7d6e3}
+body{display:flex;justify-content:center;align-items:flex-start;font-family:"Trebuchet MS","Arial Rounded MT Bold",Arial,sans-serif;color:#25334c}
+.stage{position:relative;width:min(100vw,1024px);aspect-ratio:2/3;background:#fff;overflow:hidden}
+.stage>img{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
+.hotspot{position:absolute;border:0;background:transparent;cursor:pointer;border-radius:18px;-webkit-tap-highlight-color:transparent}
+.hotspot:focus-visible,.theme:focus-visible,.field:focus-visible{outline:3px solid rgba(255,82,145,.6);outline-offset:2px}
+
+/* top navigation */
+.home{left:80.8%;top:5.7%;width:4.8%;height:8.5%}
+.favorites{left:86.4%;top:5.7%;width:5.1%;height:8.5%}
+.settings{left:92.1%;top:5.7%;width:5.6%;height:8.5%}
+.phonics{left:1.4%;top:16.3%;width:11%;height:4.3%}
+.reading{left:13.1%;top:16.3%;width:11.3%;height:4.3%}
+.classroom{left:25.4%;top:16.3%;width:12.7%;height:4.3%}
+.behavior{left:39.0%;top:16.3%;width:11.4%;height:4.3%}
+.assessments{left:51.0%;top:16.3%;width:13.4%;height:4.3%}
+.seasonal{left:65.1%;top:16.3%;width:11.8%;height:4.3%}
+.tools{left:77.4%;top:16.3%;width:10.5%;height:4.3%}
+.more{left:88.5%;top:16.3%;width:10.3%;height:4.3%}
+
+/* option dropdowns */
+.field{position:absolute;z-index:10;width:13.7%;height:4.3%;border:2px solid transparent;border-radius:15px;padding:0 28px 0 12px;background:#fff;color:#303849;font-weight:800;font-size:clamp(10px,1.35vw,16px);appearance:auto}
+.day{left:17.6%;top:38.55%;border-color:#f4a8c2}
+.season{left:17.6%;top:44.0%;border-color:#9fd5b8}
+.skill{left:17.6%;top:49.5%;border-color:#b9a8e9}
+.tone{left:17.6%;top:54.7%;border-color:#f4a8c2}
+
+/* quick themes: transparent hit areas over printed cards */
+.theme{position:absolute;z-index:9;border:0;background:transparent;cursor:pointer;border-radius:13px}
+.kindness{left:2.3%;top:65.4%;width:6.8%;height:6.5%}
+.selflove{left:9.8%;top:65.4%;width:6.8%;height:6.5%}
+.growth{left:17.2%;top:65.4%;width:6.8%;height:6.5%}
+.fun{left:24.8%;top:65.4%;width:6.8%;height:6.5%}
+.positivity{left:2.3%;top:72.3%;width:6.8%;height:6.3%}
+.gratitude{left:9.8%;top:72.3%;width:6.8%;height:6.3%}
+.motivation{left:17.2%;top:72.3%;width:6.8%;height:6.3%}
+.mindset{left:24.8%;top:72.3%;width:6.8%;height:6.3%}
+.random{left:3.5%;top:79.6%;width:25.6%;height:5.5%}
+
+/* message + action controls */
+.generate{left:81.4%;top:34.55%;width:15.8%;height:4.1%}
+.preview{position:absolute;z-index:8;left:40.5%;top:43.1%;width:49.5%;height:29.8%;display:flex;align-items:center;justify-content:center;text-align:center;padding:2.5% 2.5%;pointer-events:none}
+.message-text{white-space:pre-line;font-family:"Comic Sans MS","Bradley Hand","Marker Felt","Trebuchet MS",cursive;font-weight:700;font-size:clamp(14px,2.2vw,28px);line-height:1.42;color:#273245;text-shadow:0 1px 0 #fff}
+.copy{left:35.2%;top:79.25%;width:20.3%;height:5.3%}
+.print{left:57.7%;top:79.25%;width:15.0%;height:5.3%}
+.save{left:75.1%;top:79.25%;width:21.2%;height:5.3%}
+
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(12px);background:#26334e;color:#fff;padding:11px 17px;border-radius:999px;font-weight:800;opacity:0;pointer-events:none;transition:.2s;z-index:80}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.modal{position:fixed;inset:0;background:#22304a66;display:none;place-items:center;padding:18px;z-index:90}
+.modal.show{display:grid}
+.card{width:min(92vw,560px);max-height:80vh;overflow:auto;background:#fffafc;border:4px dashed #f1acc4;border-radius:26px;padding:22px;box-shadow:0 15px 40px #0002}
+.card h2{margin-top:0}
+.favorite-item{padding:12px;border:1px solid #f0dbe4;border-radius:14px;margin:10px 0;white-space:pre-line;background:#fff}
+.card button{width:100%;padding:11px;border:0;border-radius:14px;background:#f7dce7;font-weight:800;margin-top:8px}
+
+@media(max-width:620px){
+  body{background:#fff}
+  .stage{width:100vw}
+  .field{font-size:clamp(8px,2.6vw,13px);padding-left:7px;padding-right:18px}
+  .message-text{font-size:clamp(12px,2.55vw,20px);line-height:1.38}
+}
+</style>
+</head>
+<body>
+<main class="stage" aria-label="Teacher Toolbox Morning Message generator">
+<img src="morning-message-final-bg.png" alt="Pastel Teacher Toolbox Morning Message template">
+
+<a class="hotspot home" href="index.html" aria-label="Home"></a>
+<a class="hotspot favorites" href="#" aria-label="Favorites" onclick="showFavorites(event)"></a>
+<a class="hotspot settings" href="#" aria-label="Settings" onclick="coming(event,'Settings')"></a>
+<a class="hotspot phonics" href="phonics.html" aria-label="Phonics"></a>
+<a class="hotspot reading" href="reading.html" aria-label="Reading"></a>
+<a class="hotspot classroom" href="#" aria-label="Classroom" onclick="coming(event,'Classroom')"></a>
+<a class="hotspot behavior" href="#" aria-label="Behavior" onclick="coming(event,'Behavior')"></a>
+<a class="hotspot assessments" href="#" aria-label="Assessments" onclick="coming(event,'Assessments')"></a>
+<a class="hotspot seasonal" href="#" aria-label="Seasonal" onclick="coming(event,'Seasonal')"></a>
+<a class="hotspot tools" href="index.html" aria-label="Tools"></a>
+<a class="hotspot more" href="#" aria-label="More" onclick="coming(event,'More')"></a>
+
+<select id="day" class="field day" aria-label="Day of the Week">
+<option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option>
+</select>
+<select id="season" class="field season" aria-label="Season or Theme">
+<option>Spring</option><option>Summer</option><option>Fall</option><option>Winter</option><option>Back to School</option><option>Holiday</option><option>Any Theme</option>
+</select>
+<select id="skill" class="field skill" aria-label="Skill Focus">
+<option>Growth Mindset</option><option>Kindness</option><option>Reading</option><option>Writing</option><option>Math</option><option>Phonics</option><option>Friendship</option><option>Responsibility</option><option>None</option>
+</select>
+<select id="tone" class="field tone" aria-label="Tone">
+<option>Friendly</option><option>Calm & Cozy</option><option>Energetic & Fun</option><option>Motivational</option><option>Silly & Playful</option>
+</select>
+
+<button class="theme kindness" aria-label="Kindness theme" onclick="applyTheme('Kindness')"></button>
+<button class="theme selflove" aria-label="Self-Love theme" onclick="applyTheme('Self-Love')"></button>
+<button class="theme growth" aria-label="Growth theme" onclick="applyTheme('Growth')"></button>
+<button class="theme fun" aria-label="Fun theme" onclick="applyTheme('Fun')"></button>
+<button class="theme positivity" aria-label="Positivity theme" onclick="applyTheme('Positivity')"></button>
+<button class="theme gratitude" aria-label="Gratitude theme" onclick="applyTheme('Gratitude')"></button>
+<button class="theme motivation" aria-label="Motivation theme" onclick="applyTheme('Motivation')"></button>
+<button class="theme mindset" aria-label="Mindset theme" onclick="applyTheme('Mindset')"></button>
+<button class="theme random" aria-label="Random Surprise" onclick="randomSurprise()"></button>
+
+<div class="preview"><div id="messageText" class="message-text"></div></div>
+<button class="hotspot generate" aria-label="Generate New" onclick="generateMessage()"></button>
+<button class="hotspot copy" aria-label="Copy to Clipboard" onclick="copyMessage()"></button>
+<button class="hotspot print" aria-label="Print" onclick="printMessage()"></button>
+<button class="hotspot save" aria-label="Save to Favorites" onclick="saveFavorite()"></button>
+</main>
+
+<div id="favoritesModal" class="modal" role="dialog" aria-modal="true">
+  <div class="card">
+    <h2>⭐ Favorite Morning Messages</h2>
+    <div id="favoritesList"></div>
+    <button onclick="closeFavorites()">Close</button>
+  </div>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const day=$('day'), season=$('season'), skill=$('skill'), tone=$('tone'), messageText=$('messageText');
+
+const openings={
+Monday:["Good morning, friends! Happy Monday!","Welcome back, friends! It’s Monday and a brand-new week!"],
+Tuesday:["Good morning, superstars! Happy Tuesday!","Hello, friends! It’s a terrific Tuesday!"],
+Wednesday:["Good morning, friends! Happy Wednesday!","Hello, learners! We’re halfway through the week!"],
+Thursday:["Good morning, friends! Happy Thursday!","Hello, wonderful learners! It’s Thursday!"],
+Friday:["Good morning, friends! Happy Friday!","Hooray, friends! We made it to Friday!"]
+};
+const seasonLines={
+Spring:["Spring is a wonderful time to grow, learn, and notice new beginnings.","Let’s bring bright spring energy to our learning today."],
+Summer:["Let’s bring sunny energy and big smiles to our learning today.","Today is a great day to shine and do our best."],
+Fall:["Let’s make today colorful, cozy, and full of learning.","Like the leaves, we can grow and change in wonderful ways."],
+Winter:["Let’s make our classroom warm with kindness and great thinking.","Even on chilly days, our learning can shine bright."],
+"Back to School":["We are building our classroom family one great day at a time.","Every day is a new chance to learn our routines and help each other."],
+Holiday:["Let’s fill our classroom with joy, kindness, and thoughtful choices.","Today is a wonderful day to celebrate learning together."],
+"Any Theme":["Today is a fresh start and a wonderful chance to learn something new.","Let’s make today kind, curious, and full of effort."]
+};
+const skillLines={
+"Growth Mindset":["Remember: mistakes help our brains grow!","If something feels hard, that means our brains are learning."],
+Kindness:["Look for one way to make someone feel included today.","Kind words and helpful choices can make someone’s whole day better."],
+Reading:["Use your reading superpowers today: look closely, think deeply, and keep going.","Strong readers ask questions, notice details, and reread when they need to."],
+Writing:["Writers have important ideas to share. Take your time and make your thinking clear.","Use your best ideas, details, and brave spelling today."],
+Math:["Mathematicians explain their thinking and try more than one way.","Use pictures, numbers, and words to show your math thinking."],
+Phonics:["Listen closely to sounds and use what you know about letters and patterns.","Your phonics skills can help you read and write so many new words."],
+Friendship:["Be the kind of friend you would want beside you today.","Small acts of friendship make our classroom stronger."],
+Responsibility:["Show what a responsible learner looks like today: ready, respectful, and trying your best.","Take care of your work, your space, and one another."],
+None:["Take your time, try your best, and be proud of your effort.","Let’s learn, laugh, and help each other today."]
+};
+const toneClosings={
+Friendly:["Let’s be kind, try our best, and cheer each other on. You’ve got this!","I’m so glad you’re here. Let’s make it a fantastic day together!"],
+"Calm & Cozy":["Take a deep breath, settle in, and let’s enjoy learning together.","We can take our time, use calm voices, and do our best work."],
+"Energetic & Fun":["Bring your best energy and let’s make today amazing!","Let’s learn big, smile big, and have a fantastic day!"],
+Motivational:["You are capable of hard things. Keep going and believe in yourself!","Effort makes us stronger. Give today your very best!"],
+"Silly & Playful":["Let’s put on our thinking caps and make our brains sparkle!","Get ready for a day of learning, laughing, and lots of great thinking!"]
+};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+function generateMessage(){
+  const msg=[
+    pick(openings[day.value]),
+    pick(seasonLines[season.value]),
+    pick(skillLines[skill.value]),
+    pick(toneClosings[tone.value]),
+    "Let’s make it a fantastic day! 💕"
+  ].join("\n\n");
+  messageText.textContent=msg;
+  localStorage.setItem("ttMorningLastFinal",msg);
+}
+function applyTheme(x){
+  if(x==="Kindness"){skill.value="Kindness";tone.value="Friendly"}
+  if(x==="Self-Love"){skill.value="Growth Mindset";tone.value="Motivational"}
+  if(x==="Growth"){skill.value="Growth Mindset";tone.value="Motivational"}
+  if(x==="Fun"){tone.value="Energetic & Fun"}
+  if(x==="Positivity"){tone.value="Friendly";skill.value="Friendship"}
+  if(x==="Gratitude"){tone.value="Calm & Cozy";skill.value="Kindness"}
+  if(x==="Motivation"){tone.value="Motivational";skill.value="Growth Mindset"}
+  if(x==="Mindset"){skill.value="Growth Mindset";tone.value="Friendly"}
+  generateMessage();
+}
+function randomSurprise(){
+  [day,season,skill,tone].forEach(s=>s.selectedIndex=Math.floor(Math.random()*s.options.length));
+  generateMessage();
+}
+async function copyMessage(){
+  try{await navigator.clipboard.writeText(messageText.textContent);showToast("Copied! 💕")}
+  catch(e){showToast("Press and hold the message to copy")}
+}
+function printMessage(){
+  const safe=messageText.textContent.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+  const w=window.open("","_blank");
+  w.document.write("<!doctype html><html><head><title>Morning Message</title></head><body style='font-family:Arial;padding:50px;text-align:center'><h1>Morning Message</h1><div style='white-space:pre-line;font-size:28px;line-height:1.5'>"+safe+"</div></body></html>");
+  w.document.close(); w.focus(); w.print();
+}
+function saveFavorite(){
+  const msg=messageText.textContent.trim();
+  let favs=JSON.parse(localStorage.getItem("ttMorningFavoritesFinal")||"[]");
+  if(!favs.includes(msg)) favs.push(msg);
+  localStorage.setItem("ttMorningFavoritesFinal",JSON.stringify(favs));
+  showToast("Saved to favorites! ⭐");
+}
+function showFavorites(e){
+  e.preventDefault();
+  const favs=JSON.parse(localStorage.getItem("ttMorningFavoritesFinal")||"[]");
+  const box=$("favoritesList");
+  box.innerHTML=favs.length ? favs.map(x=>"<div class='favorite-item'>"+x.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))+"</div>").join("") : "<p>No favorites saved yet.</p>";
+  $("favoritesModal").classList.add("show");
+}
+function closeFavorites(){$("favoritesModal").classList.remove("show")}
+function coming(e,n){e.preventDefault();showToast(n+" — coming soon! 💕")}
+function showToast(m){
+  const t=$("toast");t.textContent=m;t.classList.add("show");
+  clearTimeout(showToast.t);showToast.t=setTimeout(()=>t.classList.remove("show"),1600);
+}
+[day,season,skill,tone].forEach(x=>x.addEventListener("change",generateMessage));
+messageText.textContent=localStorage.getItem("ttMorningLastFinal")||"";
+if(!messageText.textContent) generateMessage();
+</script>
+</body>
+</html>
