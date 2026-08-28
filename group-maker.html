@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Group Maker | Teacher Toolbox</title>
+<style>
+*{box-sizing:border-box} html,body{margin:0;background:#f7d8e5;min-height:100%}
+body{display:flex;justify-content:center;font-family:Arial,sans-serif;color:#253248}
+.stage{position:relative;width:min(100vw,1024px);aspect-ratio:1024/1536;background:white;overflow:hidden}
+.stage>img{width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
+.hotspot{position:absolute;border:0;background:transparent;cursor:pointer;border-radius:18px;-webkit-tap-highlight-color:transparent}
+.home{left:2.2%;top:13.5%;width:18.8%;height:4.7%} .phonics{left:21.3%;top:13.5%;width:18.8%;height:4.7%}
+.reading{left:40.3%;top:13.5%;width:18.8%;height:4.7%} .classroom{left:59.4%;top:13.5%;width:19%;height:4.7%}
+.favorites{left:78.6%;top:13.5%;width:18.8%;height:4.7%}
+.edit{left:29.8%;top:32.8%;width:11.2%;height:3%} .add{left:5.8%;top:75.2%;width:17.7%;height:3.8%} .remove{left:24.9%;top:75.2%;width:16%;height:3.8%}
+.byGroups{left:45.8%;top:39.1%;width:24.5%;height:4%} .bySize{left:70.5%;top:39.1%;width:23.5%;height:4%}
+.minus{left:46.3%;top:47.8%;width:5%;height:4%} .plus{left:61.6%;top:47.8%;width:5%;height:4%}
+.create{left:45.7%;top:54.1%;width:48.5%;height:3.7%} .reshuffle{left:45.7%;top:58.6%;width:48.5%;height:3.5%}
+.copy{left:69.8%;top:65.4%;width:13.1%;height:3%} .clear{left:83.8%;top:65.4%;width:10.5%;height:3%}
+
+.list{position:absolute;left:5.7%;top:36.2%;width:34.1%;height:37.7%;overflow:auto;scrollbar-width:none}
+.list::-webkit-scrollbar{display:none}
+.row{height:4.0%;min-height:53px;margin-bottom:5px;display:flex;align-items:center;padding-left:13%;font-weight:800;font-size:clamp(15px,1.8vw,21px);background:rgba(255,255,255,.88);border-radius:15px}
+.row:before{content:"♥";color:#f48eae;margin-right:14px}
+
+.count{position:absolute;left:52%;top:48%;width:10%;height:3.5%;display:grid;place-items:center;font-weight:900;font-size:clamp(22px,3vw,36px)}
+.groups{position:absolute;left:45.5%;top:68.5%;width:48.5%;height:20.5%;display:grid;grid-template-columns:1fr 1fr;gap:2.8% 5%;padding:0}
+.group{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:clamp(12px,1.55vw,18px);line-height:1.45;border-radius:18px;background:rgba(255,255,255,.70)}
+.group strong{font-size:1.05em;margin-bottom:4px}
+
+.modal{position:fixed;inset:0;background:#25324855;display:none;place-items:center;padding:18px;z-index:30}
+.modal.show{display:grid} .card{width:min(92vw,520px);background:#fffafd;border:4px dashed #f2abc3;border-radius:28px;padding:24px}
+textarea,input{width:100%;padding:12px;border:2px solid #ead9ef;border-radius:14px;font:inherit;font-size:18px}
+textarea{min-height:280px} .actions{display:flex;gap:10px;margin-top:12px} .actions button{flex:1;padding:12px;border:0;border-radius:15px;font-weight:800}
+.save{background:#caeddc} .cancel{background:#f6d8e4}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#253248;color:white;padding:11px 18px;border-radius:999px;opacity:0;z-index:40;transition:.2s}
+#toast.show{opacity:1}
+</style>
+</head>
+<body>
+<main class="stage">
+<img src="group-maker-toolbox-home.png" alt="Teacher Toolbox Group Maker">
+<a class="hotspot home" href="index.html"></a><a class="hotspot phonics" href="phonics.html"></a><a class="hotspot reading" href="reading.html"></a>
+<a class="hotspot classroom" href="#" data-coming="Classroom"></a><a class="hotspot favorites" href="#" data-coming="Favorites"></a>
+<div id="list" class="list"></div>
+<button class="hotspot edit" onclick="openEditor()"></button><button class="hotspot add" onclick="addStudent()"></button><button class="hotspot remove" onclick="removeStudent()"></button>
+<button class="hotspot byGroups" onclick="mode='groups';showToast('Grouping by number of groups')"></button>
+<button class="hotspot bySize" onclick="mode='size';showToast('Grouping by students per group')"></button>
+<button class="hotspot minus" onclick="changeCount(-1)"></button><button class="hotspot plus" onclick="changeCount(1)"></button>
+<div id="count" class="count">4</div>
+<button class="hotspot create" onclick="makeGroups()"></button><button class="hotspot reshuffle" onclick="makeGroups()"></button>
+<button class="hotspot copy" onclick="copyGroups()"></button><button class="hotspot clear" onclick="clearGroups()"></button>
+<div id="groups" class="groups"></div>
+</main>
+<div id="editor" class="modal"><div class="card"><h2>💕 Edit Class List</h2><p>One student name per line.</p><textarea id="names"></textarea><div class="actions"><button class="cancel" onclick="closeEditor()">Cancel</button><button class="save" onclick="saveEditor()">Save List</button></div></div></div>
+<div id="toast"></div>
+<script>
+const defaults=["Ava","Ben","Chloe","Dylan","Emma","Ethan","Grace","Harrison","Isabella","Jack","Kayla","Liam"];
+let students=JSON.parse(localStorage.getItem("ttStudents")||"null")||defaults;
+let count=4,mode="groups",made=[];
+const list=document.getElementById("list"), countEl=document.getElementById("count"), groupsEl=document.getElementById("groups");
+function save(){localStorage.setItem("ttStudents",JSON.stringify(students))}
+function renderList(){list.innerHTML="";students.forEach(n=>{let d=document.createElement("div");d.className="row";d.textContent=n;list.appendChild(d)})}
+function changeCount(x){count=Math.max(2,Math.min(10,count+x));countEl.textContent=count}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function makeGroups(){
+ if(!students.length)return showToast("Add students first 💕");
+ let a=shuffle(students), n=mode==="groups"?Math.min(count,a.length):Math.ceil(a.length/count);
+ made=Array.from({length:n},()=>[]);
+ a.forEach((name,i)=>made[i%n].push(name));renderGroups();
+}
+function renderGroups(){
+ groupsEl.innerHTML="";
+ made.forEach((g,i)=>{let d=document.createElement("div");d.className="group";d.innerHTML="<strong>Group "+(i+1)+"</strong>"+g.join("<br>");groupsEl.appendChild(d)})
+}
+function clearGroups(){made=[];renderGroups()}
+function copyGroups(){
+ if(!made.length)return showToast("Create groups first ✨");
+ const t=made.map((g,i)=>"Group "+(i+1)+": "+g.join(", ")).join("\n");
+ navigator.clipboard?.writeText(t).then(()=>showToast("Groups copied! 💕")).catch(()=>showToast("Groups ready to copy"));
+}
+function openEditor(){document.getElementById("names").value=students.join("\n");document.getElementById("editor").classList.add("show")}
+function closeEditor(){document.getElementById("editor").classList.remove("show")}
+function saveEditor(){students=[...new Set(document.getElementById("names").value.split("\n").map(x=>x.trim()).filter(Boolean))];save();renderList();closeEditor();showToast("Class list saved! 💕")}
+function addStudent(){let n=prompt("Student name:");if(n&&n.trim()&&!students.includes(n.trim())){students.push(n.trim());save();renderList()}}
+function removeStudent(){let n=prompt("Student name to remove:");if(n){students=students.filter(x=>x.toLowerCase()!=n.trim().toLowerCase());save();renderList()}}
+function showToast(m){let t=document.getElementById("toast");t.textContent=m;t.classList.add("show");clearTimeout(showToast.x);showToast.x=setTimeout(()=>t.classList.remove("show"),1500)}
+document.querySelectorAll("[data-coming]").forEach(e=>e.onclick=x=>{x.preventDefault();showToast(e.dataset.coming+" — coming soon! 💕")});
+renderList();makeGroups();
+</script>
+</body></html>
