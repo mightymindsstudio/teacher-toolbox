@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reading Toolbox</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#f6d9e7}
+body{display:flex;justify-content:center;align-items:flex-start}
+.stage{position:relative;width:min(100vw,1536px);aspect-ratio:3/2;overflow:hidden;background:white}
+.stage img{width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
+.hotspot{position:absolute;display:block;border-radius:18px;outline:none;-webkit-tap-highlight-color:transparent}
+.hotspot:focus-visible{box-shadow:0 0 0 4px rgba(255,77,145,.7)}
+
+.back{left:22.8%;top:4.2%;width:14.3%;height:5.4%}
+.home{left:2.2%;top:38.7%;width:14.5%;height:5.2%}
+.favnav{left:2.2%;top:44.5%;width:14.5%;height:5.2%}
+.resnav{left:2.2%;top:50.2%;width:14.5%;height:5.2%}
+.students{left:2.2%;top:56.0%;width:14.5%;height:5.2%}
+.settings{left:2.2%;top:61.8%;width:14.5%;height:5.2%}
+
+.readalouds{left:22.8%;top:34.9%;width:16.4%;height:21.4%}
+.lessons{left:40.8%;top:34.9%;width:16.4%;height:21.4%}
+.comprehension{left:58.8%;top:34.9%;width:16.4%;height:21.4%}
+.vocabulary{left:78.6%;top:34.9%;width:17.2%;height:21.4%}
+
+.phonicsreading{left:22.8%;top:57.1%;width:16.4%;height:21.5%}
+.writing{left:40.8%;top:57.1%;width:16.4%;height:21.5%}
+.smallgroup{left:58.8%;top:57.1%;width:16.4%;height:21.5%}
+.assessments{left:78.6%;top:57.1%;width:17.2%;height:21.5%}
+
+.timer{left:23.5%;top:84.0%;width:10%;height:13.5%}
+.picker{left:33.9%;top:84.0%;width:10%;height:13.5%}
+.group{left:44.4%;top:84.0%;width:10%;height:13.5%}
+.noise{left:54.9%;top:84.0%;width:10%;height:13.5%}
+.message{left:65.4%;top:84.0%;width:10.5%;height:13.5%}
+.whatdo{left:75.8%;top:84.0%;width:10.5%;height:13.5%}
+
+#toast{
+ position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(24px);
+ background:rgba(25,45,81,.95);color:#fff;padding:11px 17px;border-radius:999px;
+ font:700 14px Arial,sans-serif;opacity:0;pointer-events:none;transition:.2s;z-index:50
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<main class="stage" aria-label="Reading Toolbox">
+  <img src="reading-toolbox-home.png" alt="Reading Toolbox dashboard">
+
+  <a class="hotspot back" href="index.html" aria-label="Back to Home"></a>
+  <a class="hotspot home" href="index.html" aria-label="Home"></a>
+
+  <a class="hotspot readalouds" href="https://parents.prod.pbskids.org/parents/read-along" target="_blank" rel="noopener" aria-label="Read Alouds"></a>
+  <a class="hotspot lessons" href="https://www.readworks.org/books/passages" target="_blank" rel="noopener" aria-label="Lessons and Units"></a>
+  <a class="hotspot comprehension" href="https://www.slates.app/" target="_blank" rel="noopener" aria-label="Comprehension"></a>
+  <a class="hotspot vocabulary" href="https://www.readworks.org/books/passages" target="_blank" rel="noopener" aria-label="Vocabulary"></a>
+
+  <a class="hotspot phonicsreading" href="phonics.html" aria-label="Phonics in Reading"></a>
+  <a class="hotspot writing" href="#" data-coming="Writing Connections" aria-label="Writing Connections"></a>
+  <a class="hotspot smallgroup" href="https://www.uniteforliteracy.com/" target="_blank" rel="noopener" aria-label="Small Group"></a>
+  <a class="hotspot assessments" href="#" data-coming="Assessments" aria-label="Assessments"></a>
+
+  <a class="hotspot favnav" href="#" data-coming="My Favorites" aria-label="My Favorites"></a>
+  <a class="hotspot resnav" href="#" data-coming="My Resources" aria-label="My Resources"></a>
+  <a class="hotspot students" href="#" data-coming="My Students" aria-label="My Students"></a>
+  <a class="hotspot settings" href="#" data-coming="Settings" aria-label="Settings"></a>
+
+  <a class="hotspot timer" href="#" data-coming="Class Timer" aria-label="Class Timer"></a>
+  <a class="hotspot picker" href="#" data-coming="Student Picker" aria-label="Student Picker"></a>
+  <a class="hotspot group" href="#" data-coming="Group Maker" aria-label="Group Maker"></a>
+  <a class="hotspot noise" href="#" data-coming="Noise Meter" aria-label="Noise Meter"></a>
+  <a class="hotspot message" href="#" data-coming="Morning Message" aria-label="Morning Message"></a>
+  <a class="hotspot whatdo" href="#" data-coming="What Can I Do" aria-label="What Can I Do"></a>
+</main>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+const toast=document.getElementById('toast');
+let t;
+document.querySelectorAll('[data-coming]').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.preventDefault();
+    clearTimeout(t);
+    toast.textContent=el.dataset.coming+' — coming soon! 💕';
+    toast.classList.add('show');
+    t=setTimeout(()=>toast.classList.remove('show'),1800);
+  });
+});
+</script>
+</body>
+</html>
