@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7d6e3">
+<title>What Can I Do? | Teacher Toolbox</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#f7d6e3}
+body{display:flex;justify-content:center;align-items:flex-start;font-family:"Trebuchet MS","Arial Rounded MT Bold",Arial,sans-serif;color:#24324b}
+.stage{position:relative;width:min(100vw,1146px);aspect-ratio:1146/1290;background:#fff;overflow:hidden}
+.stage>img{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
+.hotspot,.cat,.count{position:absolute;z-index:8;border:0;background:transparent;cursor:pointer;border-radius:16px;-webkit-tap-highlight-color:transparent}
+.hotspot:focus-visible,.cat:focus-visible,.count:focus-visible{outline:3px solid rgba(255,80,145,.55);outline-offset:2px}
+
+/* top nav */
+.home{left:81.3%;top:4.5%;width:5.6%;height:8.5%}
+.favorites{left:87.1%;top:4.5%;width:5.5%;height:8.5%}
+.settings{left:93.1%;top:4.5%;width:5.4%;height:8.5%}
+.phonics{left:1.5%;top:17.1%;width:11%;height:5%}
+.reading{left:13.1%;top:17.1%;width:11.8%;height:5%}
+.classroom{left:25.5%;top:17.1%;width:12.5%;height:5%}
+.behavior{left:38.7%;top:17.1%;width:11.6%;height:5%}
+.assessments{left:51.1%;top:17.1%;width:13.2%;height:5%}
+.seasonal{left:65.0%;top:17.1%;width:11.8%;height:5%}
+.tools{left:77.8%;top:17.1%;width:10.4%;height:5%}
+.more{left:88.7%;top:17.1%;width:9.6%;height:5%}
+
+/* categories */
+.cat{left:2.8%;width:25.4%;height:4.05%}
+.reading-cat{top:40.1%}.writing-cat{top:44.7%}.math-cat{top:49.1%}.word-cat{top:53.5%}
+.draw-cat{top:57.8%}.calm-cat{top:62.2%}.partner-cat{top:66.5%}
+
+/* idea count */
+.count1{left:2.8%;top:76.9%;width:7.8%;height:4.1%}
+.count2{left:11.5%;top:76.9%;width:7.8%;height:4.1%}
+.count3{left:20.2%;top:76.9%;width:7.8%;height:4.1%}
+.random{left:2.6%;top:82.8%;width:25.7%;height:7.2%}
+
+/* right side */
+.generate{left:80.0%;top:36.5%;width:16.7%;height:4.1%}
+.preview{position:absolute;z-index:7;left:36.7%;top:45.1%;width:56.0%;height:34.4%;display:flex;align-items:center;justify-content:center;text-align:center;padding:3% 3.5%;pointer-events:none}
+.idea-text{font-family:"Comic Sans MS","Bradley Hand","Marker Felt","Trebuchet MS",cursive;font-weight:700;font-size:clamp(17px,2.3vw,31px);line-height:1.45;color:#22304b;white-space:pre-line}
+.copy{left:33.4%;top:84.3%;width:20.3%;height:5.6%}
+.print{left:55.6%;top:84.3%;width:16.5%;height:5.6%}
+.save{left:73.4%;top:84.3%;width:22.5%;height:5.6%}
+
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(12px);background:#26334e;color:white;padding:11px 18px;border-radius:999px;font-weight:800;opacity:0;pointer-events:none;transition:.2s;z-index:80}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.modal{position:fixed;inset:0;background:#24324b66;display:none;place-items:center;padding:18px;z-index:90}
+.modal.show{display:grid}
+.card{width:min(92vw,560px);max-height:80vh;overflow:auto;background:#fffafc;border:4px dashed #efb1c7;border-radius:26px;padding:22px}
+.card h2{margin-top:0}
+.favorite-item{padding:12px;border:1px solid #eedbe3;border-radius:14px;margin:10px 0;white-space:pre-line;background:#fff}
+.card button{width:100%;padding:11px;border:0;border-radius:14px;background:#f7dce7;font-weight:800;margin-top:8px}
+@media(max-width:620px){
+  body{background:#fff}
+  .stage{width:100vw}
+  .idea-text{font-size:clamp(14px,2.7vw,21px);line-height:1.4}
+}
+</style>
+</head>
+<body>
+<main class="stage" aria-label="Teacher Toolbox What Can I Do activity generator">
+<img src="what-can-i-do-bg.png" alt="Pastel What Can I Do classroom activity generator">
+
+<a class="hotspot home" href="index.html" aria-label="Home"></a>
+<a class="hotspot favorites" href="#" aria-label="Favorites" onclick="showFavorites(event)"></a>
+<a class="hotspot settings" href="#" aria-label="Settings" onclick="coming(event,'Settings')"></a>
+<a class="hotspot phonics" href="phonics.html" aria-label="Phonics"></a>
+<a class="hotspot reading" href="reading.html" aria-label="Reading"></a>
+<a class="hotspot classroom" href="#" onclick="coming(event,'Classroom')" aria-label="Classroom"></a>
+<a class="hotspot behavior" href="#" onclick="coming(event,'Behavior')" aria-label="Behavior"></a>
+<a class="hotspot assessments" href="#" onclick="coming(event,'Assessments')" aria-label="Assessments"></a>
+<a class="hotspot seasonal" href="#" onclick="coming(event,'Seasonal')" aria-label="Seasonal"></a>
+<a class="hotspot tools" href="index.html" aria-label="Tools"></a>
+<a class="hotspot more" href="#" onclick="coming(event,'More')" aria-label="More"></a>
+
+<button class="cat reading-cat" onclick="chooseCategory('Reading')" aria-label="Reading"></button>
+<button class="cat writing-cat" onclick="chooseCategory('Writing')" aria-label="Writing"></button>
+<button class="cat math-cat" onclick="chooseCategory('Math')" aria-label="Math"></button>
+<button class="cat word-cat" onclick="chooseCategory('Word Work')" aria-label="Word Work"></button>
+<button class="cat draw-cat" onclick="chooseCategory('Draw / Create')" aria-label="Draw or Create"></button>
+<button class="cat calm-cat" onclick="chooseCategory('Calm Corner')" aria-label="Calm Corner"></button>
+<button class="cat partner-cat" onclick="chooseCategory('Partner Activity')" aria-label="Partner Activity"></button>
+
+<button class="count count1" onclick="setCount(1)" aria-label="One idea"></button>
+<button class="count count2" onclick="setCount(2)" aria-label="Two ideas"></button>
+<button class="count count3" onclick="setCount(3)" aria-label="Three ideas"></button>
+<button class="hotspot random" onclick="randomSurprise()" aria-label="Random Surprise"></button>
+
+<div class="preview"><div id="ideaText" class="idea-text"></div></div>
+<button class="hotspot generate" onclick="generateIdeas()" aria-label="Get a New Idea"></button>
+<button class="hotspot copy" onclick="copyIdeas()" aria-label="Copy to Clipboard"></button>
+<button class="hotspot print" onclick="printIdeas()" aria-label="Print"></button>
+<button class="hotspot save" onclick="saveFavorite()" aria-label="Save to Favorites"></button>
+</main>
+
+<div id="favoritesModal" class="modal"><div class="card">
+<h2>⭐ Favorite Ideas</h2>
+<div id="favoritesList"></div>
+<button onclick="closeFavorites()">Close</button>
+</div></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+let currentCategory="Reading", ideaCount=1;
+const ideaText=document.getElementById("ideaText");
+
+const ideas={
+"Reading":[
+"Read a book to a stuffed animal.",
+"Find a cozy spot and reread a favorite book.",
+"Read a page and draw your favorite part.",
+"Read quietly for 10 minutes.",
+"Pick a book and find 3 interesting words.",
+"Read a book and tell someone the beginning, middle, and end.",
+"Choose a character and describe them with 3 words.",
+"Read a nonfiction book and share one new fact."
+],
+"Writing":[
+"Write 3 sentences about your favorite animal.",
+"Make a list of 5 things that make you happy.",
+"Write a tiny story with a beginning, middle, and end.",
+"Write a thank-you note to someone.",
+"Describe your dream playground.",
+"Write about the best part of your day.",
+"Invent a silly character and write 3 facts about them.",
+"Write 3 questions you would ask your favorite book character."
+],
+"Math":[
+"Draw 3 different ways to make 10.",
+"Write a number and show it with tens and ones.",
+"Make 5 addition facts and solve them.",
+"Count by 2s, 5s, or 10s as far as you can.",
+"Find 5 classroom objects and compare their lengths.",
+"Create a picture using at least 4 different shapes.",
+"Write 3 subtraction stories and solve them.",
+"Pick a number under 100 and show one more and one less."
+],
+"Word Work":[
+"Build 5 words with magnetic letters.",
+"Write 5 words that rhyme with a word you choose.",
+"Find 5 words with a digraph.",
+"Make a word family list.",
+"Write 5 words and circle the vowel in each one.",
+"Sort words by short and long vowel sounds.",
+"Think of 5 words with blends and write them.",
+"Choose a word and make a silly sentence with it."
+],
+"Draw / Create":[
+"Draw your dream classroom.",
+"Design a new book cover for a favorite story.",
+"Draw an animal made from only shapes.",
+"Create a comic strip with 3 boxes.",
+"Invent a new playground and label the parts.",
+"Draw a picture using only 5 colors.",
+"Design your own classroom mascot.",
+"Create a picture that shows your favorite season."
+],
+"Calm Corner":[
+"Take 5 slow belly breaths.",
+"Trace your hand and breathe in and out on each finger.",
+"Sit quietly and notice 5 things you can see.",
+"Do 3 slow stretches.",
+"Close your eyes and listen for 3 different sounds.",
+"Think of 3 things you are grateful for.",
+"Take a quiet minute and relax your shoulders.",
+"Draw something that makes you feel peaceful."
+],
+"Partner Activity":[
+"Read a book together and take turns reading pages.",
+"Quiz each other on 5 math facts.",
+"Take turns naming words that rhyme.",
+"Build a story together one sentence at a time.",
+"Play rock-paper-scissors, then solve a math problem together.",
+"Take turns giving clues for classroom words.",
+"Choose a book and tell each other your favorite part.",
+"Make a list of 5 things you both like."
+]
+};
+
+function pickUnique(arr,n){
+  const copy=[...arr];
+  for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}
+  return copy.slice(0,Math.min(n,copy.length));
+}
+function chooseCategory(cat){currentCategory=cat;generateIdeas();showToast(cat+" selected 💕")}
+function setCount(n){ideaCount=n;generateIdeas();showToast(n+(n===1?" idea":" ideas"))}
+function generateIdeas(){
+  const picks=pickUnique(ideas[currentCategory],ideaCount);
+  ideaText.textContent=ideaCount===1 ? picks[0] : picks.map((x,i)=>(i+1)+". "+x).join("\n\n");
+  localStorage.setItem("ttWhatCanIDoLast",JSON.stringify({category:currentCategory,count:ideaCount,text:ideaText.textContent}));
+}
+function randomSurprise(){
+  const cats=Object.keys(ideas);
+  currentCategory=cats[Math.floor(Math.random()*cats.length)];
+  generateIdeas();
+  showToast("Surprise! "+currentCategory+" 🎲");
+}
+async function copyIdeas(){
+  try{await navigator.clipboard.writeText(ideaText.textContent);showToast("Copied! 💕")}
+  catch(e){showToast("Press and hold the idea to copy")}
+}
+function printIdeas(){
+  const safe=ideaText.textContent.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+  const w=window.open("","_blank");
+  w.document.write("<!doctype html><html><head><title>What Can I Do?</title></head><body style='font-family:Arial;padding:50px;text-align:center'><h1>What Can I Do?</h1><div style='white-space:pre-line;font-size:28px;line-height:1.5'>"+safe+"</div></body></html>");
+  w.document.close();w.focus();w.print();
+}
+function saveFavorite(){
+  const text=ideaText.textContent.trim();
+  let favs=JSON.parse(localStorage.getItem("ttWhatCanIDoFavorites")||"[]");
+  if(!favs.includes(text))favs.push(text);
+  localStorage.setItem("ttWhatCanIDoFavorites",JSON.stringify(favs));
+  showToast("Saved to favorites! ⭐");
+}
+function showFavorites(e){
+  e.preventDefault();
+  const favs=JSON.parse(localStorage.getItem("ttWhatCanIDoFavorites")||"[]");
+  const box=document.getElementById("favoritesList");
+  box.innerHTML=favs.length?favs.map(x=>"<div class='favorite-item'>"+x.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))+"</div>").join(""):"<p>No favorites saved yet.</p>";
+  document.getElementById("favoritesModal").classList.add("show");
+}
+function closeFavorites(){document.getElementById("favoritesModal").classList.remove("show")}
+function coming(e,n){e.preventDefault();showToast(n+" — coming soon! 💕")}
+function showToast(m){
+  const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");
+  clearTimeout(showToast.t);showToast.t=setTimeout(()=>t.classList.remove("show"),1600)
+}
+const saved=JSON.parse(localStorage.getItem("ttWhatCanIDoLast")||"null");
+if(saved){currentCategory=saved.category||"Reading";ideaCount=saved.count||1;ideaText.textContent=saved.text||""}
+if(!ideaText.textContent)generateIdeas();
+</script>
+</body>
+</html>
