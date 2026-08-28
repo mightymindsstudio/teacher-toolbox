@@ -42,13 +42,16 @@ body{display:flex;justify-content:center;align-items:flex-start}
 <body>
 <main class="stage" aria-label="Teacher Toolbox home page">
 <img src="CAEC93DB-0CE1-4904-89EA-432B5F0E122F.png" alt="Teacher Toolbox pastel classroom dashboard">
+
 <a class="hotspot home" href="./" aria-label="Home"></a>
-<a class="hotspot phonics" href="phonics.html" aria-label="Open Phonics Toolbox"></a>
+<a class="hotspot phonics" href="phonics.html?v=2" aria-label="Open Phonics Toolbox"></a>
 <a class="hotspot reading" href="reading.html" aria-label="Open Reading Toolbox"></a>
+
 <a class="hotspot favorites-nav" href="#" data-coming="My Favorites" aria-label="My Favorites"></a>
 <a class="hotspot resources-nav" href="#" data-coming="My Resources" aria-label="My Resources"></a>
 <a class="hotspot students-nav" href="#" data-coming="My Students" aria-label="My Students"></a>
 <a class="hotspot settings-nav" href="#" data-coming="Settings" aria-label="Settings"></a>
+
 <a class="hotspot writing" href="#" data-coming="Writing" aria-label="Writing"></a>
 <a class="hotspot math" href="#" data-coming="Math" aria-label="Math"></a>
 <a class="hotspot centers" href="#" data-coming="Centers" aria-label="Centers"></a>
@@ -57,23 +60,28 @@ body{display:flex;justify-content:center;align-items:flex-start}
 <a class="hotspot readalouds" href="#" data-coming="Read Alouds" aria-label="Read Alouds"></a>
 <a class="hotspot tools" href="#" data-coming="Teacher Tools" aria-label="Teacher Tools"></a>
 <a class="hotspot favorites-card" href="#" data-coming="My Favorites" aria-label="My Favorites"></a>
+
 <a class="hotspot timer" href="timer.html" aria-label="Class Timer"></a>
 <a class="hotspot picker" href="student-picker.html" aria-label="Student Picker"></a>
 <a class="hotspot group" href="group-maker.html" aria-label="Group Maker"></a>
 <a class="hotspot noise" href="noise-meter.html" aria-label="Noise Meter"></a>
-<a class="hotspot message" href="morning-message-final.html" aria-label="Morning Message"></a>
-<a class="hotspot whatdo" href="what-can-i-do.html" aria-label="What Can I Do"></a>
+<a class="hotspot message" href="morning-message-final.html?v=2" aria-label="Morning Message"></a>
+<a class="hotspot whatdo" href="what-can-i-do.html?v=3" aria-label="What Can I Do"></a>
 </main>
+
 <div id="toast" role="status" aria-live="polite"></div>
+
 <script>
 const toast=document.getElementById('toast');let timer;
 document.querySelectorAll('[data-coming]').forEach(el=>{
-el.addEventListener('click',e=>{
-e.preventDefault();clearTimeout(timer);
-toast.textContent=el.dataset.coming+' — coming soon! 💕';
-toast.classList.add('show');
-timer=setTimeout(()=>toast.classList.remove('show'),1800);
-});});
+  el.addEventListener('click',e=>{
+    e.preventDefault();
+    clearTimeout(timer);
+    toast.textContent=el.dataset.coming+' — coming soon! 💕';
+    toast.classList.add('show');
+    timer=setTimeout(()=>toast.classList.remove('show'),1800);
+  });
+});
 </script>
 </body>
 </html>
