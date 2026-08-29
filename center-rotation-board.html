@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Center Rotation Board | Teacher Toolbox</title>
+<style>
+:root{--navy:#10285e;--pink:#ff3f7c;--purple:#7440c7;--green:#238b2c;--blue:#1985d1;--orange:#ff7a00;--cream:#fffdf9}
+*{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--navy);font-family:"Trebuchet MS",Arial,sans-serif}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid #eadde5;background:#fff}
+.logo{font-size:clamp(28px,5vw,58px);font-weight:900}.logo span{color:var(--pink)}
+.navbtn,.toolbtn,button{border:0;border-radius:14px;padding:11px 16px;font-weight:800;font-size:16px;cursor:pointer}
+.navbtn{background:#fff1f5;color:var(--navy);text-decoration:none}.wrap{max-width:1500px;margin:auto;padding:18px}
+.titlebar{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:16px}.titlebar h1{font-size:clamp(30px,4vw,54px);margin:0}
+.actions{margin-left:auto;display:flex;gap:8px}.toolbtn{background:#f3edff;color:var(--purple)}
+.grid{display:grid;grid-template-columns:320px 1fr;gap:16px}.panel{background:#fff;border:2px solid #e8dff1;border-radius:22px;padding:16px;box-shadow:0 5px 18px #10285e0d}
+.panel h2{margin:0 0 6px}.section{margin-bottom:14px}.row{display:flex;gap:7px;margin:7px 0}
+.row input{flex:1;border:1px solid #ddd;border-radius:10px;padding:10px;font-size:16px}.del{background:#fff0f2;color:#d93658;padding:8px 11px}
+.add{background:#f1ebff;color:var(--purple);width:100%}.centers .add{background:#eef9ed;color:var(--green)}
+.controls{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-bottom:12px}select{padding:9px;border:1px solid #d9d9df;border-radius:10px;background:white;font-size:15px;color:var(--navy)}
+.tablewrap{overflow:auto}table{border-collapse:separate;border-spacing:0;width:100%;min-width:680px;border:1px solid #d9dce7;border-radius:14px;overflow:hidden}
+th,td{border-right:1px solid #ddd;border-bottom:1px solid #ddd;padding:9px;text-align:center}th:last-child,td:last-child{border-right:0}tr:last-child td{border-bottom:0}
+th{background:#f7f2ff}.rotation th:nth-child(2){background:#fff0f5}.rotation th:nth-child(3){background:#fff4e8}.rotation th:nth-child(4){background:#eff8ea}.rotation th:nth-child(5){background:#eaf5ff}
+td:first-child{font-weight:800;text-align:left}.cellselect{width:100%;min-width:130px}
+.preview{margin-top:16px;border-color:#cce6fa}.preview h2{color:var(--blue)}
+.printbtn{background:var(--orange);color:white;margin-top:12px;width:100%;font-size:18px}
+.tip{text-align:center;background:#f7edff;border-radius:18px;padding:13px;margin-top:15px;font-weight:700}
+.small{font-size:13px;color:#59647f}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:99px;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1}
+@media(max-width:850px){.grid{grid-template-columns:1fr}.actions{margin-left:0}.titlebar{align-items:flex-start}}
+@media print{header,.titlebar,.left,.builder,.tip,.actions,.printbtn{display:none!important}.grid{display:block}.preview{border:0;box-shadow:none;margin:0;padding:0}.wrap{padding:0}body{background:#fff}.preview h2{text-align:center;color:#000}table{min-width:0;font-size:12px}select{appearance:none;border:0;padding:0;font-size:12px}}
+</style>
+</head>
+<body>
+<header><a class="navbtn" href="centers.html">🏠 Home</a><div class="logo"><span>Teacher</span> Toolbox 🧰</div><a class="navbtn" href="#" onclick="toast('My Favorites — coming soon! 💕');return false">♡ My Favorites</a></header>
+<div class="wrap">
+<div class="titlebar"><h1>🔄 Center Rotation Board</h1><b>♡ Create, organize & print your center rotations!</b><div class="actions"><button class="toolbtn" onclick="saveBoard()">💾 Save</button><button class="toolbtn" onclick="loadBoard()">📂 Load</button><button class="toolbtn" onclick="help()">❓ Help</button></div></div>
+<div class="grid">
+<div class="left">
+<div class="panel section"><h2>① Enter Your Groups</h2><div class="small">Add or edit your group names.</div><div id="groups"></div><button class="add" onclick="addGroup()">＋ Add Group</button></div>
+<div class="panel centers"><h2>② Enter Your Centers</h2><div class="small">Add or edit your center names.</div><div id="centers"></div><button class="add" onclick="addCenter()">＋ Add Center</button></div>
+</div>
+<div>
+<div class="panel builder"><h2>③ Build Your Rotations</h2><div class="small">Choose a center for each group in each rotation.</div><div class="controls"><b>Number of Rotations:</b><select id="rotCount" onchange="render()"><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option></select></div><div id="builder"></div></div>
+<div class="panel preview"><h2>④ Preview Your Rotation Chart (Print Ready!)</h2><div id="preview"></div><button class="printbtn" onclick="window.print()">🖨️ Print Rotation Chart</button></div>
+</div></div>
+<div class="tip">⭐ Tip: Print your rotation chart and post it where students can easily see it and stay on track! 💕</div>
+</div><div id="toast" class="toast"></div>
+<script>
+let groups=["Blue Group","Green Group","Yellow Group","Pink Group"];
+let centers=["Read to Self","Word Work","Read with a Buddy","Listen to Reading","Create","Partner"];
+let assignments={};
+const icons={"Read to Self":"📖","Word Work":"✏️","Read with a Buddy":"👭","Listen to Reading":"🎧","Create":"🎨","Partner":"👥"};
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
+function seed(){groups.forEach((g,gi)=>{assignments[g]=assignments[g]||{};for(let r=0;r<6;r++)if(assignments[g][r]===undefined)assignments[g][r]=centers[(gi+r)%4]||centers[0]})}
+function renderLists(){
+ groupsEl=document.getElementById("groups");groupsEl.innerHTML=groups.map((g,i)=>`<div class=row><input value="${esc(g)}" onchange="renameGroup(${i},this.value)"><button class=del onclick="deleteGroup(${i})">🗑</button></div>`).join("");
+ centersEl=document.getElementById("centers");centersEl.innerHTML=centers.map((c,i)=>`<div class=row><input value="${esc(c)}" onchange="renameCenter(${i},this.value)"><button class=del onclick="deleteCenter(${i})">🗑</button></div>`).join("");
+}
+function options(selected){return centers.map(c=>`<option ${c===selected?"selected":""} value="${esc(c)}">${icons[c]||"⭐"} ${esc(c)}</option>`).join("")}
+function render(){seed();renderLists();let n=+document.getElementById("rotCount").value;
+ let head=`<tr><th>Groups</th>${Array.from({length:n},(_,i)=>`<th>Rotation ${i+1}</th>`).join("")}</tr>`;
+ let body=groups.map(g=>`<tr><td>${esc(g)}</td>${Array.from({length:n},(_,r)=>`<td><select class=cellselect onchange="setA('${encodeURIComponent(g)}',${r},this.value)">${options(assignments[g]?.[r])}</select></td>`).join("")}</tr>`).join("");
+ document.getElementById("builder").innerHTML=`<div class=tablewrap><table class=rotation>${head}${body}</table></div>`;
+ let pbody=groups.map(g=>`<tr><td>${esc(g)}</td>${Array.from({length:n},(_,r)=>{let c=assignments[g]?.[r]||centers[0]||"";return `<td>${icons[c]||"⭐"} ${esc(c)}</td>`}).join("")}</tr>`).join("");
+ document.getElementById("preview").innerHTML=`<h2 style="text-align:center;color:#10285e">♡ Our Center Rotations ♡</h2><div class=tablewrap><table>${head}${pbody}</table></div>`;
+}
+function setA(g,r,v){g=decodeURIComponent(g);assignments[g]=assignments[g]||{};assignments[g][r]=v;render()}
+function renameGroup(i,v){let old=groups[i],nu=v.trim()||old;groups[i]=nu;if(old!==nu){assignments[nu]=assignments[old]||{};delete assignments[old]}render()}
+function renameCenter(i,v){let old=centers[i],nu=v.trim()||old;centers[i]=nu;for(let g in assignments)for(let r in assignments[g])if(assignments[g][r]===old)assignments[g][r]=nu;render()}
+function addGroup(){groups.push("New Group");render()} function deleteGroup(i){delete assignments[groups[i]];groups.splice(i,1);render()}
+function addCenter(){centers.push("New Center");render()} function deleteCenter(i){let old=centers[i];centers.splice(i,1);for(let g in assignments)for(let r in assignments[g])if(assignments[g][r]===old)assignments[g][r]=centers[0]||"";render()}
+function saveBoard(){localStorage.setItem("teacherToolboxCenters",JSON.stringify({groups,centers,assignments,rot:document.getElementById("rotCount").value}));toast("Saved! 💾")}
+function loadBoard(){let x=localStorage.getItem("teacherToolboxCenters");if(!x)return toast("No saved board yet.");let d=JSON.parse(x);groups=d.groups;centers=d.centers;assignments=d.assignments||{};document.getElementById("rotCount").value=d.rot||4;render();toast("Loaded! 📂")}
+function help(){alert("1. Edit your group names.\\n2. Edit or add centers.\\n3. Pick a center for every group and rotation.\\n4. Save your setup or print the finished chart.")}
+function toast(m){let t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1600)}
+render();
+</script></body></html>
