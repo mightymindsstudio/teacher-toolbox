@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Center Rotation Board</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#f9dce7;
+ color:#17345f;
+ font-family:"Trebuchet MS",Arial,sans-serif;
+}
+.page{
+ max-width:1450px;
+ margin:auto;
+ min-height:100vh;
+ background:#fffdf8;
+ padding:25px 18px 35px;
+}
+h1{
+ text-align:center;
+ font-size:clamp(42px,7vw,82px);
+ margin:5px 0;
+ color:#ef7797;
+ text-shadow:3px 3px #fff,5px 5px #ead9df;
+}
+.subtitle{
+ background:#f58aaa;
+ color:white;
+ width:max-content;
+ max-width:90%;
+ margin:10px auto 20px;
+ padding:10px 28px;
+ border-radius:20px;
+ font-size:20px;
+ font-weight:bold;
+}
+.buttons{
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+ gap:10px;
+ margin-bottom:20px;
+}
+button{
+ border:0;
+ border-radius:25px;
+ padding:11px 18px;
+ background:white;
+ color:#17345f;
+ font-weight:bold;
+ box-shadow:0 3px 10px #9994;
+ cursor:pointer;
+}
+.boardwrap{overflow:auto}
+.board{
+ min-width:1000px;
+ display:grid;
+ grid-template-columns:190px repeat(5,1fr);
+ gap:8px;
+}
+.head,.center,.box{
+ border-radius:16px;
+ border:2px solid #eadde4;
+ min-height:85px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+.head{
+ min-height:60px;
+ font-size:22px;
+ font-weight:bold;
+}
+.head:nth-child(2){background:#f9c9d8}
+.head:nth-child(3){background:#ffd6b5}
+.head:nth-child(4){background:#ffe99d}
+.head:nth-child(5){background:#d3efdf}
+.head:nth-child(6){background:#e4d5f3}
+.center{
+ padding:10px;
+ font-size:19px;
+ font-weight:bold;
+}
+.center input{
+ width:100%;
+ border:0;
+ outline:0;
+ background:transparent;
+ font:inherit;
+ color:#17345f;
+ text-align:center;
+}
+.c1{background:#ffe1e8}
+.c2{background:#ffe7d5}
+.c3{background:#fff0b7}
+.c4{background:#dff3e6}
+.c5{background:#e8ddf5}
+.c6{background:#daf0f2}
+.box{background:white;padding:8px}
+select{
+ width:100%;
+ border:0;
+ background:white;
+ color:#17345f;
+ font-size:17px;
+ font-weight:bold;
+ text-align:center;
+ outline:none;
+}
+.groups{
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+ gap:10px;
+ margin-top:20px;
+}
+.group{
+ border-radius:18px;
+ padding:12px;
+ text-align:center;
+ border:2px solid #eadde4;
+}
+.group:nth-child(1){background:#ffdce6}
+.group:nth-child(2){background:#ffe4c9}
+.group:nth-child(3){background:#fff0b8}
+.group:nth-child(4){background:#dff2e6}
+.group:nth-child(5){background:#e8def5}
+.icon{font-size:38px}
+.group input{
+ width:100%;
+ margin-top:5px;
+ border:0;
+ border-bottom:2px dashed #baa;
+ background:transparent;
+ text-align:center;
+ font-weight:bold;
+ color:#17345f;
+ outline:none;
+}
+.footer{
+ margin-top:20px;
+ text-align:center;
+ background:#f58aaa;
+ color:white;
+ padding:12px;
+ border-radius:18px;
+ font-weight:bold;
+}
+@media(max-width:700px){
+ .groups{grid-template-columns:1fr 1fr}
+}
+@media print{
+ body{background:white}
+ .page{padding:5px}
+ .buttons{display:none}
+ .board{min-width:0;grid-template-columns:160px repeat(5,1fr)}
+ .head,.center,.box{min-height:70px}
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+
+<h1>🌈 CENTER ROTATION 🌈</h1>
+<div class="subtitle">today's plan at a glance! 💕</div>
+
+<div class="buttons">
+<button onclick="save()">💾 Save Board</button>
+<button onclick="load()">↩️ Load Saved</button>
+<button onclick="window.print()">🖨️ Print</button>
+<button onclick="reset()">✨ Reset</button>
+</div>
+
+<div class="boardwrap">
+<div class="board" id="board"></div>
+</div>
+
+<div class="groups" id="groups"></div>
+
+<div class="footer">
+Keep it positive, keep it kind, keep on learning! 💗
+</div>
+
+</div>
+
+<script>
+const icons=["⭐","🌈","💙","🌟","💗"];
+
+const originalNames=[
+ "Star Group",
+ "Rainbow Group",
+ "Heart Group",
+ "Shining Star Group",
+ "Pink Heart Group"
+];
+
+const originalCenters=[
+ "Read to Self",
+ "Word Work",
+ "Read with a Buddy",
+ "Listen to Reading",
+ "Create",
+ "Partner"
+];
+
+const centerIcons=["📚","🔤","👯","🎧","🎨","🤝"];
+
+const days=[
+ "Monday",
+ "Tuesday",
+ "Wednesday",
+ "Thursday",
+ "Friday"
+];
+
+let data={
+ names:[...originalNames],
+ centers:[...originalCenters],
+ assignments:Array.from(
+  {length:6},
+  (_,r)=>Array.from({length:5},(_,d)=>(r+d)%5)
+ )
+};
+
+function groupText(i){
+ return icons[i]+" "+data.names[i];
+}
+
+function draw(){
+
+ const board=document.getElementById("board");
+
+ board.innerHTML='<div class="head">CENTERS 💕</div>';
+
+ days.forEach(day=>{
+  board.innerHTML+=
+  '<div class="head">'+day+'</div>';
+ });
+
+ for(let r=0;r<6;r++){
+
+  let center=document.createElement("div");
+  center.className="center c"+(r+1);
+
+  center.innerHTML=
+   '<span style="font-size:28px;margin-right:7px">'+
+   centerIcons[r]+
+   '</span>'+
+   '<input value="'+data.centers[r]+'">';
+
+  center.querySelector("input").oninput=function(){
+   data.centers[r]=this.value;
+   autosave();
+  };
+
+  board.appendChild(center);
+
+  for(let d=0;d<5;d++){
+
+   let box=document.createElement("div");
+   box.className="box";
+
+   let select=document.createElement("select");
+
+   icons.forEach((icon,i)=>{
+
+    let option=document.createElement("option");
+
+    option.value=i;
+    option.textContent=groupText(i);
+
+    if(data.assignments[r][d]===i){
+     option.selected=true;
+    }
+
+    select.appendChild(option);
+
+   });
+
+   select.onchange=function(){
+    data.assignments[r][d]=Number(this.value);
+    autosave();
+   };
+
+   box.appendChild(select);
+   board.appendChild(box);
+  }
+ }
+
+ drawGroups();
+}
+
+function drawGroups(){
+
+ const area=document.getElementById("groups");
+ area.innerHTML="";
+
+ icons.forEach((icon,i)=>{
+
+  let group=document.createElement("div");
+  group.className="group";
+
+  group.innerHTML=
+   '<div class="icon">'+icon+'</div>'+
+   '<b>GROUP '+(i+1)+'</b>'+
+   '<input value="'+data.names[i]+'">';
+
+  group.querySelector("input").oninput=function(){
+
+   data.names[i]=this.value;
+
+   document.querySelectorAll("select").forEach(select=>{
+    [...select.options].forEach((option,n)=>{
+     option.textContent=groupText(n);
+    });
+   });
+
+   autosave();
+  };
+
+  area.appendChild(group);
+ });
+}
+
+function autosave(){
+ localStorage.setItem(
+  "centerRotationAuto",
+  JSON.stringify(data)
+ );
+}
+
+function save(){
+ localStorage.setItem(
+  "centerRotationSaved",
+  JSON.stringify(data)
+ );
+ alert("Your Center Rotation Board is saved! 💕");
+}
+
+function load(){
+
+ let saved=
+  localStorage.getItem("centerRotationSaved") ||
+  localStorage.getItem("centerRotationAuto");
+
+ if(!saved){
+  alert("You don't have a saved board yet. 🌈");
+  return;
+ }
+
+ data=JSON.parse(saved);
+ draw();
+
+ alert("Your board is loaded! ⭐");
+}
+
+function reset(){
+
+ if(!confirm("Reset your Center Rotation Board?")){
+  return;
+ }
+
+ data={
+  names:[...originalNames],
+  centers:[...originalCenters],
+  assignments:Array.from(
+   {length:6},
+   (_,r)=>Array.from({length:5},(_,d)=>(r+d)%5)
+  )
+ };
+
+ draw();
+ autosave();
+}
+
+let previous=localStorage.getItem("centerRotationAuto");
+
+if(previous){
+ try{
+  data=JSON.parse(previous);
+ }catch(e){}
+}
+
+draw();
+</script>
+
+</body>
+</html>
