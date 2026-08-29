@@ -3,162 +3,62 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f7dce8">
-<title>Phonics Toolbox | Teacher Toolbox</title>
+<meta name="theme-color" content="#f8dbe7">
+<title>Phonics | Teacher Toolbox</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#f8dce8}
-body{display:flex;justify-content:center;align-items:flex-start;font-family:"Trebuchet MS","Arial Rounded MT Bold",Arial,sans-serif}
-.stage{position:relative;width:min(100vw,1024px);aspect-ratio:2/3;background:white;overflow:hidden}
+html,body{margin:0;min-height:100%;background:#f9dfe9}
+body{display:flex;justify-content:center;align-items:flex-start}
+.stage{position:relative;width:min(100vw,1024px);aspect-ratio:2/3;background:#fff;overflow:hidden}
 .stage>img{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
-.hit{position:absolute;z-index:8;border:0;background:transparent;cursor:pointer;border-radius:18px;-webkit-tap-highlight-color:transparent}
-.hit:focus-visible{outline:3px solid rgba(236,73,137,.55);outline-offset:2px}
-.home{left:2.0%;top:1.8%;width:12.7%;height:5.1%}
-.favorites{left:81.3%;top:1.9%;width:16.0%;height:4.9%}
-
-/* accordion category click zones */
-.c1{left:3.4%;top:27.6%;width:45.5%;height:6.3%}
-.c2{left:3.4%;top:35.2%;width:45.5%;height:6.3%}
-.c3{left:3.4%;top:42.7%;width:45.5%;height:6.3%}
-.c4{left:3.4%;top:50.2%;width:45.5%;height:6.3%}
-.c5{left:51.1%;top:27.6%;width:45.4%;height:6.3%}
-.c6{left:51.1%;top:35.2%;width:45.4%;height:6.3%}
-.c7{left:51.1%;top:42.7%;width:45.4%;height:6.3%}
-.c8{left:51.1%;top:50.2%;width:45.4%;height:6.3%}
-
-/* popover menu */
-.menu{position:absolute;z-index:30;width:43%;background:#fffefa;border:2px solid #efd8e4;border-radius:18px;box-shadow:0 10px 28px rgba(67,43,89,.16);padding:10px;display:none}
-.menu.show{display:block}
-.menu h3{margin:2px 4px 8px;font-size:clamp(13px,1.6vw,18px);color:#28305a}
-.menu a{display:block;text-decoration:none;color:#26334f;background:#fff;border:1px solid #eee1e7;border-radius:12px;padding:9px 11px;margin:6px 0;font-weight:800;font-size:clamp(11px,1.35vw,15px)}
-.menu a:hover{background:#fff3f8}
-.menu small{display:block;color:#6f6a78;font-weight:600;margin-top:2px}
-.leftmenu{left:5%}.rightmenu{left:52%}
-
-/* More phonics fun */
-.games{left:2.9%;top:65.5%;width:20.3%;height:17.4%}
-.word{left:25.1%;top:65.5%;width:22.4%;height:17.4%}
-.reading{left:49.1%;top:65.5%;width:22.9%;height:17.4%}
-.monster{left:73.9%;top:65.5%;width:23%;height:17.4%}
-
-/* Quick Tools */
-.timer{left:5.3%;top:88.9%;width:13.0%;height:8.0%}
-.picker{left:20.8%;top:88.9%;width:13.0%;height:8.0%}
-.group{left:36.2%;top:88.9%;width:13.0%;height:8.0%}
-.noise{left:51.7%;top:88.9%;width:13.0%;height:8.0%}
-.message{left:67.0%;top:88.9%;width:13.5%;height:8.0%}
-.whatdo{left:82.2%;top:88.9%;width:13.8%;height:8.0%}
-
-.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(15px);background:#26334f;color:white;padding:10px 16px;border-radius:999px;font-weight:800;opacity:0;pointer-events:none;transition:.2s;z-index:80}
+.hit{position:absolute;z-index:8;display:block;border-radius:18px;outline:none;-webkit-tap-highlight-color:transparent}
+.hit:focus-visible{box-shadow:0 0 0 4px rgba(255,79,145,.65)}
+.home{left:1.6%;top:2.1%;width:15.2%;height:5.4%}
+.favorites{left:80.1%;top:2.1%;width:18.2%;height:5.4%}
+.starfall{left:3.0%;top:37.3%;width:29.7%;height:37.1%}
+.forest{left:34.7%;top:37.3%;width:29.2%;height:37.1%}
+.arcade{left:65.7%;top:37.3%;width:31.1%;height:37.1%}
+.timer{left:5.3%;top:85.0%;width:12.8%;height:9.5%}
+.picker{left:20.4%;top:85.0%;width:12.8%;height:9.5%}
+.group{left:35.8%;top:85.0%;width:12.8%;height:9.5%}
+.noise{left:51.2%;top:85.0%;width:12.8%;height:9.5%}
+.message{left:66.6%;top:85.0%;width:13.7%;height:9.5%}
+.whatdo{left:81.8%;top:85.0%;width:14.3%;height:9.5%}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(15px);background:#26334f;color:white;padding:10px 16px;border-radius:999px;font:800 14px Arial,sans-serif;opacity:0;pointer-events:none;transition:.2s;z-index:50}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(max-width:620px){body{background:white}.stage{width:100vw}.menu{width:45%;padding:7px}.menu a{padding:7px 8px;margin:4px 0}}
+@media(max-width:620px){body{background:#fff}.stage{width:100vw}}
 </style>
 </head>
 <body>
-<main class="stage" aria-label="Phonics Toolbox">
-<img src="phonics-simple-bg.png" alt="Simplified pastel Phonics Toolbox">
+<main class="stage" aria-label="Teacher Toolbox Phonics page">
+<img src="phonics-final-bg.png" alt="Teacher Toolbox Phonics page with Starfall, Sounds Forest, and Literacy Arcade">
 
 <a class="hit home" href="index.html" aria-label="Home"></a>
-<button class="hit favorites" onclick="showToast('Favorites are coming next! 💕')" aria-label="My Favorites"></button>
+<a class="hit favorites" href="#" data-coming="My Favorites" aria-label="My Favorites"></a>
 
-<button class="hit c1" onclick="toggleMenu('m1',this)" aria-label="Letter Sounds"></button>
-<button class="hit c2" onclick="toggleMenu('m2',this)" aria-label="Short Vowels and CVC"></button>
-<button class="hit c3" onclick="toggleMenu('m3',this)" aria-label="Digraphs"></button>
-<button class="hit c4" onclick="toggleMenu('m4',this)" aria-label="Blends"></button>
-<button class="hit c5" onclick="toggleMenu('m5',this)" aria-label="Silent E"></button>
-<button class="hit c6" onclick="toggleMenu('m6',this)" aria-label="Vowel Teams"></button>
-<button class="hit c7" onclick="toggleMenu('m7',this)" aria-label="R-Controlled Vowels"></button>
-<button class="hit c8" onclick="toggleMenu('m8',this)" aria-label="High Frequency Words"></button>
-
-<div id="m1" class="menu leftmenu">
-<h3>Letter Sounds</h3>
-<a href="https://soundsforest.com/" target="_blank" rel="noopener">🌳 Sounds Forest<small>letter-sound practice</small></a>
-<a href="https://www.starfall.com/h/abcs/" target="_blank" rel="noopener">⭐ Starfall ABCs<small>letters and beginning sounds</small></a>
-<a href="https://classeem.com/games/phonics-sound-game" target="_blank" rel="noopener">🎧 Phonics Sound Game<small>beginning sounds</small></a>
-</div>
-
-<div id="m2" class="menu leftmenu">
-<h3>Short Vowels & CVC</h3>
-<a href="https://soundsforest.com/" target="_blank" rel="noopener">🌳 Sounds Forest<small>blend and read words</small></a>
-<a href="https://classeem.com/games/phonics-sound-game" target="_blank" rel="noopener">🎧 Phonics Sound Game<small>build CVC words</small></a>
-<a href="https://www.starfall.com/h/ltr-classic/" target="_blank" rel="noopener">⭐ Starfall Learn to Read<small>short-vowel reading games</small></a>
-</div>
-
-<div id="m3" class="menu leftmenu">
-<h3>Digraphs</h3>
-<a href="https://literacyarcade.com/build-and-play.html" target="_blank" rel="noopener">🎮 Literacy Arcade<small>choose a digraph word list</small></a>
-<a href="https://www.phonicsbloom.com/uk/phonics-games-for-year-1" target="_blank" rel="noopener">🌸 Phonics Bloom<small>interactive phonics games</small></a>
-<a href="https://www.starfall.com/h/ltr-classic/" target="_blank" rel="noopener">⭐ Starfall Learn to Read<small>ch, sh, th, wh practice</small></a>
-</div>
-
-<div id="m4" class="menu leftmenu">
-<h3>Blends</h3>
-<a href="https://literacyarcade.com/build-and-play.html" target="_blank" rel="noopener">🎮 Literacy Arcade<small>targeted blend word lists</small></a>
-<a href="https://www.phonicsbloom.com/uk/phonics-games-for-year-1" target="_blank" rel="noopener">🌸 Phonics Bloom<small>blend and read</small></a>
-<a href="https://soundsforest.com/" target="_blank" rel="noopener">🌳 Sounds Forest<small>blending practice</small></a>
-</div>
-
-<div id="m5" class="menu rightmenu">
-<h3>Silent E</h3>
-<a href="https://literacyarcade.com/build-and-play.html" target="_blank" rel="noopener">🎮 Literacy Arcade<small>magic-e word practice</small></a>
-<a href="https://www.starfall.com/h/ltr-classic/" target="_blank" rel="noopener">⭐ Starfall Learn to Read<small>silent-e activities</small></a>
-<a href="https://www.phonicsbloom.com/uk/phonics-games-for-year-1" target="_blank" rel="noopener">🌸 Phonics Bloom<small>long-vowel games</small></a>
-</div>
-
-<div id="m6" class="menu rightmenu">
-<h3>Vowel Teams</h3>
-<a href="https://literacyarcade.com/build-and-play.html" target="_blank" rel="noopener">🎮 Literacy Arcade<small>choose a vowel-team pattern</small></a>
-<a href="https://www.phonicsbloom.com/uk/phonics-games-for-year-1" target="_blank" rel="noopener">🌸 Phonics Bloom<small>Phase 5 vowel patterns</small></a>
-<a href="https://soundsforest.com/" target="_blank" rel="noopener">🌳 Sounds Forest<small>vowel-pattern practice</small></a>
-</div>
-
-<div id="m7" class="menu rightmenu">
-<h3>R-Controlled Vowels</h3>
-<a href="https://literacyarcade.com/build-and-play.html" target="_blank" rel="noopener">🎮 Literacy Arcade<small>ar, er, ir, or, ur lists</small></a>
-<a href="https://www.phonicsbloom.com/uk/phonics-games-for-year-1" target="_blank" rel="noopener">🌸 Phonics Bloom<small>interactive word reading</small></a>
-<a href="https://soundsforest.com/" target="_blank" rel="noopener">🌳 Sounds Forest<small>phonics-pattern practice</small></a>
-</div>
-
-<div id="m8" class="menu rightmenu">
-<h3>High-Frequency Words</h3>
-<a href="https://literacyarcade.com/build-and-play.html" target="_blank" rel="noopener">🎮 Literacy Arcade<small>Dolch, Fry, or your own list</small></a>
-<a href="https://www.starfall.com/h/ltr-classic/" target="_blank" rel="noopener">⭐ Starfall Learn to Read<small>sight-word activities</small></a>
-</div>
-
-<a class="hit games" href="https://www.phonicsbloom.com/uk/phonics-games-for-year-1" target="_blank" rel="noopener" aria-label="Phonics Games"></a>
-<a class="hit word" href="https://literacyarcade.com/build-and-play.html" target="_blank" rel="noopener" aria-label="Word Building"></a>
-<a class="hit reading" href="https://www.starfall.com/h/ltr-classic/" target="_blank" rel="noopener" aria-label="Decodable Reading"></a>
-<a class="hit monster" href="https://www.teachyourmonster.org/teachyourmonstertoread" target="_blank" rel="noopener" aria-label="Teach Your Monster to Read"></a>
+<a class="hit starfall" href="https://www.starfall.com/h/ltr-classic/" target="_blank" rel="noopener" aria-label="Visit Starfall"></a>
+<a class="hit forest" href="https://soundsforest.com/" target="_blank" rel="noopener" aria-label="Visit Sounds Forest"></a>
+<a class="hit arcade" href="https://literacyarcade.com/build-and-play.html" target="_blank" rel="noopener" aria-label="Visit Literacy Arcade"></a>
 
 <a class="hit timer" href="timer.html" aria-label="Class Timer"></a>
 <a class="hit picker" href="student-picker.html" aria-label="Student Picker"></a>
 <a class="hit group" href="group-maker.html" aria-label="Group Maker"></a>
 <a class="hit noise" href="noise-meter.html" aria-label="Noise Meter"></a>
-<a class="hit message" href="morning-message-final.html" aria-label="Morning Message"></a>
-<a class="hit whatdo" href="what-can-i-do.html" aria-label="What Can I Do"></a>
+<a class="hit message" href="morning-message-final.html?v=2" aria-label="Morning Message"></a>
+<a class="hit whatdo" href="what-can-i-do.html?v=3" aria-label="What Can I Do"></a>
 </main>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script>
-function toggleMenu(id,btn){
-  const menu=document.getElementById(id);
-  document.querySelectorAll('.menu').forEach(m=>{if(m!==menu)m.classList.remove('show')});
-  menu.classList.toggle('show');
-  if(menu.classList.contains('show')){
-    const r=btn.getBoundingClientRect(), s=document.querySelector('.stage').getBoundingClientRect();
-    const relativeTop=((r.bottom-s.top)/s.height)*100;
-    menu.style.top=Math.min(relativeTop+0.5,78)+'%';
-  }
-}
-document.addEventListener('click',e=>{
-  if(!e.target.closest('.menu') && !e.target.closest('.c1,.c2,.c3,.c4,.c5,.c6,.c7,.c8')){
-    document.querySelectorAll('.menu').forEach(m=>m.classList.remove('show'));
-  }
+const toast=document.getElementById('toast');let timer;
+document.querySelectorAll('[data-coming]').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.preventDefault();clearTimeout(timer);
+    toast.textContent=el.dataset.coming+' — coming soon! 💕';
+    toast.classList.add('show');
+    timer=setTimeout(()=>toast.classList.remove('show'),1600);
+  });
 });
-function showToast(msg){
-  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
-  clearTimeout(showToast.tm); showToast.tm=setTimeout(()=>t.classList.remove('show'),1700);
-}
 </script>
 </body>
 </html>
