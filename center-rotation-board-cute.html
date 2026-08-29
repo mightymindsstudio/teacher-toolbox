@@ -7,179 +7,243 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;
- background:#f9dce7;
- color:#17345f;
- font-family:"Trebuchet MS",Arial,sans-serif;
+  margin:0;
+  background:#f9dce7;
+  color:#17345f;
+  font-family:"Trebuchet MS",Arial,sans-serif;
 }
+
 .page{
- max-width:1450px;
- margin:auto;
- min-height:100vh;
- background:#fffdf8;
- padding:25px 18px 35px;
+  max-width:1450px;
+  margin:auto;
+  min-height:100vh;
+  background:#fffdf8;
+  padding:24px 18px 36px;
 }
+
 h1{
- text-align:center;
- font-size:clamp(42px,7vw,82px);
- margin:5px 0;
- color:#ef7797;
- text-shadow:3px 3px #fff,5px 5px #ead9df;
+  text-align:center;
+  font-size:clamp(42px,7vw,82px);
+  margin:5px 0;
+  color:#ef7797;
+  text-shadow:3px 3px white,5px 5px #ead9df;
 }
+
 .subtitle{
- background:#f58aaa;
- color:white;
- width:max-content;
- max-width:90%;
- margin:10px auto 20px;
- padding:10px 28px;
- border-radius:20px;
- font-size:20px;
- font-weight:bold;
+  background:#f58aaa;
+  color:white;
+  width:max-content;
+  max-width:90%;
+  margin:10px auto 20px;
+  padding:10px 28px;
+  border-radius:20px;
+  font-size:20px;
+  font-weight:bold;
 }
+
 .buttons{
- display:flex;
- flex-wrap:wrap;
- justify-content:center;
- gap:10px;
- margin-bottom:20px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:20px;
 }
+
 button{
- border:0;
- border-radius:25px;
- padding:11px 18px;
- background:white;
- color:#17345f;
- font-weight:bold;
- box-shadow:0 3px 10px #9994;
- cursor:pointer;
+  border:0;
+  border-radius:25px;
+  padding:11px 18px;
+  background:white;
+  color:#17345f;
+  font-weight:bold;
+  box-shadow:0 3px 10px #9994;
+  cursor:pointer;
 }
-.boardwrap{overflow:auto}
+
+.boardwrap{
+  overflow:auto;
+}
+
 .board{
- min-width:1000px;
- display:grid;
- grid-template-columns:190px repeat(5,1fr);
- gap:8px;
+  min-width:1000px;
+  display:grid;
+  grid-template-columns:190px repeat(5,1fr);
+  gap:8px;
 }
-.head,.center,.box{
- border-radius:16px;
- border:2px solid #eadde4;
- min-height:85px;
- display:flex;
- align-items:center;
- justify-content:center;
+
+.head,
+.groupcell,
+.box{
+  border-radius:16px;
+  border:2px solid #eadde4;
+  min-height:92px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
+
 .head{
- min-height:60px;
- font-size:22px;
- font-weight:bold;
+  min-height:60px;
+  font-size:22px;
+  font-weight:bold;
 }
+
 .head:nth-child(2){background:#f9c9d8}
 .head:nth-child(3){background:#ffd6b5}
 .head:nth-child(4){background:#ffe99d}
 .head:nth-child(5){background:#d3efdf}
 .head:nth-child(6){background:#e4d5f3}
-.center{
- padding:10px;
- font-size:19px;
- font-weight:bold;
+
+.groupcell{
+  flex-direction:column;
+  padding:10px;
+  font-weight:bold;
 }
-.center input{
- width:100%;
- border:0;
- outline:0;
- background:transparent;
- font:inherit;
- color:#17345f;
- text-align:center;
+
+.groupcell:nth-of-type(6n+1){background:#ffdce6}
+
+.icon{
+  font-size:34px;
+  margin-bottom:4px;
 }
-.c1{background:#ffe1e8}
-.c2{background:#ffe7d5}
-.c3{background:#fff0b7}
-.c4{background:#dff3e6}
-.c5{background:#e8ddf5}
-.c6{background:#daf0f2}
-.box{background:white;padding:8px}
+
+.groupcell input{
+  width:95%;
+  border:0;
+  border-bottom:2px dashed #c9aebb;
+  background:transparent;
+  color:#17345f;
+  text-align:center;
+  font-size:16px;
+  font-weight:bold;
+  outline:none;
+}
+
+.g1{background:#ffdce6}
+.g2{background:#ffe4c9}
+.g3{background:#dff2e6}
+.g4{background:#fff0b8}
+.g5{background:#e8def5}
+
+.box{
+  background:white;
+  padding:8px;
+}
+
 select{
- width:100%;
- border:0;
- background:white;
- color:#17345f;
- font-size:17px;
- font-weight:bold;
- text-align:center;
- outline:none;
+  width:100%;
+  border:0;
+  background:white;
+  color:#17345f;
+  font-size:17px;
+  font-weight:bold;
+  text-align:center;
+  outline:none;
 }
-.groups{
- display:grid;
- grid-template-columns:repeat(5,1fr);
- gap:10px;
- margin-top:20px;
+
+.legend{
+  margin-top:22px;
+  background:#fff7fb;
+  border:2px dashed #edb8c9;
+  border-radius:20px;
+  padding:15px;
 }
-.group{
- border-radius:18px;
- padding:12px;
- text-align:center;
- border:2px solid #eadde4;
+
+.legend h2{
+  margin:0 0 12px;
+  text-align:center;
+  color:#ef7797;
 }
-.group:nth-child(1){background:#ffdce6}
-.group:nth-child(2){background:#ffe4c9}
-.group:nth-child(3){background:#fff0b8}
-.group:nth-child(4){background:#dff2e6}
-.group:nth-child(5){background:#e8def5}
-.icon{font-size:38px}
-.group input{
- width:100%;
- margin-top:5px;
- border:0;
- border-bottom:2px dashed #baa;
- background:transparent;
- text-align:center;
- font-weight:bold;
- color:#17345f;
- outline:none;
+
+.centerlist{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
 }
+
+.centeritem{
+  border-radius:16px;
+  padding:10px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.centeritem:nth-child(1){background:#ffe1e8}
+.centeritem:nth-child(2){background:#ffe7d5}
+.centeritem:nth-child(3){background:#fff0b7}
+.centeritem:nth-child(4){background:#dff3e6}
+.centeritem:nth-child(5){background:#e8ddf5}
+.centeritem:nth-child(6){background:#daf0f2}
+
+.centeritem input{
+  width:100%;
+  border:0;
+  background:transparent;
+  text-align:center;
+  color:#17345f;
+  font-weight:bold;
+  font-size:16px;
+  outline:none;
+}
+
 .footer{
- margin-top:20px;
- text-align:center;
- background:#f58aaa;
- color:white;
- padding:12px;
- border-radius:18px;
- font-weight:bold;
+  margin-top:20px;
+  text-align:center;
+  background:#f58aaa;
+  color:white;
+  padding:12px;
+  border-radius:18px;
+  font-weight:bold;
 }
+
 @media(max-width:700px){
- .groups{grid-template-columns:1fr 1fr}
+  .centerlist{
+    grid-template-columns:1fr 1fr;
+  }
 }
+
 @media print{
- body{background:white}
- .page{padding:5px}
- .buttons{display:none}
- .board{min-width:0;grid-template-columns:160px repeat(5,1fr)}
- .head,.center,.box{min-height:70px}
+  body{background:white}
+  .page{padding:5px}
+  .buttons,.legend{display:none}
+  .board{
+    min-width:0;
+    grid-template-columns:150px repeat(5,1fr);
+  }
+  .head,.groupcell,.box{
+    min-height:72px;
+  }
 }
 </style>
 </head>
 
 <body>
+
 <div class="page">
 
 <h1>🌈 CENTER ROTATION 🌈</h1>
-<div class="subtitle">today's plan at a glance! 💕</div>
+
+<div class="subtitle">
+today's plan at a glance! 💕
+</div>
 
 <div class="buttons">
-<button onclick="save()">💾 Save Board</button>
-<button onclick="load()">↩️ Load Saved</button>
-<button onclick="window.print()">🖨️ Print</button>
-<button onclick="reset()">✨ Reset</button>
+  <button onclick="saveBoard()">💾 Save Board</button>
+  <button onclick="loadBoard()">↩️ Load Saved</button>
+  <button onclick="window.print()">🖨️ Print</button>
+  <button onclick="resetBoard()">✨ Reset</button>
 </div>
 
 <div class="boardwrap">
-<div class="board" id="board"></div>
+  <div class="board" id="board"></div>
 </div>
 
-<div class="groups" id="groups"></div>
+<div class="legend">
+  <h2>✏️ Your Centers</h2>
+  <div class="centerlist" id="centerList"></div>
+</div>
 
 <div class="footer">
 Keep it positive, keep it kind, keep on learning! 💗
@@ -188,204 +252,258 @@ Keep it positive, keep it kind, keep on learning! 💗
 </div>
 
 <script>
-const icons=["⭐","🌈","💙","🌟","💗"];
 
-const originalNames=[
- "Star Group",
- "Rainbow Group",
- "Heart Group",
- "Shining Star Group",
- "Pink Heart Group"
+const groupIcons=[
+  "⭐",
+  "🌈",
+  "💙",
+  "🌟",
+  "💗"
 ];
 
-const originalCenters=[
- "Read to Self",
- "Word Work",
- "Read with a Buddy",
- "Listen to Reading",
- "Create",
- "Partner"
+const defaultGroupNames=[
+  "Star Group",
+  "Rainbow Group",
+  "Heart Group",
+  "Shining Star Group",
+  "Pink Heart Group"
 ];
 
-const centerIcons=["📚","🔤","👯","🎧","🎨","🤝"];
+const defaultCenters=[
+  "Read to Self",
+  "Word Work",
+  "Read with a Buddy",
+  "Listen to Reading",
+  "Create",
+  "Partner"
+];
+
+const centerIcons=[
+  "📚",
+  "🔤",
+  "👯",
+  "🎧",
+  "🎨",
+  "🤝"
+];
 
 const days=[
- "Monday",
- "Tuesday",
- "Wednesday",
- "Thursday",
- "Friday"
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday"
 ];
 
 let data={
- names:[...originalNames],
- centers:[...originalCenters],
- assignments:Array.from(
-  {length:6},
-  (_,r)=>Array.from({length:5},(_,d)=>(r+d)%5)
- )
+  groupNames:[...defaultGroupNames],
+  centers:[...defaultCenters],
+  assignments:[
+    [0,1,2,3,4],
+    [1,2,3,4,5],
+    [2,3,4,5,0],
+    [3,4,5,0,1],
+    [4,5,0,1,2]
+  ]
 };
-
-function groupText(i){
- return icons[i]+" "+data.names[i];
-}
 
 function draw(){
 
- const board=document.getElementById("board");
+  const board=document.getElementById("board");
 
- board.innerHTML='<div class="head">CENTERS 💕</div>';
+  board.innerHTML=
+    '<div class="head">GROUPS 💕</div>';
 
- days.forEach(day=>{
-  board.innerHTML+=
-  '<div class="head">'+day+'</div>';
- });
+  days.forEach(day=>{
+    board.innerHTML+=
+      '<div class="head">'+day+'</div>';
+  });
 
- for(let r=0;r<6;r++){
+  for(let g=0;g<5;g++){
 
-  let center=document.createElement("div");
-  center.className="center c"+(r+1);
+    const group=document.createElement("div");
 
-  center.innerHTML=
-   '<span style="font-size:28px;margin-right:7px">'+
-   centerIcons[r]+
-   '</span>'+
-   '<input value="'+data.centers[r]+'">';
+    group.className="groupcell g"+(g+1);
 
-  center.querySelector("input").oninput=function(){
-   data.centers[r]=this.value;
-   autosave();
-  };
+    group.innerHTML=
+      '<div class="icon">'+groupIcons[g]+'</div>'+
+      '<input value="'+data.groupNames[g]+'">';
 
-  board.appendChild(center);
+    group.querySelector("input").oninput=function(){
+      data.groupNames[g]=this.value;
+      autosave();
+    };
 
-  for(let d=0;d<5;d++){
+    board.appendChild(group);
 
-   let box=document.createElement("div");
-   box.className="box";
+    for(let d=0;d<5;d++){
 
-   let select=document.createElement("select");
+      const box=document.createElement("div");
 
-   icons.forEach((icon,i)=>{
+      box.className="box";
 
-    let option=document.createElement("option");
+      const select=document.createElement("select");
 
-    option.value=i;
-    option.textContent=groupText(i);
+      data.centers.forEach((center,i)=>{
 
-    if(data.assignments[r][d]===i){
-     option.selected=true;
+        const option=document.createElement("option");
+
+        option.value=i;
+
+        option.textContent=
+          centerIcons[i]+" "+center;
+
+        if(data.assignments[g][d]===i){
+          option.selected=true;
+        }
+
+        select.appendChild(option);
+
+      });
+
+      select.onchange=function(){
+        data.assignments[g][d]=Number(this.value);
+        autosave();
+      };
+
+      box.appendChild(select);
+
+      board.appendChild(box);
+
     }
 
-    select.appendChild(option);
-
-   });
-
-   select.onchange=function(){
-    data.assignments[r][d]=Number(this.value);
-    autosave();
-   };
-
-   box.appendChild(select);
-   board.appendChild(box);
   }
- }
 
- drawGroups();
+  drawCenterList();
+
 }
 
-function drawGroups(){
+function drawCenterList(){
 
- const area=document.getElementById("groups");
- area.innerHTML="";
+  const list=document.getElementById("centerList");
 
- icons.forEach((icon,i)=>{
+  list.innerHTML="";
 
-  let group=document.createElement("div");
-  group.className="group";
+  data.centers.forEach((center,i)=>{
 
-  group.innerHTML=
-   '<div class="icon">'+icon+'</div>'+
-   '<b>GROUP '+(i+1)+'</b>'+
-   '<input value="'+data.names[i]+'">';
+    const item=document.createElement("div");
 
-  group.querySelector("input").oninput=function(){
+    item.className="centeritem";
 
-   data.names[i]=this.value;
+    item.innerHTML=
+      '<div style="font-size:28px">'+centerIcons[i]+'</div>'+
+      '<input value="'+center+'">';
 
-   document.querySelectorAll("select").forEach(select=>{
-    [...select.options].forEach((option,n)=>{
-     option.textContent=groupText(n);
+    item.querySelector("input").oninput=function(){
+
+      data.centers[i]=this.value;
+
+      updateDropdownText();
+
+      autosave();
+
+    };
+
+    list.appendChild(item);
+
+  });
+
+}
+
+function updateDropdownText(){
+
+  document.querySelectorAll(".box select").forEach(select=>{
+
+    [...select.options].forEach((option,i)=>{
+
+      option.textContent=
+        centerIcons[i]+" "+data.centers[i];
+
     });
-   });
 
-   autosave();
-  };
+  });
 
-  area.appendChild(group);
- });
 }
 
 function autosave(){
- localStorage.setItem(
-  "centerRotationAuto",
-  JSON.stringify(data)
- );
+
+  localStorage.setItem(
+    "cuteCenterRotationAutoV2",
+    JSON.stringify(data)
+  );
+
 }
 
-function save(){
- localStorage.setItem(
-  "centerRotationSaved",
-  JSON.stringify(data)
- );
- alert("Your Center Rotation Board is saved! 💕");
+function saveBoard(){
+
+  localStorage.setItem(
+    "cuteCenterRotationSavedV2",
+    JSON.stringify(data)
+  );
+
+  alert("Your Center Rotation Board is saved! 💕");
+
 }
 
-function load(){
+function loadBoard(){
 
- let saved=
-  localStorage.getItem("centerRotationSaved") ||
-  localStorage.getItem("centerRotationAuto");
+  const saved=
+    localStorage.getItem("cuteCenterRotationSavedV2") ||
+    localStorage.getItem("cuteCenterRotationAutoV2");
 
- if(!saved){
-  alert("You don't have a saved board yet. 🌈");
-  return;
- }
+  if(!saved){
 
- data=JSON.parse(saved);
- draw();
+    alert("You don't have a saved board yet. 🌈");
 
- alert("Your board is loaded! ⭐");
+    return;
+
+  }
+
+  data=JSON.parse(saved);
+
+  draw();
+
+  alert("Your board is loaded! ⭐");
+
 }
 
-function reset(){
+function resetBoard(){
 
- if(!confirm("Reset your Center Rotation Board?")){
-  return;
- }
+  if(!confirm("Reset your Center Rotation Board?")){
+    return;
+  }
 
- data={
-  names:[...originalNames],
-  centers:[...originalCenters],
-  assignments:Array.from(
-   {length:6},
-   (_,r)=>Array.from({length:5},(_,d)=>(r+d)%5)
-  )
- };
+  data={
+    groupNames:[...defaultGroupNames],
+    centers:[...defaultCenters],
+    assignments:[
+      [0,1,2,3,4],
+      [1,2,3,4,5],
+      [2,3,4,5,0],
+      [3,4,5,0,1],
+      [4,5,0,1,2]
+    ]
+  };
 
- draw();
- autosave();
+  draw();
+
+  autosave();
+
 }
 
-let previous=localStorage.getItem("centerRotationAuto");
+const previous=
+  localStorage.getItem("cuteCenterRotationAutoV2");
 
 if(previous){
- try{
-  data=JSON.parse(previous);
- }catch(e){}
+
+  try{
+    data=JSON.parse(previous);
+  }catch(e){}
+
 }
 
 draw();
+
 </script>
 
 </body>
