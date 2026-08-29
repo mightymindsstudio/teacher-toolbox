@@ -1,43 +1,37 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Centers | Teacher Toolbox</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#fffaf7;color:#142d62;font-family:"Trebuchet MS",Arial,sans-serif}
-header{display:flex;justify-content:space-between;align-items:center;padding:15px 5%;background:white;border-bottom:2px solid #f6dce7}
-.logo{font-size:clamp(26px,5vw,52px);font-weight:900}.logo b{color:#ff4380}.nav{padding:10px 16px;border-radius:15px;background:#fff0f5;color:#142d62;text-decoration:none;font-weight:800}
-main{max-width:1200px;margin:auto;padding:24px}.hero{text-align:center}.hero h1{font-size:clamp(42px,8vw,82px);margin:5px;color:#ff4380;text-shadow:2px 2px #ffd7e6}.hero p{font-size:20px;font-weight:800}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:25px 0}.card{border:2px solid #eadff1;border-radius:25px;padding:24px;text-align:center;background:white;box-shadow:0 7px 20px #20306010}
-.card .icon{font-size:55px}.card h2{margin:8px}.card p{min-height:45px}.open{display:inline-block;padding:12px 18px;border-radius:14px;background:#7952c8;color:white;text-decoration:none;font-weight:900}
-.pink .open{background:#ff4c85}.green .open{background:#3a9c54}
-.quick{background:#fff;border:2px solid #f2ddeb;border-radius:26px;padding:22px}.quick h2{text-align:center;font-size:30px}.quickgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
-.q{border:0;border-radius:18px;padding:16px 8px;background:#f6f1ff;color:#142d62;font-weight:900;font-size:15px;cursor:pointer}.q:nth-child(2n){background:#eef8ee}.q:nth-child(3n){background:#fff1f5}
-.modal{display:none;position:fixed;inset:0;background:#142d6266;padding:20px;z-index:10;align-items:center;justify-content:center}.modal.show{display:flex}.box{background:white;border-radius:25px;padding:24px;max-width:600px;width:100%;max-height:80vh;overflow:auto}
-.box h2{margin-top:0}.ideas{display:grid;grid-template-columns:1fr 1fr;gap:9px}.idea{background:#fff8e8;border-radius:13px;padding:11px;font-weight:700}.close{float:right;border:0;border-radius:50%;font-size:20px;width:38px;height:38px;background:#ffe8f0}
-footer{text-align:center;margin:22px;font-weight:900;color:#7952c8}
-@media(max-width:800px){.cards{grid-template-columns:1fr}.quickgrid{grid-template-columns:repeat(2,1fr)}.card p{min-height:0}}
+*{box-sizing:border-box}html,body{margin:0;background:#fff7f8}body{display:flex;justify-content:center;font-family:Arial,sans-serif}
+.stage{position:relative;width:min(100vw,1024px);aspect-ratio:2/3}.stage>img{width:100%;height:100%;display:block}
+.hit{position:absolute;display:block;border:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.back{left:1%;top:2%;width:18%;height:5%}.rotation{left:6%;top:34.3%;width:25%;height:4%}.plan{left:40%;top:34.3%;width:21%;height:4%}.skill{left:70%;top:34.3%;width:23%;height:4%}
+.q1{left:4%;top:66%;width:13%;height:4%}.q2{left:20%;top:66%;width:13%;height:4%}.q3{left:36%;top:66%;width:13%;height:4%}.q4{left:52%;top:66%;width:13%;height:4%}.q5{left:68%;top:66%;width:13%;height:4%}.q6{left:84%;top:66%;width:13%;height:4%}
+.bottom{left:65%;top:96%;width:18%;height:3%}.top{left:85%;top:96%;width:11%;height:3%}
+.notes{position:absolute;left:5%;top:84.2%;width:61%;height:9%;border:0;background:transparent;resize:none;padding:12px 16px;font:16px "Trebuchet MS",Arial;color:#16335e;outline:none}
+.modal{display:none;position:fixed;inset:0;background:#17315d66;z-index:20;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.box{background:#fffaf7;border:3px solid #ff9fbd;border-radius:24px;padding:22px;max-width:540px;width:100%;box-shadow:0 10px 35px #17315d33;color:#17315d}.box h2{color:#ef5d8b}.ideas{display:grid;grid-template-columns:1fr 1fr;gap:9px}.idea{padding:10px;border-radius:12px;background:#fff0f5;font-weight:700}.close{float:right;border:0;border-radius:50%;width:36px;height:36px;background:#f3e9ff;font-size:22px}
+.toast{position:fixed;bottom:20px;background:#17315d;color:white;padding:10px 16px;border-radius:30px;opacity:0;transition:.2s}.toast.show{opacity:1}
 </style></head><body>
-<header><a class="nav" href="./?v=71">🏠 Home</a><div class="logo"><b>Teacher</b> Toolbox 🧰</div><a class="nav" href="#" onclick="alert('My Favorites — coming soon! 💕');return false">♡ My Favorites</a></header>
-<main><section class="hero"><h1>🌈 CENTERS ✏️</h1><p>Plan it. Organize it. Make center time easier!</p></section>
-<section class="cards">
-<div class="card pink"><div class="icon">🔄</div><h2>Center Rotation Board</h2><p>Create, organize & print your center rotations!</p><a class="open" href="center-rotation-board.html?v=99">Open Rotation Board</a></div>
-<div class="card"><div class="icon">🗓️</div><h2>Plan My Centers</h2><p>Plan your centers for the week in one simple place.</p><a class="open" href="#" onclick="coming(event,'Plan My Centers')">Coming Soon</a></div>
-<div class="card green"><div class="icon">🎯</div><h2>Skill-Based Centers</h2><p>Choose a skill and get ready-to-use center ideas.</p><a class="open" href="#" onclick="coming(event,'Skill-Based Centers')">Coming Soon</a></div>
-</section>
-<section class="quick"><h2>⚡ Quick Center Ideas</h2><div class="quickgrid">
-<button class="q" onclick="showIdeas('Reading')">📚 Reading</button><button class="q" onclick="showIdeas('Word Work')">🔤 Word Work</button>
-<button class="q" onclick="showIdeas('Writing')">✏️ Writing</button><button class="q" onclick="showIdeas('Math')">🔢 Math</button>
-<button class="q" onclick="showIdeas('Create')">🎨 Create</button><button class="q" onclick="showIdeas('Partner')">👭 Partner</button>
-</div></section><footer>✨ Great centers = engaged learners! You've got this! 💕</footer></main>
-<div class="modal" id="modal" onclick="if(event.target===this)closeM()"><div class="box"><button class="close" onclick="closeM()">×</button><h2 id="mt"></h2><div class="ideas" id="ideas"></div></div></div>
+<div class="stage" id="top"><img src="centers-cute-bg.png" alt="Cute Centers Teacher Toolbox page">
+<a class="hit back" href="./?v=2001" aria-label="Back to Teacher Toolbox"></a>
+<a class="hit rotation" href="center-rotation-board.html?v=2001" aria-label="Open Rotation Board"></a>
+<button class="hit plan" onclick="toast('Plan My Centers is coming next! 💕')" aria-label="Plan My Centers"></button>
+<button class="hit skill" onclick="toast('Skill-Based Centers is coming next! 🎯')" aria-label="Skill-Based Centers"></button>
+<button class="hit q1" onclick="ideas('Read to Self')"></button><button class="hit q2" onclick="ideas('Word Work')"></button>
+<button class="hit q3" onclick="ideas('Read with a Buddy')"></button><button class="hit q4" onclick="ideas('Listen to Reading')"></button>
+<button class="hit q5" onclick="ideas('Create')"></button><button class="hit q6" onclick="ideas('Partner')"></button>
+<textarea class="notes" id="notes" aria-label="Teacher Notes" placeholder="Write notes, reminders, or ideas here..."></textarea>
+<a class="hit bottom" href="./?v=2001"></a><a class="hit top" href="#top"></a></div>
+<div class="modal" id="modal" onclick="if(event.target===this)closeM()"><div class="box"><button class="close" onclick="closeM()">×</button><h2 id="title"></h2><div class="ideas" id="list"></div></div></div><div class="toast" id="toast"></div>
 <script>
 const data={
-"Reading":["Read & Retell","Character Detective","Sequence It","Book Hunt","Favorite Part","Story Map","Whisper Read","Picture Walk"],
-"Word Work":["Build It With Letters","Rainbow Write","Word Sort","Roll & Read","Word Hunt","Write the Room","Syllable Sort","Change-a-Sound"],
-"Writing":["Picture Prompt","Finish the Sentence","Make a List","Write & Draw","Mini Book","Label It","Sentence Scramble","How-To Writing"],
-"Math":["Roll & Add","Ten Frame Build","Number Compare","Make 10","Shape Sort","Number Line Hop","Fact Family","Dice Race"],
-"Create":["Draw & Label","Build a Model","Story Illustration","Pattern Art","STEM Build","Shape Picture","Design a Game","Make a Poster"],
-"Partner":["Read Together","Quiz a Friend","Roll & Solve","Turn & Talk","Partner Sort","Memory Match","Teach Your Partner","Task Card Team"]};
-function showIdeas(k){document.getElementById("mt").textContent=k+" Center Ideas";document.getElementById("ideas").innerHTML=data[k].map(x=>'<div class="idea">⭐ '+x+'</div>').join("");document.getElementById("modal").classList.add("show")}
-function closeM(){document.getElementById("modal").classList.remove("show")}
-function coming(e,n){e.preventDefault();alert(n+" is coming next! 💕")}
+"Read to Self":["Book Nook","Reading Stamina","Independent Reading","Read & Retell","Character Detective","Story Map","Favorite Part","Picture Walk"],
+"Word Work":["Letter Fun","Phonics Games","Spelling Practice","Build It With Letters","Rainbow Write","Word Sort","Word Hunt","Change-a-Sound"],
+"Read with a Buddy":["Buddy Reading","Partner Talk","Retell Together","Take Turns Reading","Character Chat","Sequence Together","Ask & Answer","Favorite Part Share"],
+"Listen to Reading":["Audiobooks","Read-Aloud","Listening Center","Listen & Retell","Draw What You Heard","Story Sequence","Favorite Part","Character Hunt"],
+"Create":["Draw & Write","Craft & Build","Design & Make","Story Illustration","STEM Build","Shape Picture","Make a Poster","Build a Model"],
+"Partner":["Math Partners","Game Time","Problem Solve","Quiz a Friend","Roll & Solve","Memory Match","Teach Your Partner","Task Card Team"]};
+function ideas(k){document.getElementById('title').textContent=k+' Ideas';document.getElementById('list').innerHTML=data[k].map(x=>'<div class="idea">♡ '+x+'</div>').join('');document.getElementById('modal').classList.add('show')}
+function closeM(){document.getElementById('modal').classList.remove('show')}
+let tt;function toast(m){let t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1800)}
+let n=document.getElementById('notes');n.value=localStorage.getItem('teacherCenterNotes')||'';n.addEventListener('input',()=>localStorage.setItem('teacherCenterNotes',n.value));
 </script></body></html>
