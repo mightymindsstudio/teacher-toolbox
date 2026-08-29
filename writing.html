@@ -11,24 +11,22 @@ html,body{margin:0;min-height:100%;background:#fff8f3}
 body{display:flex;justify-content:center;align-items:flex-start}
 .stage{position:relative;width:min(100vw,1024px);aspect-ratio:2/3;background:#fff;overflow:hidden}
 .stage>img{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
-.hit{position:absolute;z-index:8;display:block;border-radius:18px;outline:none;-webkit-tap-highlight-color:transparent}
+.hit{position:absolute;z-index:8;display:block;border-radius:22px;outline:none;-webkit-tap-highlight-color:transparent}
 .hit:focus-visible{box-shadow:0 0 0 4px rgba(255,79,145,.65)}
-.home{left:1.8%;top:1.8%;width:16.2%;height:5.5%}
-.favorites{left:80.0%;top:1.8%;width:17.9%;height:5.5%}
+.home{left:1.8%;top:1.8%;width:17.2%;height:5.6%}
+.favorites{left:80.0%;top:1.8%;width:18.0%;height:5.6%}
 
-/* Four writing cards */
-.prompts{left:2.0%;top:36.2%;width:23.6%;height:43.2%}
-.abcya{left:26.4%;top:36.2%;width:22.7%;height:43.2%}
-.storyjumper{left:49.7%;top:36.2%;width:24.2%;height:43.2%}
-.storybird{left:75.0%;top:36.2%;width:22.8%;height:43.2%}
+/* Main cards */
+.prompts{left:2.7%;top:39.7%;width:44.9%;height:35.2%}
+.abcya{left:49.8%;top:39.7%;width:47.2%;height:35.2%}
 
 /* Quick tools */
-.timer{left:4.5%;top:84.1%;width:13.2%;height:10.2%}
-.picker{left:19.8%;top:84.1%;width:13.4%;height:10.2%}
-.group{left:35.0%;top:84.1%;width:13.5%;height:10.2%}
-.noise{left:50.3%;top:84.1%;width:13.5%;height:10.2%}
-.message{left:65.9%;top:84.1%;width:14.1%;height:10.2%}
-.whatdo{left:81.3%;top:84.1%;width:14.9%;height:10.2%}
+.timer{left:4.8%;top:80.5%;width:13.4%;height:10.8%}
+.picker{left:20.1%;top:80.5%;width:13.3%;height:10.8%}
+.group{left:35.4%;top:80.5%;width:13.4%;height:10.8%}
+.noise{left:50.7%;top:80.5%;width:13.3%;height:10.8%}
+.message{left:65.9%;top:80.5%;width:14.1%;height:10.8%}
+.whatdo{left:81.0%;top:80.5%;width:15.0%;height:10.8%}
 
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(15px);background:#26334f;color:white;padding:10px 16px;border-radius:999px;font:800 14px Arial,sans-serif;opacity:0;pointer-events:none;transition:.2s;z-index:50}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -37,15 +35,13 @@ body{display:flex;justify-content:center;align-items:flex-start}
 </head>
 <body>
 <main class="stage" aria-label="Teacher Toolbox Writing page">
-<img src="writing-final-bg.png" alt="Teacher Toolbox Writing page with writing prompts, ABCya, StoryJumper, Storybird, and quick tools">
+<img src="writing-final-bg.png" alt="Teacher Toolbox Writing page with Writing Prompt Generator, ABCya Writing, and quick tools">
 
-<a class="hit home" href="index.html" aria-label="Home"></a>
+<a class="hit home" href="index.html?v=31" aria-label="Home"></a>
 <a class="hit favorites" href="#" data-coming="My Favorites" aria-label="My Favorites"></a>
 
-<a class="hit prompts" href="writing-prompts.html" aria-label="Writing Prompt Generator"></a>
+<a class="hit prompts" href="writing-prompts.html?v=2" aria-label="Writing Prompt Generator"></a>
 <a class="hit abcya" href="https://www.abcya.com/grades/1/language-arts" target="_blank" rel="noopener" aria-label="ABCya Writing"></a>
-<a class="hit storyjumper" href="https://www.storyjumper.com/main/classroom" target="_blank" rel="noopener" aria-label="StoryJumper"></a>
-<a class="hit storybird" href="https://storybird.com/" target="_blank" rel="noopener" aria-label="Storybird"></a>
 
 <a class="hit timer" href="timer.html" aria-label="Class Timer"></a>
 <a class="hit picker" href="student-picker.html" aria-label="Student Picker"></a>
