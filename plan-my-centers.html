@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Plan My Centers | Teacher Toolbox</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff8f7}
+body{display:flex;justify-content:center;font-family:Arial,sans-serif}
+.stage{position:relative;width:min(100vw,1024px);aspect-ratio:2/3}
+.stage>img{width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
+.hit{position:absolute;border:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.back{left:2.1%;top:3%;width:17.7%;height:4.2%}
+.week{left:4.1%;top:21.5%;width:25.2%;height:3.2%;border:0;background:transparent;padding:0 10px;font:600 15px Arial;color:#333;outline:none}
+.theme{left:34.4%;top:21.5%;width:25.5%;height:3.2%;border:0;background:transparent;padding:0 12px;font:600 15px Arial;color:#333;outline:none}
+.skills{position:absolute;left:65.4%;top:21.2%;width:29%;height:3.7%;border:0;background:transparent;resize:none;padding:6px 10px;font:600 14px Arial;color:#333;outline:none}
+.grid{position:absolute;left:22.5%;top:29.4%;width:74.6%;height:42.5%;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(6,1fr);gap:0}
+.cell{border:0;background:transparent;resize:none;padding:8px 9px;font:600 13px/1.25 Arial;color:#333;outline:none}
+.materials{position:absolute;left:5%;top:76.4%;width:38.7%;height:11.5%;border:0;background:transparent;resize:none;padding:8px 10px;font:600 13px/1.45 Arial;color:#333;outline:none}
+.notes{position:absolute;left:48.5%;top:76.2%;width:47%;height:11.8%;border:0;background:transparent;resize:none;padding:10px 12px;font:500 13px/1.45 Arial;color:#333;outline:none}
+.save{left:3.6%;top:90.8%;width:18.8%;height:4.1%}.clear{left:27%;top:90.8%;width:17.4%;height:4.1%}.print{left:48.5%;top:90.8%;width:20.5%;height:4.1%}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:#17315d;color:#fff;padding:11px 18px;border-radius:999px;font:700 14px Arial;opacity:0;transition:.2s;z-index:20;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:700px){
+  .week,.theme{font-size:11px}
+  .skills{font-size:10px}
+  .cell{font-size:9px;padding:5px}
+  .materials,.notes{font-size:9px}
+}
+@media print{
+  body{background:#fff}
+  .stage{width:100%;max-width:none}
+  .toast{display:none}
+}
+</style>
+</head>
+<body>
+<div class="stage">
+<img src="plan-my-centers-bg.png" alt="Plan My Centers weekly center planner">
+<a class="hit back" href="centers.html?v=3001" aria-label="Back to Centers"></a>
+
+<input class="week" id="week" type="text" placeholder="Week of...">
+<input class="theme" id="theme" type="text" placeholder="Theme / Unit">
+<textarea class="skills" id="skills" placeholder="Skills we're practicing"></textarea>
+
+<div class="grid" id="grid"></div>
+
+<textarea class="materials" id="materials" placeholder="Materials to prep..."></textarea>
+<textarea class="notes" id="notes" placeholder="Teacher notes..."></textarea>
+
+<button class="hit save" id="save" aria-label="Save Week"></button>
+<button class="hit clear" id="clear" aria-label="Clear All"></button>
+<button class="hit print" id="print" aria-label="Print My Plan"></button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const ids=['week','theme','skills','materials','notes'];
+const grid=document.getElementById('grid');
+for(let i=0;i<30;i++){
+  const t=document.createElement('textarea');
+  t.className='cell';
+  t.id='c'+i;
+  t.setAttribute('aria-label','Center plan cell '+(i+1));
+  grid.appendChild(t);
+}
+function allFields(){return [...ids.map(id=>document.getElementById(id)), ...[...document.querySelectorAll('.cell')]]}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600)}
+function save(){
+  const data={};
+  allFields().forEach(el=>data[el.id]=el.value);
+  localStorage.setItem('planMyCenters',JSON.stringify(data));
+  toast('Week saved! 💕');
+}
+function load(){
+  try{
+    const data=JSON.parse(localStorage.getItem('planMyCenters')||'{}');
+    allFields().forEach(el=>{if(data[el.id]!=null)el.value=data[el.id]});
+  }catch(e){}
+}
+document.getElementById('save').onclick=save;
+document.getElementById('clear').onclick=()=>{
+  if(confirm('Clear this entire center plan?')){
+    allFields().forEach(el=>el.value='');
+    localStorage.removeItem('planMyCenters');
+    toast('Plan cleared');
+  }
+};
+document.getElementById('print').onclick=()=>window.print();
+allFields().forEach(el=>el.addEventListener('input',()=>{
+  const data={};allFields().forEach(x=>data[x.id]=x.value);
+  localStorage.setItem('planMyCentersAuto',JSON.stringify(data));
+}));
+load();
+if(!localStorage.getItem('planMyCenters')){
+  try{
+    const auto=JSON.parse(localStorage.getItem('planMyCentersAuto')||'{}');
+    allFields().forEach(el=>{if(auto[el.id]!=null)el.value=auto[el.id]});
+  }catch(e){}
+}
+</script>
+</body>
+</html>
