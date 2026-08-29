@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7dbe6">
+<title>Writing | Teacher Toolbox</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#fff8f3}
+body{display:flex;justify-content:center;align-items:flex-start}
+.stage{position:relative;width:min(100vw,1024px);aspect-ratio:2/3;background:#fff;overflow:hidden}
+.stage>img{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
+.hit{position:absolute;z-index:8;display:block;border-radius:18px;outline:none;-webkit-tap-highlight-color:transparent}
+.hit:focus-visible{box-shadow:0 0 0 4px rgba(255,79,145,.65)}
+.home{left:1.8%;top:1.8%;width:16.2%;height:5.5%}
+.favorites{left:80.0%;top:1.8%;width:17.9%;height:5.5%}
+
+/* Four writing cards */
+.prompts{left:2.0%;top:36.2%;width:23.6%;height:43.2%}
+.abcya{left:26.4%;top:36.2%;width:22.7%;height:43.2%}
+.storyjumper{left:49.7%;top:36.2%;width:24.2%;height:43.2%}
+.storybird{left:75.0%;top:36.2%;width:22.8%;height:43.2%}
+
+/* Quick tools */
+.timer{left:4.5%;top:84.1%;width:13.2%;height:10.2%}
+.picker{left:19.8%;top:84.1%;width:13.4%;height:10.2%}
+.group{left:35.0%;top:84.1%;width:13.5%;height:10.2%}
+.noise{left:50.3%;top:84.1%;width:13.5%;height:10.2%}
+.message{left:65.9%;top:84.1%;width:14.1%;height:10.2%}
+.whatdo{left:81.3%;top:84.1%;width:14.9%;height:10.2%}
+
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(15px);background:#26334f;color:white;padding:10px 16px;border-radius:999px;font:800 14px Arial,sans-serif;opacity:0;pointer-events:none;transition:.2s;z-index:50}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:620px){body{background:#fff}.stage{width:100vw}}
+</style>
+</head>
+<body>
+<main class="stage" aria-label="Teacher Toolbox Writing page">
+<img src="writing-final-bg.png" alt="Teacher Toolbox Writing page with writing prompts, ABCya, StoryJumper, Storybird, and quick tools">
+
+<a class="hit home" href="index.html" aria-label="Home"></a>
+<a class="hit favorites" href="#" data-coming="My Favorites" aria-label="My Favorites"></a>
+
+<a class="hit prompts" href="writing-prompts.html" aria-label="Writing Prompt Generator"></a>
+<a class="hit abcya" href="https://www.abcya.com/grades/1/language-arts" target="_blank" rel="noopener" aria-label="ABCya Writing"></a>
+<a class="hit storyjumper" href="https://www.storyjumper.com/main/classroom" target="_blank" rel="noopener" aria-label="StoryJumper"></a>
+<a class="hit storybird" href="https://storybird.com/" target="_blank" rel="noopener" aria-label="Storybird"></a>
+
+<a class="hit timer" href="timer.html" aria-label="Class Timer"></a>
+<a class="hit picker" href="student-picker.html" aria-label="Student Picker"></a>
+<a class="hit group" href="group-maker.html" aria-label="Group Maker"></a>
+<a class="hit noise" href="noise-meter.html" aria-label="Noise Meter"></a>
+<a class="hit message" href="morning-message-final.html?v=2" aria-label="Morning Message"></a>
+<a class="hit whatdo" href="what-can-i-do.html?v=3" aria-label="What Can I Do"></a>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+const toast=document.getElementById('toast');let timer;
+document.querySelectorAll('[data-coming]').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.preventDefault();clearTimeout(timer);
+    toast.textContent=el.dataset.coming+' — coming soon! 💕';
+    toast.classList.add('show');
+    timer=setTimeout(()=>toast.classList.remove('show'),1600);
+  });
+});
+</script>
+</body>
+</html>

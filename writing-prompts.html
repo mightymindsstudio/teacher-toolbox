@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Writing Prompt Generator | Teacher Toolbox</title>
+<style>
+:root{--ink:#17306f;--pink:#ff4f8d;--peach:#fff2e7;--lav:#f4edff;--mint:#effbe9}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:linear-gradient(#fffaf6,#fff2f7);color:var(--ink)}
+.wrap{max-width:900px;margin:auto;padding:18px}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.btn,.chip{border:0;border-radius:999px;padding:12px 16px;font-weight:800;cursor:pointer}
+.home{background:white;color:var(--ink);box-shadow:0 4px 14px #00000012}
+h1{text-align:center;font-size:clamp(42px,8vw,72px);margin:24px 0 4px;letter-spacing:1px;color:var(--pink)}
+.sub{text-align:center;font-weight:700;font-size:20px;margin-bottom:22px}
+.card{background:white;border-radius:28px;padding:22px;box-shadow:0 8px 30px #00000012;border:2px solid #ffd4e3}
+.categories{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:18px}
+.chip{background:var(--lav);color:var(--ink)}
+.chip.active{background:#ffe0ec;color:#a71d57}
+.prompt{min-height:220px;border-radius:24px;background:linear-gradient(135deg,#fff7dc,#f4edff);display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;font-size:clamp(26px,5vw,42px);font-weight:900;line-height:1.22}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+.generate{background:var(--pink);color:white;font-size:18px}
+.secondary{background:#eaf4ff;color:var(--ink)}
+.small{font-size:14px;text-align:center;margin-top:14px;opacity:.75}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <button class="btn home" onclick="location.href='writing.html'">← Writing</button>
+    <button class="btn home" onclick="location.href='index.html'">🏠 Home</button>
+  </div>
+  <h1>Writing Prompts ✏️</h1>
+  <div class="sub">Choose a kind of writing—or surprise me!</div>
+
+  <div class="card">
+    <div class="categories" id="cats">
+      <button class="chip active" data-cat="personal">Personal Narrative</button>
+      <button class="chip" data-cat="opinion">Opinion</button>
+      <button class="chip" data-cat="howto">How-To</button>
+      <button class="chip" data-cat="informational">Informational</button>
+      <button class="chip" data-cat="imaginative">Imaginative</button>
+      <button class="chip" data-cat="surprise">Surprise Me!</button>
+    </div>
+    <div class="prompt" id="prompt">Write about a time you felt really proud of yourself.</div>
+    <div class="actions">
+      <button class="btn generate" id="newPrompt">✨ New Prompt</button>
+      <button class="btn secondary" id="copy">📋 Copy</button>
+      <button class="btn secondary" onclick="window.print()">🖨️ Print</button>
+    </div>
+    <div class="small">Made for young writers in grades 1–3 💕</div>
+  </div>
+</div>
+
+<script>
+const prompts={
+personal:[
+"Write about a time you felt really proud of yourself.",
+"Tell about your favorite day with your family.",
+"Write about something you learned to do that was hard at first.",
+"Tell about a time someone made you laugh.",
+"Write about your favorite place to go.",
+"Tell about a time you helped someone."
+],
+opinion:[
+"What is the best pet to have? Give reasons.",
+"Which is better: recess or art class? Explain why.",
+"What is the best season of the year? Give reasons.",
+"Should kids have homework every night? Why or why not?",
+"What is the best school lunch? Convince your reader.",
+"Would you rather read a book or watch a movie? Explain."
+],
+howto:[
+"Explain how to make your favorite snack.",
+"Teach someone how to get ready for school.",
+"Explain how to take care of a pet.",
+"Teach someone how to play your favorite game.",
+"Explain how to plant a seed.",
+"Teach someone how to be a good friend."
+],
+informational:[
+"Write three facts you know about an animal.",
+"Teach your reader about your school.",
+"Write what you know about the weather.",
+"Explain what you know about plants.",
+"Teach your reader about a community helper.",
+"Write facts about something you are an expert on."
+],
+imaginative:[
+"You wake up and your backpack can talk. What happens next?",
+"Imagine you find a tiny door in your classroom. Where does it lead?",
+"If you could fly for one day, where would you go?",
+"A dragon shows up on the playground. What happens?",
+"Imagine your favorite toy comes to life.",
+"You discover a magic pencil. Whatever you draw becomes real!"
+]
+};
+let current="personal";
+const promptEl=document.getElementById("prompt");
+function pick(cat){
+  if(cat==="surprise"){
+    const keys=Object.keys(prompts); cat=keys[Math.floor(Math.random()*keys.length)];
+  }
+  const arr=prompts[cat];
+  promptEl.textContent=arr[Math.floor(Math.random()*arr.length)];
+}
+document.querySelectorAll(".chip").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active"); current=b.dataset.cat; pick(current);
+  };
+});
+document.getElementById("newPrompt").onclick=()=>pick(current);
+document.getElementById("copy").onclick=async()=>{
+  try{await navigator.clipboard.writeText(promptEl.textContent); document.getElementById("copy").textContent="✅ Copied!"; setTimeout(()=>document.getElementById("copy").textContent="📋 Copy",1200)}catch(e){}
+};
+</script>
+</body>
+</html>
