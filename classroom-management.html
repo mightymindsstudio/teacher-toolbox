@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Classroom Management | Teacher Toolbox</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  background:#fff8f5;
+}
+
+body{
+  display:flex;
+  justify-content:center;
+  font-family:Arial,sans-serif;
+}
+
+.stage{
+  position:relative;
+  width:min(100vw,1024px);
+  aspect-ratio:2/3;
+}
+
+.stage>img{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.hit{
+  position:absolute;
+  display:block;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* MAIN TOOLS */
+
+.behavior{
+  left:7%;
+  top:65.5%;
+  width:24%;
+  height:5.5%;
+}
+
+.rewards{
+  left:38%;
+  top:65.5%;
+  width:24%;
+  height:5.5%;
+}
+
+.calm{
+  left:69%;
+  top:65.5%;
+  width:24%;
+  height:5.5%;
+}
+
+/* QUICK MANAGEMENT TOOLS */
+
+.q1{
+  left:3%;
+  top:75%;
+  width:24%;
+  height:18%;
+}
+
+.q2{
+  left:28%;
+  top:75%;
+  width:24%;
+  height:18%;
+}
+
+.q3{
+  left:53%;
+  top:75%;
+  width:24%;
+  height:18%;
+}
+
+.q4{
+  left:77%;
+  top:75%;
+  width:21%;
+  height:18%;
+}
+
+/* MESSAGE */
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  background:#17315d;
+  color:white;
+  padding:11px 17px;
+  border-radius:30px;
+  opacity:0;
+  transition:.2s;
+  z-index:30;
+}
+
+.toast.show{
+  opacity:1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="stage">
+
+<img
+src="https://raw.githubusercontent.com/mightymindsstudio/teacher-toolbox/main/classroom-management-bg.png"
+alt="Classroom Management Teacher Toolbox">
+
+<button
+class="hit behavior"
+onclick="toast('Behavior Tracker is coming next! 💗')"
+aria-label="Behavior Tracker">
+</button>
+
+<button
+class="hit rewards"
+onclick="toast('Classroom Rewards is coming soon! ⭐')"
+aria-label="Classroom Rewards">
+</button>
+
+<button
+class="hit calm"
+onclick="toast('Calm-Down Corner is coming soon! 🌈')"
+aria-label="Calm-Down Corner">
+</button>
+
+<button
+class="hit q1"
+onclick="toast('Attention Getters are coming soon! 📣')"
+aria-label="Attention Getters">
+</button>
+
+<button
+class="hit q2"
+onclick="toast('Transition Ideas are coming soon! ⏰')"
+aria-label="Transition Ideas">
+</button>
+
+<button
+class="hit q3"
+onclick="toast('Classroom Jobs are coming soon! 📋')"
+aria-label="Classroom Jobs">
+</button>
+
+<button
+class="hit q4"
+onclick="toast('Brain Breaks are coming soon! 🧠')"
+aria-label="Brain Breaks">
+</button>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let tt;
+
+function toast(message){
+  const t=document.getElementById('toast');
+
+  t.textContent=message;
+  t.classList.add('show');
+
+  clearTimeout(tt);
+
+  tt=setTimeout(()=>{
+    t.classList.remove('show');
+  },1800);
+}
+</script>
+
+</body>
+</html>
