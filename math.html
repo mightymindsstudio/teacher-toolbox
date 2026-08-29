@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Math | Teacher Toolbox</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#fff8f1}
+body{display:flex;justify-content:center}.stage{position:relative;width:min(100vw,1024px);aspect-ratio:2/3;overflow:hidden}
+.stage>img{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hit{position:absolute;z-index:5;display:block;border-radius:20px;-webkit-tap-highlight-color:transparent}
+.home{left:1.6%;top:1.6%;width:17.2%;height:5.8%}.fav{left:80.2%;top:1.6%;width:18%;height:5.8%}
+.sheppard{left:2.5%;top:29.7%;width:46%;height:22.9%}.toy{left:50.1%;top:29.7%;width:47.7%;height:22.9%}
+.mlc{left:2.5%;top:53.5%;width:46%;height:22.8%}.topmarks{left:50.1%;top:53.5%;width:47.7%;height:22.8%}
+.ten{left:4.4%;top:79.1%;width:11.6%;height:11.5%}.builder{left:16.5%;top:79.1%;width:11.6%;height:11.5%}
+.line{left:28.5%;top:79.1%;width:11.6%;height:11.5%}.coins{left:40.6%;top:79.1%;width:11.6%;height:11.5%}
+.clock{left:52.6%;top:79.1%;width:11.6%;height:11.5%}.shape{left:64.7%;top:79.1%;width:11.6%;height:11.5%}
+.spinner{left:76.8%;top:79.1%;width:10.7%;height:11.5%}.dice{left:87.7%;top:79.1%;width:10.2%;height:11.5%}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(15px);background:#23345d;color:#fff;padding:10px 16px;border-radius:999px;font:800 14px Arial;opacity:0;transition:.2s;z-index:20}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style></head><body>
+<main class="stage"><img src="math-bg.png?v=1" alt="Teacher Toolbox Math page">
+<a class="hit home" href="index.html?v=60" aria-label="Home"></a><a class="hit fav" href="#" data-soon="My Favorites"></a>
+<a class="hit sheppard" href="https://www.sheppardsoftware.com/math.htm" target="_blank" rel="noopener"></a>
+<a class="hit toy" href="https://toytheater.com/category/math-games/" target="_blank" rel="noopener"></a>
+<a class="hit mlc" href="https://www.mathlearningcenter.org/apps" target="_blank" rel="noopener"></a>
+<a class="hit topmarks" href="https://www.topmarks.co.uk/" target="_blank" rel="noopener"></a>
+<a class="hit ten" href="https://apps.mathlearningcenter.org/number-frames/" target="_blank" rel="noopener"></a>
+<a class="hit builder" href="#" data-soon="Number Builder"></a>
+<a class="hit line" href="https://apps.mathlearningcenter.org/number-line/" target="_blank" rel="noopener"></a>
+<a class="hit coins" href="https://apps.mathlearningcenter.org/money-pieces/" target="_blank" rel="noopener"></a>
+<a class="hit clock" href="https://apps.mathlearningcenter.org/math-clock/" target="_blank" rel="noopener"></a>
+<a class="hit shape" href="https://apps.mathlearningcenter.org/pattern-shapes/" target="_blank" rel="noopener"></a>
+<a class="hit spinner" href="https://toytheater.com/spinner/" target="_blank" rel="noopener"></a>
+<a class="hit dice" href="https://toytheater.com/dice/" target="_blank" rel="noopener"></a>
+</main><div id="toast" class="toast"></div>
+<script>const t=document.getElementById('toast');let x;document.querySelectorAll('[data-soon]').forEach(a=>a.onclick=e=>{e.preventDefault();clearTimeout(x);t.textContent=a.dataset.soon+" — coming soon! 💕";t.classList.add('show');x=setTimeout(()=>t.classList.remove('show'),1700)});</script>
+</body></html>
