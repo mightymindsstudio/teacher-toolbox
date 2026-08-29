@@ -26,9 +26,7 @@ body{display:flex;justify-content:center;align-items:flex-start}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(24px);background:rgba(22,42,75,.95);color:#fff;padding:11px 17px;border-radius:999px;font:700 14px Arial,sans-serif;opacity:0;pointer-events:none;transition:.2s ease;z-index:50}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:700px){body{background:#fff}.stage{width:100vw}}
-</style>
-</head>
-<body>
+</style></head><body>
 <main class="stage" aria-label="Teacher Toolbox home page">
 <img src="CAEC93DB-0CE1-4904-89EA-432B5F0E122F.png" alt="Teacher Toolbox pastel classroom dashboard">
 <a class="hotspot home" href="./" aria-label="Home"></a>
@@ -40,7 +38,7 @@ body{display:flex;justify-content:center;align-items:flex-start}
 <a class="hotspot students-nav" href="#" data-coming="My Students"></a>
 <a class="hotspot settings-nav" href="#" data-coming="Settings"></a>
 <a class="hotspot math" href="math.html?v=60" aria-label="Open Math Toolbox"></a>
-<a class="hotspot centers" href="#" data-coming="Centers"></a>
+<a class="hotspot centers" href="centers.html?v=71" aria-label="Open Centers Toolbox"></a>
 <a class="hotspot classroom" href="#" data-coming="Classroom Management"></a>
 <a class="hotspot brain" href="#" data-coming="Brain Breaks"></a>
 <a class="hotspot readalouds" href="#" data-coming="Read Alouds"></a>
@@ -52,12 +50,9 @@ body{display:flex;justify-content:center;align-items:flex-start}
 <a class="hotspot noise" href="noise-meter.html"></a>
 <a class="hotspot message" href="morning-message-final.html?v=2"></a>
 <a class="hotspot whatdo" href="what-can-i-do.html?v=3"></a>
-</main>
-<div id="toast"></div>
-<script>
+</main><div id="toast"></div><script>
 const toast=document.getElementById('toast');let timer;
 document.querySelectorAll('[data-coming]').forEach(el=>el.addEventListener('click',e=>{
 e.preventDefault();clearTimeout(timer);toast.textContent=el.dataset.coming+' — coming soon! 💕';
 toast.classList.add('show');timer=setTimeout(()=>toast.classList.remove('show'),1800)}));
-</script>
-</body></html>
+</script></body></html>
