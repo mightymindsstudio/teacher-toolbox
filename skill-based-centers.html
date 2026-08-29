@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill-Based Center Ideas | Teacher Toolbox</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  background:#fffaf5;
+  color:#4f4b59;
+}
+.page{
+  max-width:1050px;
+  margin:auto;
+  padding:22px 16px 50px;
+}
+.back{
+  display:inline-block;
+  text-decoration:none;
+  color:#865f79;
+  background:#fff;
+  border:2px solid #f2cbdc;
+  padding:9px 15px;
+  border-radius:20px;
+  font-weight:bold;
+  margin-bottom:18px;
+}
+.hero{
+  text-align:center;
+  background:linear-gradient(135deg,#ffe1ec,#e7dcff,#dff6ed,#fff1b9);
+  border:3px solid white;
+  border-radius:30px;
+  padding:28px 18px;
+  box-shadow:0 6px 18px rgba(90,70,90,.12);
+}
+.hero h1{
+  margin:0;
+  font-size:clamp(32px,7vw,58px);
+  color:#d36f9e;
+}
+.hero p{
+  margin:10px 0 0;
+  font-size:18px;
+  font-weight:bold;
+}
+.sparkles{font-size:26px}
+
+.planner{
+  background:white;
+  border-radius:28px;
+  padding:24px;
+  margin-top:22px;
+  box-shadow:0 6px 18px rgba(90,70,90,.10);
+  border:2px solid #f6e5ec;
+}
+.planner h2{
+  text-align:center;
+  color:#745f8d;
+  margin-top:0;
+}
+.select-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+label{
+  font-weight:bold;
+  color:#755f78;
+  display:block;
+  margin-bottom:6px;
+}
+select{
+  width:100%;
+  padding:13px;
+  border-radius:15px;
+  border:2px solid #ead9e8;
+  background:#fffdfd;
+  font-size:16px;
+  color:#555;
+}
+.main-btn{
+  display:block;
+  margin:22px auto 0;
+  border:0;
+  padding:14px 28px;
+  border-radius:24px;
+  background:#e986ad;
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 4px 0 #ca668e;
+}
+.main-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #ca668e}
+
+.results{
+  display:none;
+  margin-top:26px;
+}
+.results h2{
+  text-align:center;
+  color:#d36f9e;
+  margin-bottom:5px;
+}
+.skill-title{
+  text-align:center;
+  margin-bottom:20px;
+  color:#756d7d;
+}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.card{
+  border-radius:23px;
+  padding:20px;
+  min-height:190px;
+  border:3px solid white;
+  box-shadow:0 5px 13px rgba(70,60,80,.10);
+}
+.card:nth-child(1){background:#ffe3ed}
+.card:nth-child(2){background:#e8e0ff}
+.card:nth-child(3){background:#dff5ee}
+.card:nth-child(4){background:#fff0bd}
+.card:nth-child(5){background:#dfefff}
+.card:nth-child(6){background:#ffe5d3}
+.icon{font-size:32px}
+.card h3{
+  margin:8px 0;
+  color:#6b5972;
+}
+.card p{
+  line-height:1.45;
+  margin:0;
+}
+.tag{
+  display:inline-block;
+  margin-top:13px;
+  background:rgba(255,255,255,.75);
+  border-radius:14px;
+  padding:5px 9px;
+  font-size:13px;
+  font-weight:bold;
+}
+.actions{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:22px;
+}
+.action{
+  border:2px solid #e8cada;
+  background:white;
+  color:#765d72;
+  border-radius:18px;
+  padding:10px 16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.tip{
+  margin-top:25px;
+  background:#fff;
+  border:2px dashed #e7bdd1;
+  border-radius:22px;
+  padding:18px;
+  text-align:center;
+}
+footer{
+  text-align:center;
+  margin-top:30px;
+  color:#9b7d8e;
+  font-weight:bold;
+}
+
+@media(max-width:750px){
+  .select-grid{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr}
+}
+
+@media print{
+  .back,.planner,.actions,.tip,footer{display:none!important}
+  body{background:white}
+  .results{display:block!important}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .card{box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+
+<a class="back" href="centers-new.html">← Back to Centers</a>
+
+<section class="hero">
+  <div class="sparkles">⭐ 🌈 💕</div>
+  <h1>Skill-Based Center Ideas</h1>
+  <p>Pick a grade, subject & skill — then let the Teacher Toolbox do the planning!</p>
+</section>
+
+<section class="planner">
+  <h2>✨ What are you teaching?</h2>
+
+  <div class="select-grid">
+    <div>
+      <label for="grade">Grade</label>
+      <select id="grade">
+        <option value="1">1st Grade</option>
+        <option value="2">2nd Grade</option>
+        <option value="3">3rd Grade</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="subject">Subject</label>
+      <select id="subject">
+        <option value="phonics">Reading & Phonics</option>
+        <option value="reading">Reading Comprehension</option>
+        <option value="writing">Writing</option>
+        <option value="math">Math</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="skill">Skill</label>
+      <select id="skill"></select>
+    </div>
+  </div>
+
+  <button class="main-btn" onclick="generateIdeas()">✨ Give Me Center Ideas</button>
+</section>
+
+<section class="results" id="results">
+  <h2>Your Center Ideas 🌈</h2>
+  <div class="skill-title" id="skillTitle"></div>
+  <div class="cards" id="cards"></div>
+
+  <div class="actions">
+    <button class="action" onclick="generateIdeas()">🔄 New Ideas</button>
+    <button class="action" onclick="copyIdeas()">📋 Copy Ideas</button>
+    <button class="action" onclick="window.print()">🖨️ Print</button>
+  </div>
+</section>
+
+<div class="tip">
+  💡 <strong>Teacher Tip:</strong> Mix independent, partner, hands-on, and written centers to keep your rotation engaging and manageable.
+</div>
+
+<footer>You've got this! 💕 Happy teaching!</footer>
+
+</div>
+
+<script>
+const skills = {
+  phonics: {
+    1:["Short Vowels","Digraphs","Blends","CVC Words","Long Vowels","Sight Words"],
+    2:["Long Vowels","Vowel Teams","R-Controlled Vowels","Diphthongs","Prefixes & Suffixes","Multisyllabic Words"],
+    3:["Multisyllabic Words","Prefixes & Suffixes","Syllable Types","Word Families","Vocabulary","Fluency"]
+  },
+  reading: {
+    1:["Retelling","Story Elements","Characters","Beginning, Middle & End","Main Idea","Making Predictions"],
+    2:["Main Idea","Retelling","Character Traits","Sequence","Author's Purpose","Text Evidence"],
+    3:["Main Idea & Details","Inference","Theme","Character Traits","Text Evidence","Compare & Contrast"]
+  },
+  writing: {
+    1:["Complete Sentences","Narrative Writing","Opinion Writing","How-To Writing","Descriptive Writing","Capitalization & Punctuation"],
+    2:["Narrative Writing","Opinion Writing","Informational Writing","Paragraph Building","Editing","Strong Details"],
+    3:["Narrative Writing","Opinion Writing","Informational Writing","Paragraphs","Editing & Revising","Elaboration"]
+  },
+  math: {
+    1:["Addition Within 20","Subtraction Within 20","Place Value","Comparing Numbers","Time","Money","Shapes"],
+    2:["Addition Within 100","Subtraction Within 100","Place Value","Money","Time","Measurement","Fact Fluency"],
+    3:["Multiplication","Division","Place Value","Fractions","Area & Perimeter","Measurement","Fact Fluency"]
+  }
+};
+
+const icons=["✏️","🎲","🔎","🧩","👯","⭐","🌈","📚","🖍️","🎯"];
+
+const activityTypes = {
+  phonics:[
+    ["Word Sort","Students sort word or picture cards by the target spelling or sound.","Hands-On"],
+    ["Build It","Students build target words with magnetic letters, letter tiles, or dry-erase boards.","Independent"],
+    ["Word Hunt","Students search books, poems, or the classroom for examples of the target skill.","Independent"],
+    ["Roll & Read","Students roll a die and read a word from the matching row on a teacher-made word list.","Game"],
+    ["Partner Match","Partners match words to pictures, meanings, or spelling patterns and explain each match.","Partner"],
+    ["Write the Room","Place target words around the room. Students find, read, and record each word.","Movement"],
+    ["Change-a-Word","Students change one sound or spelling pattern at a time to create a new word.","Challenge"],
+    ["Rainbow Write","Students read and write target words using different colors while saying each sound.","Writing"]
+  ],
+  reading:[
+    ["Read & Respond","Students read a just-right text and respond to a question about the target skill.","Independent"],
+    ["Story Detective","Students use sticky notes to find and mark evidence that shows the target skill.","Text Evidence"],
+    ["Partner Talk","Partners read and discuss a teacher-provided question using evidence from the text.","Partner"],
+    ["Card Sort","Students sort examples and non-examples of the reading skill and explain their thinking.","Hands-On"],
+    ["Draw It","Students draw a response to the text and add labels or sentences to show understanding.","Create"],
+    ["Task Card Station","Students read short passages and answer task cards focused on the selected skill.","Practice"],
+    ["Retell & Record","Students orally explain their thinking, then record a short written response.","Speaking & Writing"],
+    ["Book Hunt","Students browse familiar books to find an example of the selected reading skill.","Independent"]
+  ],
+  writing:[
+    ["Picture Prompt","Students choose a picture card and write using the selected writing skill.","Independent"],
+    ["Roll a Story","Students roll dice to choose a character, setting, or detail and then write.","Game"],
+    ["Fix It","Students edit sample sentences or paragraphs that need the target writing skill.","Editing"],
+    ["Partner Authors","Partners brainstorm ideas together, then each writes their own response.","Partner"],
+    ["Sentence Stretch","Students begin with a simple sentence and add details to make it stronger.","Writing"],
+    ["Write the Room","Students visit picture prompts around the room and write a sentence or idea at each stop.","Movement"],
+    ["Author's Chair Prep","Students write a short piece, reread it, and prepare one part to share.","Create"],
+    ["Spin & Write","Students spin or choose a prompt and write for a short timed round.","Game"]
+  ],
+  math:[
+    ["Roll & Solve","Students roll dice, create a problem using the numbers, and solve it.","Game"],
+    ["Build It","Students model the selected math skill with counters, cubes, base-ten blocks, or other manipulatives.","Hands-On"],
+    ["Task Card Station","Students solve task cards and record their answers on a response sheet.","Independent"],
+    ["Partner Coach","Partners take turns solving a problem and explaining their strategy to each other.","Partner"],
+    ["Math Sort","Students sort equations, models, numbers, or examples based on the selected skill.","Hands-On"],
+    ["Find the Mistake","Students examine an incorrect solution, find the error, and explain how to fix it.","Challenge"],
+    ["Draw & Solve","Students represent a math problem with a picture, model, number line, or diagram.","Visual"],
+    ["Math Hunt","Students search the room for posted problems, solve them, and record their answers.","Movement"]
+  ]
+};
+
+const specialIdeas = {
+  "Short Vowels":[
+    ["Picture Sort","Sort picture cards by their middle vowel sound.","Hands-On"],
+    ["Build the CVC Word","Use letter tiles to build CVC words, then read each word aloud.","Independent"],
+    ["Vowel Hunt","Find short-vowel words in familiar books and record them by vowel.","Book Hunt"],
+    ["Roll & Read","Roll a die and read a row of short-vowel words.","Game"],
+    ["Partner Match","Match CVC word cards with the correct picture cards.","Partner"],
+    ["Change the Vowel","Change the middle vowel in a CVC word and read the new word.","Challenge"]
+  ],
+  "Digraphs":[
+    ["Digraph Picture Sort","Sort pictures under sh, ch, th, wh, or ph headings.","Hands-On"],
+    ["Build the Word","Build digraph words with letter tiles and read them aloud.","Independent"],
+    ["Digraph Hunt","Search books or classroom print for words containing digraphs.","Book Hunt"],
+    ["Roll & Read","Roll a die and read a row of digraph words.","Game"],
+    ["Write the Room","Find posted digraph pictures and write the matching words.","Movement"],
+    ["Partner Match","Match digraph words with pictures and explain the beginning or ending sound.","Partner"]
+  ],
+  "Addition Within 20":[
+    ["Roll & Add","Roll two dice, add the numbers, and record the equation.","Game"],
+    ["Build the Sum","Use counters or cubes to model addition equations within 20.","Hands-On"],
+    ["Addition Match","Match equations to sums or picture models.","Independent"],
+    ["Partner Flash","Partners show addition cards and take turns solving and explaining.","Partner"],
+    ["Find the Missing Part","Solve missing-addend equations using counters or drawings.","Challenge"],
+    ["Math Hunt","Find addition problems posted around the room and solve them.","Movement"]
+  ],
+  "Place Value":[
+    ["Build the Number","Use base-ten blocks to build teacher-selected numbers.","Hands-On"],
+    ["Number Match","Match numerals with expanded form and base-ten models.","Independent"],
+    ["Roll a Number","Roll digits, create a number, then identify each digit's value.","Game"],
+    ["Compare It","Partners build two numbers and compare them using >, <, or =.","Partner"],
+    ["Place Value Hunt","Find numbers around the room and record their place values.","Movement"],
+    ["Mystery Number","Use place-value clues to determine a mystery number.","Challenge"]
+  ],
+  "Retelling":[
+    ["Retell Rope","Use beginning, middle, and end prompts to orally retell a familiar story.","Speaking"],
+    ["Story Sequence","Put event cards in order and retell the story.","Hands-On"],
+    ["Retell & Draw","Draw three important events and write a sentence for each.","Create"],
+    ["Partner Retell","Take turns retelling a book while a partner checks important details.","Partner"],
+    ["Story Map","Complete a simple story map after independent reading.","Independent"],
+    ["Five-Finger Retell","Use five prompts to remember characters, setting, problem, events, and solution.","Strategy"]
+  ],
+  "Main Idea":[
+    ["Main Idea Match","Match short passages to their best main-idea statement.","Hands-On"],
+    ["Topic or Main Idea?","Sort cards into topic and main-idea examples.","Sort"],
+    ["Read & Prove It","Read a short passage, state the main idea, and underline supporting details.","Independent"],
+    ["Partner Detective","Partners identify the main idea and explain which detail helped most.","Partner"],
+    ["Main Idea Sketch","Draw the big idea of a short text and add two supporting details.","Create"],
+    ["Book Hunt","Choose a nonfiction book and record its main idea and two details.","Book Hunt"]
+  ]
+};
+
+function updateSkills(){
+  const grade=document.getElementById("grade").value;
+  const subject=document.getElementById("subject").value;
+  const skill=document.getElementById("skill");
+  skill.innerHTML="";
+  skills[subject][grade].forEach(s=>{
+    const option=document.createElement("option");
+    option.value=s;
+    option.textContent=s;
+    skill.appendChild(option);
+  });
+}
+
+function shuffle(array){
+  return [...array].sort(()=>Math.random()-.5);
+}
+
+function generateIdeas(){
+  const grade=document.getElementById("grade");
+  const subject=document.getElementById("subject");
+  const skill=document.getElementById("skill").value;
+  const gradeText=grade.options[grade.selectedIndex].text;
+  const subjectText=subject.options[subject.selectedIndex].text;
+
+  let ideas;
+
+  if(specialIdeas[skill]){
+    ideas=shuffle(specialIdeas[skill]).slice(0,6);
+  }else{
+    ideas=shuffle(activityTypes[subject.value]).slice(0,6).map(item=>{
+      let description=item[1];
+      description=description.replace("selected skill",skill.toLowerCase());
+      description=description.replace("target skill",skill.toLowerCase());
+      description=description.replace("target writing skill",skill.toLowerCase());
+      description=description.replace("selected math skill",skill.toLowerCase());
+      return [item[0],description,item[2]];
+    });
+  }
+
+  document.getElementById("skillTitle").textContent=
+    gradeText+" • "+subjectText+" • "+skill;
+
+  const cards=document.getElementById("cards");
+  cards.innerHTML="";
+
+  ideas.forEach((idea,index)=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=
+      '<div class="icon">'+icons[index%icons.length]+'</div>'+
+      '<h3>'+idea[0]+'</h3>'+
+      '<p>'+idea[1]+'</p>'+
+      '<span class="tag">'+idea[2]+'</span>';
+    cards.appendChild(card);
+  });
+
+  document.getElementById("results").style.display="block";
+  document.getElementById("results").scrollIntoView({behavior:"smooth"});
+}
+
+function copyIdeas(){
+  const title=document.getElementById("skillTitle").textContent;
+  const cardList=[...document.querySelectorAll(".card")];
+  let text="Skill-Based Center Ideas\n"+title+"\n\n";
+
+  cardList.forEach((card,i)=>{
+    text+=(i+1)+". "+card.querySelector("h3").textContent+"\n";
+    text+=card.querySelector("p").textContent+"\n\n";
+  });
+
+  navigator.clipboard.writeText(text).then(()=>{
+    alert("Center ideas copied! 💕");
+  }).catch(()=>{
+    alert("Your browser couldn't copy automatically. Try Print instead.");
+  });
+}
+
+document.getElementById("grade").addEventListener("change",updateSkills);
+document.getElementById("subject").addEventListener("change",updateSkills);
+
+updateSkills();
+</script>
+
+</body>
+</html>
