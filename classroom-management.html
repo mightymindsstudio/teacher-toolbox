@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Classroom Management | Teacher Toolbox</title>
 
@@ -27,7 +27,8 @@ body{
 
 .stage{
   position:relative;
-  width:min(100vw,1536px);
+  width:100%;
+  max-width:1536px;
 }
 
 .stage img{
@@ -36,86 +37,92 @@ body{
   height:auto;
 }
 
-/* INVISIBLE CLICKABLE AREAS */
+/* CLICKABLE AREAS */
 
 .hit{
   position:absolute;
   display:block;
   border:0;
+  padding:0;
+  margin:0;
   background:transparent;
   cursor:pointer;
+  z-index:10;
   -webkit-tap-highlight-color:transparent;
 }
 
 /* FEATURED TOOLS */
 
 .behavior{
-  left:17.5%;
-  top:42%;
-  width:20.5%;
-  height:17%;
+  left:14%;
+  top:38%;
+  width:25%;
+  height:24%;
 }
 
 .rewards{
-  left:38.4%;
-  top:42%;
-  width:21.5%;
-  height:17%;
+  left:38%;
+  top:38%;
+  width:24%;
+  height:24%;
 }
 
 .calm{
-  left:60.1%;
-  top:42%;
-  width:21.8%;
-  height:17%;
+  left:61%;
+  top:38%;
+  width:25%;
+  height:24%;
 }
 
 /* QUICK MANAGEMENT TOOLS */
 
 .q1{
-  left:13.5%;
-  top:65%;
-  width:17%;
-  height:26%;
+  left:12%;
+  top:64%;
+  width:19%;
+  height:28%;
 }
 
 .q2{
-  left:31%;
-  top:65%;
-  width:17.5%;
-  height:26%;
+  left:30%;
+  top:64%;
+  width:19%;
+  height:28%;
 }
 
 .q3{
-  left:48.8%;
-  top:65%;
-  width:16.8%;
-  height:26%;
+  left:48%;
+  top:64%;
+  width:19%;
+  height:28%;
 }
 
 .q4{
-  left:65.8%;
-  top:65%;
-  width:16.8%;
-  height:26%;
+  left:66%;
+  top:64%;
+  width:19%;
+  height:28%;
 }
 
-/* POP-UP MESSAGE */
+/* POP-UP */
 
 .toast{
   position:fixed;
   left:50%;
-  bottom:20px;
+  bottom:25px;
   transform:translateX(-50%);
   background:#17315d;
   color:white;
-  padding:12px 18px;
+  padding:13px 20px;
   border-radius:30px;
-  opacity:0;
-  transition:.2s;
-  z-index:30;
+  font-size:16px;
   text-align:center;
   max-width:90%;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s;
+  z-index:100;
+  box-shadow:0 5px 18px rgba(0,0,0,.2);
 }
 
 .toast.show{
@@ -133,45 +140,55 @@ body{
 src="https://raw.githubusercontent.com/mightymindsstudio/teacher-toolbox/main/classroom-management-cute-2026.PNG"
 alt="Classroom Management Teacher Toolbox">
 
+<!-- FEATURED TOOLS -->
+
 <a
 class="hit behavior"
-href="behavior-tracker.html?v=1"
-aria-label="Behavior Tracker">
+href="behavior-tracker.html?v=83001"
+aria-label="Open Behavior Tracker">
 </a>
 
 <button
 class="hit rewards"
-onclick="toast('Classroom Rewards is coming soon! ⭐')"
+type="button"
+onclick="showMessage('Classroom Rewards is coming soon! ⭐')"
 aria-label="Classroom Rewards">
 </button>
 
 <button
 class="hit calm"
-onclick="toast('Calm-Down Corner is coming soon! 🌈')"
+type="button"
+onclick="showMessage('Calm-Down Corner is coming soon! 🌈')"
 aria-label="Calm-Down Corner">
 </button>
 
+<!-- QUICK MANAGEMENT TOOLS -->
+
 <button
 class="hit q1"
-onclick="toast('Attention Getters are coming soon! 📣')"
+type="button"
+onclick="showMessage('Attention Getters are coming soon! 📣')"
 aria-label="Attention Getters">
 </button>
 
 <button
 class="hit q2"
-onclick="toast('Transition Ideas are coming soon! ⏰')"
+type="button"
+onclick="showMessage('Transition Ideas are coming soon! ⏰')"
 aria-label="Transition Ideas">
 </button>
 
 <button
 class="hit q3"
-onclick="toast('Classroom Jobs are coming soon! 📋')"
+type="button"
+onclick="showMessage('Classroom Jobs are coming soon! 📋')"
 aria-label="Classroom Jobs">
 </button>
 
 <button
 class="hit q4"
-onclick="toast('Brain Breaks are coming soon! 🧠')"
+type="button"
+onclick="showMessage('Brain Breaks are coming soon! 🧠')"
 aria-label="Brain Breaks">
 </button>
 
@@ -181,21 +198,20 @@ aria-label="Brain Breaks">
 
 <script>
 
-let tt;
+let toastTimer;
 
-function toast(message){
+function showMessage(message){
 
-  const t=document.getElementById("toast");
+  const toast=document.getElementById("toast");
 
-  t.textContent=message;
-  t.classList.add("show");
+  toast.textContent=message;
+  toast.classList.add("show");
 
-  clearTimeout(tt);
+  clearTimeout(toastTimer);
 
-  tt=setTimeout(()=>{
-    t.classList.remove("show");
+  toastTimer=setTimeout(function(){
+    toast.classList.remove("show");
   },1800);
-
 }
 
 </script>
