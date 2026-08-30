@@ -69,7 +69,7 @@ html,body{
 .move{
   left:33.8%;
   top:19.1%;
-  width:15.0%;
+  width:15%;
   height:15.5%;
 }
 
@@ -108,7 +108,7 @@ html,body{
 .result{
   position:absolute;
   z-index:12;
-  left:50.8%;
+  left:49.5%;
   top:39.5%;
   width:44%;
   height:33%;
@@ -122,20 +122,24 @@ html,body{
 .result-inner{
   width:88%;
   padding:0;
+  text-align:center;
 }
 
 .emoji{
   font-size:clamp(22px,3vw,48px);
   line-height:1;
   margin-bottom:7px;
+  text-align:center;
 }
 
 .title{
+  width:100%;
   font-weight:900;
   color:#149eb0;
   font-size:clamp(16px,2.8vw,42px);
   line-height:1.05;
-  margin:0 0 14px;
+  margin:0 auto 14px;
+  text-align:center;
 }
 
 .desc{
@@ -145,6 +149,7 @@ html,body{
   line-height:1.25;
   max-width:82%;
   margin:auto;
+  text-align:center;
 }
 
 .duration{
@@ -155,21 +160,22 @@ html,body{
 
 .timer{
   position:absolute;
-  z-index:14;
-  left:51.2%;
-  top:77.4%;
-  width:20.4%;
-  height:9.4%;
+  z-index:50;
+  left:51%;
+  top:77.1%;
+  width:20.8%;
+  height:10%;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
   font-weight:900;
   color:#129daf;
-  font-size:clamp(16px,2.7vw,42px);
+  font-size:clamp(15px,2.5vw,38px);
   line-height:1;
   background:#fffaf5;
-  border-radius:18px;
+  border:3px solid #159aaa;
+  border-radius:14px;
   pointer-events:none;
 }
 
@@ -187,15 +193,15 @@ html,body{
 .another{
   left:50.7%;
   top:89.1%;
-  width:43.0%;
+  width:43%;
   height:9.1%;
 }
 
-/* COMPLETION MESSAGE */
+/* FINISHED MESSAGE */
 
 .celebrate{
   position:absolute;
-  z-index:30;
+  z-index:60;
   left:54%;
   top:69%;
   width:37%;
@@ -254,21 +260,33 @@ href="classroom-management-new.html?v=970001">
 src="https://raw.githubusercontent.com/mightymindsstudio/teacher-toolbox/main/brain-break-ultimate-bg.PNG"
 alt="Brain Break Machine">
 
-<!-- CATEGORY HOTSPOTS -->
+<!-- CATEGORY BUTTONS -->
 
-<button class="hit energize" data-cat="energize" aria-label="Energize"></button>
+<button class="hit energize"
+data-cat="energize"
+aria-label="Energize"></button>
 
-<button class="hit calm" data-cat="calm" aria-label="Calm and Reset"></button>
+<button class="hit calm"
+data-cat="calm"
+aria-label="Calm and Reset"></button>
 
-<button class="hit move" data-cat="move" aria-label="Move It"></button>
+<button class="hit move"
+data-cat="move"
+aria-label="Move It"></button>
 
-<button class="hit silly" data-cat="silly" aria-label="Silly"></button>
+<button class="hit silly"
+data-cat="silly"
+aria-label="Silly"></button>
 
-<button class="hit focus" data-cat="focus" aria-label="Focus Boost"></button>
+<button class="hit focus"
+data-cat="focus"
+aria-label="Focus Boost"></button>
 
-<button class="hit surprise" data-cat="surprise" aria-label="Surprise Me"></button>
+<button class="hit surprise"
+data-cat="surprise"
+aria-label="Surprise Me"></button>
 
-<!-- GUMBALL MACHINE BUTTON -->
+<!-- GUMBALL BUTTON -->
 
 <button
 class="hit give"
@@ -279,21 +297,23 @@ aria-label="Give us a brain break">
 <!-- RESULT -->
 
 <div class="result">
-  <div class="result-inner">
+<div class="result-inner">
 
-    <div class="emoji" id="emoji">⚡</div>
+<div class="emoji" id="emoji">
+⚡
+</div>
 
-    <div class="title" id="title">
-      Jumping Jacks!
-    </div>
+<div class="title" id="title">
+Jumping Jacks!
+</div>
 
-    <div class="desc" id="desc">
-      Do 20 jumping jacks together!
-    </div>
+<div class="desc" id="desc">
+Do 20 jumping jacks together!
+</div>
 
-    <div class="duration" id="duration"></div>
+<div class="duration" id="duration"></div>
 
-  </div>
+</div>
 </div>
 
 <!-- TIMER -->
@@ -302,7 +322,7 @@ aria-label="Give us a brain break">
 00:30
 </div>
 
-<!-- BUTTON HOTSPOTS -->
+<!-- START -->
 
 <button
 class="hit start"
@@ -310,10 +330,427 @@ id="startBtn"
 aria-label="Start timer">
 </button>
 
+<!-- ANOTHER -->
+
 <button
 class="hit another"
 id="anotherBtn"
 aria-label="Another brain break">
 </button>
 
-<div class
+<div class="celebrate" id="celebrate">
+🌟 BRAIN REFRESHED! 🌟
+</div>
+
+</div>
+
+<script>
+
+const breaks=[
+
+{
+cat:"energize",
+emoji:"⚡",
+title:"Jumping Jacks!",
+desc:"Do 20 jumping jacks together!",
+seconds:30
+},
+
+{
+cat:"energize",
+emoji:"🚀",
+title:"Rocket Launch!",
+desc:"Crouch down, count backward from 10, then blast off with a giant jump!",
+seconds:30
+},
+
+{
+cat:"energize",
+emoji:"🥁",
+title:"Marching Band!",
+desc:"March in place while pretending to play an instrument!",
+seconds:45
+},
+
+{
+cat:"energize",
+emoji:"🌪️",
+title:"Shake It Out!",
+desc:"Shake your hands, arms, shoulders, legs, and whole body!",
+seconds:30
+},
+
+{
+cat:"energize",
+emoji:"🐰",
+title:"Bunny Bounce!",
+desc:"Do tiny bunny hops in place!",
+seconds:30
+},
+
+{
+cat:"calm",
+emoji:"🌬️",
+title:"Balloon Breathing",
+desc:"Take five slow breaths. Fill your belly like a balloon, then slowly breathe out.",
+seconds:45
+},
+
+{
+cat:"calm",
+emoji:"⭐",
+title:"Star Stretch",
+desc:"Stretch your arms and legs wide like a star. Hold, then relax.",
+seconds:45
+},
+
+{
+cat:"calm",
+emoji:"☁️",
+title:"Cloud Float",
+desc:"Close your eyes and imagine floating gently on a soft cloud.",
+seconds:45
+},
+
+{
+cat:"calm",
+emoji:"🌈",
+title:"Rainbow Breaths",
+desc:"Trace an imaginary rainbow while breathing in and out slowly.",
+seconds:45
+},
+
+{
+cat:"calm",
+emoji:"💗",
+title:"Hand on Heart",
+desc:"Put your hand on your heart and take five peaceful breaths.",
+seconds:45
+},
+
+{
+cat:"move",
+emoji:"🐧",
+title:"Penguin Waddle!",
+desc:"Waddle like a penguin around your space!",
+seconds:30
+},
+
+{
+cat:"move",
+emoji:"💃",
+title:"Freeze Dance!",
+desc:"Dance in place. Freeze when your teacher says FREEZE!",
+seconds:45
+},
+
+{
+cat:"move",
+emoji:"🦘",
+title:"Kangaroo Jumps!",
+desc:"Bounce gently like a kangaroo!",
+seconds:30
+},
+
+{
+cat:"move",
+emoji:"🏊",
+title:"Air Swimming!",
+desc:"Pretend to swim through the air with giant arm strokes!",
+seconds:30
+},
+
+{
+cat:"move",
+emoji:"🦋",
+title:"Butterfly Wings!",
+desc:"Flap your arms like giant butterfly wings!",
+seconds:30
+},
+
+{
+cat:"silly",
+emoji:"🤪",
+title:"Funny Face Freeze!",
+desc:"Make your silliest face and freeze!",
+seconds:30
+},
+
+{
+cat:"silly",
+emoji:"🤖",
+title:"Robot Mode!",
+desc:"Move like a slow, squeaky robot!",
+seconds:45
+},
+
+{
+cat:"silly",
+emoji:"🐔",
+title:"Chicken Dance!",
+desc:"Flap your wings and wiggle your tail feathers!",
+seconds:30
+},
+
+{
+cat:"silly",
+emoji:"🦖",
+title:"Tiny T-Rex!",
+desc:"Walk around with tiny T-Rex arms and giant dinosaur steps!",
+seconds:30
+},
+
+{
+cat:"silly",
+emoji:"🍝",
+title:"Wiggly Noodle!",
+desc:"Pretend your whole body is a floppy noodle!",
+seconds:30
+},
+
+{
+cat:"focus",
+emoji:"🎯",
+title:"Cross Crawl!",
+desc:"Touch your right elbow to your left knee, then switch!",
+seconds:45
+},
+
+{
+cat:"focus",
+emoji:"⚖️",
+title:"Balance Challenge!",
+desc:"Stand on one foot, then switch sides!",
+seconds:30
+},
+
+{
+cat:"focus",
+emoji:"👏",
+title:"Copy My Clap!",
+desc:"Teacher claps a pattern. Students repeat it exactly!",
+seconds:45
+},
+
+{
+cat:"focus",
+emoji:"👀",
+title:"I Spy!",
+desc:"Find three things in the room that are the same color!",
+seconds:30
+},
+
+{
+cat:"focus",
+emoji:"🧠",
+title:"Brain Pattern!",
+desc:"Tap knees, clap, snap, clap. Repeat the pattern!",
+seconds:45
+}
+
+];
+
+let selected="energize";
+let current=breaks[0];
+
+let secondsLeft=current.seconds;
+let interval=null;
+let running=false;
+
+const emoji=document.getElementById("emoji");
+const title=document.getElementById("title");
+const desc=document.getElementById("desc");
+const timer=document.getElementById("timer");
+const celebration=document.getElementById("celebrate");
+
+function pickBreak(){
+
+  stopTimer();
+
+  let options;
+
+  if(selected==="surprise"){
+    options=breaks;
+  }else{
+    options=breaks.filter(
+      b=>b.cat===selected
+    );
+  }
+
+  let next;
+
+  do{
+    next=
+    options[
+      Math.floor(Math.random()*options.length)
+    ];
+  }
+  while(
+    options.length>1 &&
+    next.title===current.title
+  );
+
+  current=next;
+  secondsLeft=current.seconds;
+
+  render();
+}
+
+function render(){
+
+  emoji.textContent=current.emoji;
+  title.textContent=current.title;
+  desc.textContent=current.desc;
+
+  updateTimer();
+
+  celebration.classList.remove("show");
+}
+
+function updateTimer(){
+
+  const min=Math.floor(secondsLeft/60);
+  const sec=secondsLeft%60;
+
+  timer.textContent=
+    String(min).padStart(2,"0")
+    +":"
+    +String(sec).padStart(2,"0");
+}
+
+function startTimer(){
+
+  if(running){
+
+    clearInterval(interval);
+    interval=null;
+    running=false;
+
+    return;
+  }
+
+  if(secondsLeft<=0){
+
+    secondsLeft=current.seconds;
+    updateTimer();
+  }
+
+  running=true;
+
+  interval=setInterval(()=>{
+
+    secondsLeft--;
+
+    updateTimer();
+
+    if(secondsLeft<=0){
+
+      clearInterval(interval);
+      interval=null;
+      running=false;
+
+      celebration.classList.add("show");
+
+      confetti();
+
+      setTimeout(()=>{
+        celebration.classList.remove("show");
+      },4500);
+    }
+
+  },1000);
+}
+
+function stopTimer(){
+
+  clearInterval(interval);
+
+  interval=null;
+  running=false;
+
+  secondsLeft=current.seconds;
+
+  updateTimer();
+}
+
+function confetti(){
+
+  const pieces=[
+    "⭐",
+    "💗",
+    "🌈",
+    "✨",
+    "🎉",
+    "💫"
+  ];
+
+  for(let i=0;i<45;i++){
+
+    const p=document.createElement("div");
+
+    p.className="confetti";
+
+    p.textContent=
+      pieces[
+        Math.floor(Math.random()*pieces.length)
+      ];
+
+    p.style.left=
+      Math.random()*100+"vw";
+
+    p.style.fontSize=
+      (14+Math.random()*18)+"px";
+
+    p.style.animationDelay=
+      (Math.random()*.6)+"s";
+
+    document.body.appendChild(p);
+
+    setTimeout(
+      ()=>p.remove(),
+      3400
+    );
+  }
+}
+
+/* CATEGORY BUTTONS */
+
+document
+.querySelectorAll("[data-cat]")
+.forEach(btn=>{
+
+  btn.addEventListener("click",()=>{
+
+    selected=btn.dataset.cat;
+
+    pickBreak();
+  });
+
+});
+
+/* GUMBALL BUTTON */
+
+document
+.getElementById("giveBreak")
+.onclick=pickBreak;
+
+/* ANOTHER ONE */
+
+document
+.getElementById("anotherBtn")
+.onclick=pickBreak;
+
+/* TIMER */
+
+document
+.getElementById("startBtn")
+.onclick=startTimer;
+
+/* INITIAL */
+
+render();
+
+</script>
+
+</body>
+</html>
