@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calm-Down Corner | Teacher Toolbox</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:#42506d;
+  background:
+    radial-gradient(circle at 15% 15%,#ffe5ef 0 7%,transparent 8%),
+    radial-gradient(circle at 85% 20%,#e5f7ef 0 8%,transparent 9%),
+    linear-gradient(135deg,#fff8fb,#f7fbff,#fffaf1);
+  min-height:100vh;
+}
+
+.wrap{
+  max-width:1050px;
+  margin:auto;
+  padding:20px 16px 50px;
+  text-align:center;
+}
+
+.back{
+  display:inline-block;
+  float:left;
+  text-decoration:none;
+  background:white;
+  color:#65749b;
+  padding:10px 16px;
+  border-radius:22px;
+  font-weight:bold;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.clear{clear:both}
+
+h1{
+  margin:20px 0 5px;
+  color:#e87fa8;
+  font-size:clamp(34px,6vw,58px);
+}
+
+.subtitle{
+  font-size:18px;
+  margin-bottom:25px;
+}
+
+.card{
+  background:rgba(255,255,255,.94);
+  border-radius:28px;
+  padding:24px;
+  margin:18px 0;
+  box-shadow:0 8px 25px rgba(67,79,110,.10);
+}
+
+h2{
+  color:#7188bd;
+  margin-top:0;
+}
+
+.feelings{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.feeling{
+  width:115px;
+  min-height:105px;
+  background:#fff8fb;
+  border:3px solid transparent;
+  border-radius:22px;
+  font-size:15px;
+  color:#596580;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.feeling span{
+  display:block;
+  font-size:42px;
+  margin-bottom:4px;
+}
+
+.feeling:hover,
+.feeling.selected{
+  transform:translateY(-4px);
+  border-color:#f2a6c0;
+  box-shadow:0 6px 15px rgba(0,0,0,.08);
+}
+
+.message{
+  min-height:30px;
+  margin-top:16px;
+  font-size:19px;
+  font-weight:bold;
+  color:#df759d;
+}
+
+/* BREATHING */
+
+.breathingArea{
+  min-height:310px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.bubble{
+  width:145px;
+  height:145px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#bfe8df,#d7e3ff,#f5d8ed);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  font-weight:900;
+  font-size:20px;
+  color:#53627d;
+  box-shadow:0 8px 25px rgba(98,120,160,.18);
+  transition:transform 4s ease-in-out;
+}
+
+.bubble.big{
+  transform:scale(1.55);
+}
+
+.breathText{
+  margin-top:35px;
+  font-size:26px;
+  font-weight:900;
+  color:#6f83b3;
+  min-height:32px;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+  font-weight:bold;
+  border-radius:22px;
+  padding:12px 18px;
+  font-size:16px;
+}
+
+.startBreathing{
+  margin-top:15px;
+  background:#d6f1e9;
+  color:#47736c;
+}
+
+/* RESET */
+
+.strategies{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.strategy{
+  padding:18px 10px;
+  min-height:90px;
+  background:#fff7e8;
+  color:#5b6580;
+  border-radius:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.strategy:nth-child(2n){
+  background:#fce9f2;
+}
+
+.strategy:nth-child(3n){
+  background:#e8f5f1;
+}
+
+.strategy:hover{
+  transform:scale(1.03);
+}
+
+.strategyResult{
+  margin-top:18px;
+  min-height:50px;
+  font-size:22px;
+  font-weight:bold;
+  color:#7586b5;
+}
+
+.surprise{
+  margin-top:15px;
+  background:#e5eaff;
+  color:#596d9d;
+}
+
+/* READY */
+
+.readyCard{
+  background:linear-gradient(135deg,#fff0f6,#f0fbf7);
+}
+
+.ready{
+  font-size:22px;
+  padding:15px 30px;
+  background:#f4a7c1;
+  color:white;
+  box-shadow:0 5px 14px rgba(231,125,164,.25);
+}
+
+.celebration{
+  display:none;
+  margin-top:20px;
+  font-size:clamp(25px,5vw,38px);
+  font-weight:900;
+  color:#e479a1;
+  animation:pop .5s ease;
+}
+
+@keyframes pop{
+  0%{transform:scale(.5);opacity:0}
+  70%{transform:scale(1.12)}
+  100%{transform:scale(1);opacity:1}
+}
+
+.sparkle{
+  position:fixed;
+  pointer-events:none;
+  z-index:999;
+  animation:floatUp 2.3s ease-out forwards;
+}
+
+@keyframes floatUp{
+  from{
+    transform:translateY(0) rotate(0);
+    opacity:1;
+  }
+  to{
+    transform:translateY(-180px) rotate(360deg);
+    opacity:0;
+  }
+}
+
+@media(max-width:700px){
+  .strategies{grid-template-columns:repeat(2,1fr)}
+  .feeling{width:95px}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<a class="back" href="classroom-management.html?v=100002">
+← Classroom Management
+</a>
+
+<div class="clear"></div>
+
+<h1>🌈 Calm-Down Corner</h1>
+
+<p class="subtitle">
+Take a moment. Breathe. Reset. You've got this. 💗
+</p>
+
+<div class="card">
+
+<h2>💗 How are you feeling?</h2>
+
+<div class="feelings">
+
+<button class="feeling" data-feeling="happy">
+<span>😊</span>
+Okay
+</button>
+
+<button class="feeling" data-feeling="worried">
+<span>😟</span>
+Worried
+</button>
+
+<button class="feeling" data-feeling="angry">
+<span>😡</span>
+Angry
+</button>
+
+<button class="feeling" data-feeling="sad">
+<span>😢</span>
+Sad
+</button>
+
+<button class="feeling" data-feeling="overwhelmed">
+<span>😰</span>
+Overwhelmed
+</button>
+
+</div>
+
+<div class="message" id="feelingMessage">
+Choose the feeling that fits you right now.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>☁️ Let's Take a Breath</h2>
+
+<div class="breathingArea">
+
+<div class="bubble" id="bubble">
+Breathe With Me
+</div>
+
+<div class="breathText" id="breathText">
+Ready?
+</div>
+
+<button class="startBreathing" id="startBreathing">
+🌿 Start Breathing
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>✨ Choose a Reset</h2>
+
+<div class="strategies">
+
+<div class="strategy" data-text="Slowly count from 1 to 10. ⭐">
+⭐ Count to 10
+</div>
+
+<div class="strategy" data-text="Reach up high, roll your shoulders, and stretch. 🌈">
+🌈 Stretch Your Body
+</div>
+
+<div class="strategy" data-text="Take five slow, gentle breaths. ☁️">
+☁️ 5 Deep Breaths
+</div>
+
+<div class="strategy" data-text="Take a quiet drink of water and give yourself a moment. 💧">
+💧 Get a Drink
+</div>
+
+<div class="strategy" data-text="Draw a picture of how you're feeling. 🎨">
+🎨 Draw Your Feeling
+</div>
+
+<div class="strategy" data-text="Sit quietly for one minute and let your body rest. 💗">
+💗 Quiet Minute
+</div>
+
+<div class="strategy" data-text="Think of three things that make you smile. ☀️">
+☀️ Happy Thoughts
+</div>
+
+<div class="strategy" data-text="Squeeze your hands tight, then slowly relax them. 👐">
+👐 Squeeze & Release
+</div>
+
+<div class="strategy" data-text="Name 5 things you can see, 4 you can touch, and 3 you can hear. 🌿">
+🌿 Notice Around You
+</div>
+
+</div>
+
+<button class="surprise" id="surprise">
+✨ Pick One for Me
+</button>
+
+<div class="strategyResult" id="strategyResult">
+Choose something that might help your body feel calm.
+</div>
+
+</div>
+
+
+<div class="card readyCard">
+
+<h2>🌟 Are You Ready?</h2>
+
+<p>
+Check in with yourself. When your body feels calmer and you're ready to return, tap the button.
+</p>
+
+<button class="ready" id="readyButton">
+💗 I'm Ready!
+</button>
+
+<div class="celebration" id="celebration">
+🌈 You did it! 🌈
+<br>
+<span style="font-size:18px;color:#687799">
+Take that calm feeling with you. 💗
+</span>
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const feelings=document.querySelectorAll(".feeling");
+const feelingMessage=document.getElementById("feelingMessage");
+
+const feelingMessages={
+  happy:"I'm glad you're feeling okay. Let's keep your body calm. 💗",
+  worried:"It's okay to feel worried. Let's help your body feel safe and calm. ☁️",
+  angry:"Big feelings need a little space. Let's slow things down together. 🌿",
+  sad:"Take the time you need. Let's find something gentle that may help. 💗",
+  overwhelmed:"There's a lot happening right now. Let's focus on just one calm breath. 🌈"
+};
+
+feelings.forEach(button=>{
+
+  button.addEventListener("click",()=>{
+
+    feelings.forEach(x=>x.classList.remove("selected"));
+
+    button.classList.add("selected");
+
+    feelingMessage.textContent=
+      feelingMessages[button.dataset.feeling];
+
+  });
+
+});
+
+
+const bubble=document.getElementById("bubble");
+const breathText=document.getElementById("breathText");
+const startBreathing=document.getElementById("startBreathing");
+
+let breathing=false;
+
+function wait(ms){
+  return new Promise(resolve=>setTimeout(resolve,ms));
+}
+
+async function breathingExercise(){
+
+  if(breathing)return;
+
+  breathing=true;
+  startBreathing.disabled=true;
+
+  for(let round=0;round<3;round++){
+
+    breathText.textContent="Breathe In... 🌿";
+    bubble.textContent="Breathe In";
+    bubble.classList.add("big");
+
+    await wait(4000);
+
+    breathText.textContent="Hold... ⭐";
+    bubble.textContent="Hold";
+
+    await wait(2000);
+
+    breathText.textContent="Breathe Out... ☁️";
+    bubble.textContent="Breathe Out";
+    bubble.classList.remove("big");
+
+    await wait(5000);
+
+  }
+
+  breathText.textContent="Beautiful breathing. 💗";
+  bubble.textContent="You Did It!";
+
+  breathing=false;
+  startBreathing.disabled=false;
+
+}
+
+startBreathing.addEventListener("click",breathingExercise);
+
+
+const strategies=document.querySelectorAll(".strategy");
+const strategyResult=document.getElementById("strategyResult");
+
+strategies.forEach(item=>{
+
+  item.addEventListener("click",()=>{
+
+    strategyResult.textContent=item.dataset.text;
+
+  });
+
+});
+
+
+document.getElementById("surprise").addEventListener("click",()=>{
+
+  const choice=
+    strategies[Math.floor(Math.random()*strategies.length)];
+
+  strategyResult.textContent=
+    "✨ Try this: " + choice.dataset.text;
+
+});
+
+
+const readyButton=document.getElementById("readyButton");
+const celebration=document.getElementById("celebration");
+
+readyButton.addEventListener("click",()=>{
+
+  celebration.style.display="block";
+
+  const icons=["⭐","💗","🌈","✨","☁️"];
+
+  for(let i=0;i<28;i++){
+
+    setTimeout(()=>{
+
+      const sparkle=document.createElement("div");
+
+      sparkle.className="sparkle";
+
+      sparkle.textContent=
+        icons[Math.floor(Math.random()*icons.length)];
+
+      sparkle.style.left=
+        (10+Math.random()*80)+"vw";
+
+      sparkle.style.top=
+        (65+Math.random()*25)+"vh";
+
+      sparkle.style.fontSize=
+        (18+Math.random()*20)+"px";
+
+      document.body.appendChild(sparkle);
+
+      setTimeout(()=>sparkle.remove(),2400);
+
+    },i*45);
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
