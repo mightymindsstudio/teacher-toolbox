@@ -3,34 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Brain Break Machine | Teacher Toolbox</title>
+<title>Brain Break Machine</title>
 
 <style>
 *{box-sizing:border-box}
-
 html,body{
   margin:0;
-  min-height:100%;
+  background:#fffaf5;
   font-family:Arial,Helvetica,sans-serif;
-  background:#fff9f3;
-  color:#4b5473;
-}
-
-.page{
-  width:100%;
-  padding:10px 0 30px;
 }
 
 .back{
   display:inline-block;
-  margin:5px 12px 10px;
+  margin:10px 12px;
   padding:9px 14px;
+  background:#fff;
   border-radius:999px;
-  background:white;
-  color:#6f6786;
   text-decoration:none;
+  color:#6f6786;
   font-weight:800;
-  box-shadow:0 4px 14px rgba(0,0,0,.10);
+  box-shadow:0 4px 14px rgba(0,0,0,.1);
 }
 
 .stage{
@@ -39,205 +31,142 @@ html,body{
   max-width:1536px;
   margin:auto;
   aspect-ratio:3/2;
-  overflow:hidden;
 }
 
-.stage>img{
-  display:block;
+.stage img{
   width:100%;
   height:100%;
   object-fit:contain;
+  display:block;
 }
 
-/* invisible clickable areas */
 .hit{
   position:absolute;
   border:0;
   background:transparent;
-  padding:0;
-  margin:0;
-  z-index:20;
   cursor:pointer;
+  z-index:20;
   -webkit-tap-highlight-color:transparent;
 }
 
-/* category buttons */
-.energize{left:15.0%;top:27.1%;width:11.6%;height:9.8%}
-.calm{left:27.5%;top:27.1%;width:11.6%;height:9.8%}
-.move{left:40.0%;top:27.1%;width:11.6%;height:9.8%}
-.silly{left:52.5%;top:27.1%;width:11.6%;height:9.8%}
-.focus{left:65.0%;top:27.1%;width:11.6%;height:9.8%}
-.surprise{left:77.5%;top:27.1%;width:11.6%;height:9.8%}
+/* CATEGORY BUTTONS */
+.energize{left:3.1%;top:20.2%;width:14.6%;height:14.8%}
+.calm{left:18.6%;top:20.2%;width:16.0%;height:14.8%}
+.move{left:35.6%;top:20.2%;width:14.3%;height:14.8%}
+.silly{left:50.8%;top:20.2%;width:14.0%;height:14.8%}
+.focus{left:65.7%;top:20.2%;width:16.1%;height:14.8%}
+.surprise{left:82.6%;top:20.2%;width:14.8%;height:14.8%}
 
-/* machine button */
+/* CENTER BUTTON */
 .give{
-  left:37.0%;
-  top:49.5%;
-  width:25.6%;
-  height:13.4%;
+  left:27.5%;
+  top:49.1%;
+  width:29.8%;
+  height:19.0%;
 }
 
-/* right-side controls */
+/* RIGHT BUTTONS */
 .start{
-  left:75.1%;
-  top:68.0%;
-  width:12.1%;
-  height:6.6%;
+  left:79.3%;
+  top:76.5%;
+  width:16.6%;
+  height:12.4%;
 }
 
 .another{
-  left:70.8%;
-  top:75.3%;
-  width:10.3%;
-  height:6.0%;
+  left:59.8%;
+  top:88.6%;
+  width:36.0%;
+  height:8.4%;
 }
 
-.save{
-  left:81.7%;
-  top:75.3%;
-  width:12.1%;
-  height:6.0%;
-}
-
-/* right result overlay */
+/* RESULT TEXT */
 .result{
   position:absolute;
   z-index:12;
-  left:69.4%;
-  top:41.0%;
-  width:23.1%;
-  height:27.2%;
+  left:60.4%;
+  top:40.8%;
+  width:34.2%;
+  height:32.7%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
   text-align:center;
   pointer-events:none;
 }
 
 .result-inner{
-  position:absolute;
-  left:5%;
-  right:5%;
-  top:19%;
-  bottom:2%;
-  border-radius:18px;
-  background:rgba(255,255,255,.94);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:3%;
+  width:84%;
+  background:rgba(255,255,255,.93);
+  border-radius:24px;
+  padding:12px 14px;
 }
 
 .emoji{
-  font-size:clamp(22px,3.1vw,54px);
-  line-height:1;
+  font-size:clamp(24px,4vw,64px);
 }
 
 .title{
-  color:#7056b8;
   font-weight:900;
-  font-size:clamp(12px,1.75vw,27px);
-  margin:2% 0;
-  line-height:1.05;
+  color:#14a6b0;
+  font-size:clamp(16px,2.5vw,40px);
+  line-height:1;
+  margin:5px 0;
 }
 
 .desc{
-  color:#536080;
-  font-size:clamp(8px,1.05vw,16px);
+  color:#222;
   font-weight:700;
-  line-height:1.18;
-  max-width:95%;
+  font-size:clamp(10px,1.25vw,20px);
+  line-height:1.25;
 }
 
 .duration{
-  margin-top:3%;
-  background:#fff0f6;
-  border:2px solid #ffb8d1;
+  margin:10px auto 0;
+  width:max-content;
+  max-width:100%;
+  padding:5px 14px;
+  background:#fff0f4;
+  border:2px solid #f9a9bd;
   border-radius:999px;
-  padding:1.5% 5%;
-  color:#d75d8e;
-  font-size:clamp(8px,.9vw,14px);
+  color:#d94976;
   font-weight:900;
+  font-size:clamp(9px,1.1vw,17px);
 }
 
-/* actual timer over image timer area */
+/* TIMER */
 .timer{
   position:absolute;
-  z-index:15;
-  left:75.2%;
-  top:62.2%;
-  width:11.5%;
+  z-index:14;
+  left:61.8%;
+  top:78.1%;
+  width:15.6%;
   text-align:center;
   font-weight:900;
-  font-size:clamp(18px,3.1vw,48px);
-  color:#4aa9bc;
-  background:rgba(255,255,255,.95);
-  border-radius:10px;
-  line-height:1.05;
+  color:#12a7b0;
+  font-size:clamp(20px,4vw,58px);
+  background:rgba(255,255,255,.96);
+  border-radius:15px;
   pointer-events:none;
 }
 
-/* favorites overlay */
-.favorites{
-  position:absolute;
-  z-index:12;
-  left:8.0%;
-  top:43.0%;
-  width:19.8%;
-  height:32%;
-  padding:4.8% 1.1% 1%;
-  overflow:hidden;
-  pointer-events:none;
-}
-
-.favbox{
-  height:100%;
-  background:rgba(255,255,255,.93);
-  border-radius:18px;
-  padding:7px;
-  overflow:auto;
-  pointer-events:auto;
-}
-
-.empty{
-  font-size:clamp(8px,.9vw,14px);
-  text-align:center;
-  color:#8a829b;
-  font-weight:700;
-  padding:8px 4px;
-}
-
-.fav{
-  width:100%;
-  border:none;
-  background:#f3efff;
-  border-radius:12px;
-  padding:7px 6px;
-  margin:0 0 6px;
-  text-align:left;
-  color:#65548f;
-  font-weight:900;
-  font-size:clamp(8px,.95vw,14px);
-  cursor:pointer;
-}
-
-.category-glow{
-  outline:5px solid rgba(255,255,255,.92);
-  border-radius:22px;
-  box-shadow:0 0 0 5px rgba(255,217,95,.75);
+.glow{
+  outline:5px solid rgba(255,255,255,.95);
+  border-radius:24px;
+  box-shadow:0 0 0 5px rgba(255,213,80,.72);
 }
 
 .celebrate{
   position:absolute;
   z-index:30;
-  left:32%;
-  top:82.8%;
-  width:36%;
+  left:35%;
+  top:92%;
+  width:30%;
   text-align:center;
-  border-radius:999px;
-  background:#fff6c6;
-  color:#ef6897;
-  font-size:clamp(12px,1.7vw,26px);
+  font-size:clamp(13px,1.6vw,25px);
   font-weight:900;
-  padding:.7% 1%;
+  color:#ff5b8a;
   opacity:0;
   transition:.2s;
   pointer-events:none;
@@ -247,32 +176,23 @@ html,body{
 
 .confetti{
   position:fixed;
-  top:-40px;
-  z-index:999;
+  top:-30px;
   pointer-events:none;
-  animation:fall 2.8s linear forwards;
+  z-index:9999;
+  animation:fall 2.7s linear forwards;
 }
 
 @keyframes fall{
   to{
-    transform:translateY(110vh) rotate(720deg);
-    opacity:.8
+    transform:translateY(110vh) rotate(700deg);
+    opacity:.85;
   }
 }
 
-@media(max-width:650px){
+@media(max-width:600px){
   .back{
     font-size:12px;
     padding:7px 11px;
-  }
-
-  .favbox{
-    padding:4px;
-  }
-
-  .fav{
-    padding:4px 3px;
-    margin-bottom:3px;
   }
 }
 </style>
@@ -280,98 +200,222 @@ html,body{
 
 <body>
 
-<div class="page">
-
-<a class="back" href="classroom-management-new.html?v=940001">
+<a class="back" href="classroom-management-new.html?v=951100">
 ← Back to Classroom Management
 </a>
 
-<div class="stage" id="stage">
+<div class="stage">
 
 <img
-src="https://raw.githubusercontent.com/mightymindsstudio/teacher-toolbox/main/brain-break-machine-bg.PNG"
+src="https://raw.githubusercontent.com/mightymindsstudio/teacher-toolbox/main/brain-break-simple-bg.PNG"
 alt="Brain Break Machine">
 
-<!-- CATEGORIES -->
-<button class="hit energize category-glow" data-cat="energize" aria-label="Energize"></button>
+<button class="hit energize glow" data-cat="energize" aria-label="Energize"></button>
 <button class="hit calm" data-cat="calm" aria-label="Calm and Reset"></button>
 <button class="hit move" data-cat="move" aria-label="Move It"></button>
 <button class="hit silly" data-cat="silly" aria-label="Silly"></button>
 <button class="hit focus" data-cat="focus" aria-label="Focus Boost"></button>
 <button class="hit surprise" data-cat="surprise" aria-label="Surprise Me"></button>
 
-<!-- BIG GUMBALL MACHINE BUTTON -->
 <button class="hit give" id="giveBreak" aria-label="Give us a brain break"></button>
 
-<!-- RESULT -->
 <div class="result">
   <div class="result-inner">
-
-    <div class="emoji" id="breakEmoji">⚡</div>
-
-    <div class="title" id="breakTitle">
-      Jumping Jacks!
-    </div>
-
-    <div class="desc" id="breakDesc">
-      Do 20 jumping jacks together!
-    </div>
-
-    <div class="duration" id="duration">
-      ⏱ 30 seconds
-    </div>
-
+    <div class="emoji" id="emoji">⚡</div>
+    <div class="title" id="title">Jumping Jacks!</div>
+    <div class="desc" id="desc">Do 20 jumping jacks together!</div>
+    <div class="duration" id="duration">⏱ 30 seconds</div>
   </div>
 </div>
 
-<!-- TIMER -->
 <div class="timer" id="timer">00:30</div>
 
-<!-- WORKING BUTTONS OVER IMAGE -->
 <button class="hit start" id="startBtn" aria-label="Start timer"></button>
-<button class="hit another" id="anotherBtn" aria-label="Another brain break"></button>
-<button class="hit save" id="saveBtn" aria-label="Save favorite"></button>
-
-<!-- FAVORITES -->
-<div class="favorites">
-  <div class="favbox" id="favoritesBox"></div>
-</div>
+<button class="hit another" id="anotherBtn" aria-label="Another one"></button>
 
 <div class="celebrate" id="celebrate">
 🌟 BRAIN REFRESHED! 🌟
 </div>
 
 </div>
-</div>
 
 <script>
+const breaks=[
 
-const brainBreaks = [
-
-/* ENERGIZE */
 {cat:"energize",emoji:"⚡",title:"Jumping Jacks!",desc:"Do 20 jumping jacks together!",seconds:30},
-{cat:"energize",emoji:"🚀",title:"Rocket Launch!",desc:"Crouch down, count backward from 10, then BLAST OFF with a giant jump!",seconds:30},
+{cat:"energize",emoji:"🚀",title:"Rocket Launch!",desc:"Crouch down, count backward from 10, then blast off with a giant jump!",seconds:30},
 {cat:"energize",emoji:"🥁",title:"Marching Band!",desc:"March in place while pretending to play an instrument!",seconds:45},
 {cat:"energize",emoji:"🌪️",title:"Shake It Out!",desc:"Shake your hands, arms, shoulders, legs, and whole body!",seconds:30},
-{cat:"energize",emoji:"🐰",title:"Bunny Bounce!",desc:"Do tiny bunny hops in place!",seconds:30},
-{cat:"energize",emoji:"🏃",title:"Run in Place!",desc:"Run in place as fast as you can, then freeze!",seconds:30},
-{cat:"energize",emoji:"🌟",title:"Reach for the Stars!",desc:"Reach high, touch your toes, and repeat!",seconds:30},
-{cat:"energize",emoji:"👏",title:"Clap & Jump!",desc:"Clap twice, jump once, and repeat!",seconds:30},
 
-/* CALM */
-{cat:"calm",emoji:"🌬️",title:"Balloon Breathing",desc:"Breathe in slowly as your belly fills like a balloon. Slowly breathe out.",seconds:45},
-{cat:"calm",emoji:"⭐",title:"Star Stretch",desc:"Stretch your arms and legs wide like a star. Hold, then relax.",seconds:45},
+{cat:"calm",emoji:"🌬️",title:"Balloon Breathing",desc:"Take five slow breaths. Fill your belly like a balloon, then slowly breathe out.",seconds:45},
+{cat:"calm",emoji:"⭐",title:"Star Stretch",desc:"Stretch your arms and legs wide like a star, then relax.",seconds:45},
 {cat:"calm",emoji:"☁️",title:"Cloud Float",desc:"Close your eyes and imagine floating gently on a soft cloud.",seconds:45},
-{cat:"calm",emoji:"🌿",title:"Quiet Reset",desc:"Relax your shoulders and take five slow breaths.",seconds:45},
-{cat:"calm",emoji:"🐢",title:"Turtle Slow Down",desc:"Move very slowly like a turtle while taking deep breaths.",seconds:45},
-{cat:"calm",emoji:"🌈",title:"Rainbow Breaths",desc:"Trace an imaginary rainbow as you breathe in and out slowly.",seconds:45},
-{cat:"calm",emoji:"💗",title:"Hand on Heart",desc:"Put your hand on your heart and take five peaceful breaths.",seconds:45},
+{cat:"calm",emoji:"🌈",title:"Rainbow Breaths",desc:"Trace an imaginary rainbow while breathing in and out slowly.",seconds:45},
 
-/* MOVE IT */
 {cat:"move",emoji:"🐧",title:"Penguin Waddle!",desc:"Waddle around like a penguin!",seconds:30},
-{cat:"move",emoji:"💃",title:"Freeze Dance!",desc:"Dance in place. Freeze whenever your teacher says FREEZE!",seconds:45},
-{cat:"move",emoji:"🏊",title:"Air Swimming!",desc:"Pretend to swim through the air using giant arm strokes!",seconds:30},
-{cat:"move",emoji:"🧗",title:"Mountain Climber!",desc:"Pretend to climb a huge mountain. Reach high and lift those knees!",seconds:45},
+{cat:"move",emoji:"💃",title:"Freeze Dance!",desc:"Dance in place. Freeze when the teacher says FREEZE!",seconds:45},
 {cat:"move",emoji:"🦘",title:"Kangaroo Jumps!",desc:"Bounce gently like a kangaroo!",seconds:30},
-{cat:"move",emoji:"🦋",title:"Butterfly Wings!",desc:"Flap your arms like giant butterfly wings and move around your space!",seconds:30},
-{cat:"move",emoji:"🏄
+{cat:"move",emoji:"🏊",title:"Air Swimming!",desc:"Pretend to swim through the air with giant arm strokes!",seconds:30},
+
+{cat:"silly",emoji:"🤪",title:"Funny Face Freeze!",desc:"Make your silliest face and freeze!",seconds:30},
+{cat:"silly",emoji:"🤖",title:"Robot Mode!",desc:"Move like a slow, squeaky robot!",seconds:45},
+{cat:"silly",emoji:"🐔",title:"Chicken Dance!",desc:"Flap your wings and wiggle your tail feathers!",seconds:30},
+{cat:"silly",emoji:"🦖",title:"Tiny T-Rex!",desc:"Walk around with tiny T-Rex arms and giant dinosaur steps!",seconds:30},
+
+{cat:"focus",emoji:"🎯",title:"Cross Crawl!",desc:"Touch your right elbow to your left knee, then switch!",seconds:45},
+{cat:"focus",emoji:"⚖️",title:"Balance Challenge!",desc:"Stand on one foot, then switch sides!",seconds:30},
+{cat:"focus",emoji:"👏",title:"Copy My Clap!",desc:"Teacher claps a pattern. Students repeat it exactly!",seconds:45},
+{cat:"focus",emoji:"👀",title:"I Spy!",desc:"Find three things in the room that are the same color!",seconds:30}
+
+];
+
+let selected="energize";
+let current=breaks[0];
+let secondsLeft=current.seconds;
+let interval=null;
+let running=false;
+
+const emoji=document.getElementById("emoji");
+const title=document.getElementById("title");
+const desc=document.getElementById("desc");
+const duration=document.getElementById("duration");
+const timer=document.getElementById("timer");
+const celebration=document.getElementById("celebrate");
+
+function pickBreak(){
+
+  stopTimer();
+
+  const options=
+    selected==="surprise"
+    ?breaks
+    :breaks.filter(b=>b.cat===selected);
+
+  let next;
+
+  do{
+    next=options[Math.floor(Math.random()*options.length)];
+  }while(options.length>1 && next.title===current.title);
+
+  current=next;
+  secondsLeft=current.seconds;
+
+  render();
+}
+
+function render(){
+
+  emoji.textContent=current.emoji;
+  title.textContent=current.title;
+  desc.textContent=current.desc;
+
+  duration.textContent=
+    current.seconds===60
+    ?"⏱ 1 minute"
+    :"⏱ "+current.seconds+" seconds";
+
+  updateTimer();
+  celebration.classList.remove("show");
+}
+
+function updateTimer(){
+
+  const min=Math.floor(secondsLeft/60);
+  const sec=secondsLeft%60;
+
+  timer.textContent=
+    String(min).padStart(2,"0")+
+    ":"+
+    String(sec).padStart(2,"0");
+}
+
+function startTimer(){
+
+  if(running){
+    clearInterval(interval);
+    interval=null;
+    running=false;
+    return;
+  }
+
+  if(secondsLeft<=0){
+    secondsLeft=current.seconds;
+  }
+
+  running=true;
+
+  interval=setInterval(()=>{
+
+    secondsLeft--;
+    updateTimer();
+
+    if(secondsLeft<=0){
+
+      clearInterval(interval);
+      interval=null;
+      running=false;
+
+      celebration.classList.add("show");
+      confetti();
+
+      setTimeout(()=>{
+        celebration.classList.remove("show");
+      },4500);
+    }
+
+  },1000);
+}
+
+function stopTimer(){
+
+  clearInterval(interval);
+  interval=null;
+  running=false;
+  secondsLeft=current.seconds;
+  updateTimer();
+}
+
+function confetti(){
+
+  const pieces=["⭐","💗","🌈","✨","🎉"];
+
+  for(let i=0;i<45;i++){
+
+    const p=document.createElement("div");
+
+    p.className="confetti";
+    p.textContent=pieces[Math.floor(Math.random()*pieces.length)];
+    p.style.left=Math.random()*100+"vw";
+    p.style.fontSize=(14+Math.random()*18)+"px";
+    p.style.animationDelay=(Math.random()*.6)+"s";
+
+    document.body.appendChild(p);
+
+    setTimeout(()=>p.remove(),3400);
+  }
+}
+
+document.querySelectorAll("[data-cat]").forEach(btn=>{
+
+  btn.addEventListener("click",()=>{
+
+    document
+      .querySelectorAll("[data-cat]")
+      .forEach(b=>b.classList.remove("glow"));
+
+    btn.classList.add("glow");
+
+    selected=btn.dataset.cat;
+    pickBreak();
+  });
+});
+
+document.getElementById("giveBreak").onclick=pickBreak;
+document.getElementById("anotherBtn").onclick=pickBreak;
+document.getElementById("startBtn").onclick=startTimer;
+
+render();
+</script>
+
+</body>
+</html>
