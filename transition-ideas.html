@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transition Time Machine | Teacher Toolbox</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(circle at top left,#fff0f7 0,transparent 34%),
+    radial-gradient(circle at top right,#eefcff 0,transparent 30%),
+    linear-gradient(180deg,#fffaf7,#fffef9);
+  color:#28405f;
+}
+
+.page{
+  max-width:1100px;
+  margin:auto;
+  padding:24px 16px 50px;
+}
+
+.back{
+  display:inline-block;
+  text-decoration:none;
+  background:white;
+  color:#5e6f8d;
+  padding:10px 16px;
+  border-radius:999px;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+  font-weight:700;
+  margin-bottom:18px;
+}
+
+.hero{
+  text-align:center;
+  background:white;
+  border-radius:28px;
+  padding:28px 18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  border:3px solid #ffd8e8;
+}
+
+.hero h1{
+  margin:0;
+  font-size:clamp(34px,7vw,62px);
+  color:#ff779f;
+  text-shadow:2px 2px 0 #fff1a8;
+}
+
+.hero p{
+  font-size:18px;
+  margin:10px 0 0;
+  color:#61708a;
+}
+
+.categories{
+  margin:24px 0 18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;
+}
+
+.cat{
+  border:none;
+  border-radius:20px;
+  padding:16px 12px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  background:white;
+  color:#4f5f79;
+  box-shadow:0 5px 16px rgba(0,0,0,.08);
+  transition:.2s;
+}
+
+.cat:hover,
+.cat.active{
+  transform:translateY(-2px) scale(1.02);
+  background:#fff0f6;
+  outline:3px solid #ff9fc0;
+}
+
+.machine{
+  margin-top:18px;
+  background:white;
+  border-radius:30px;
+  padding:24px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.09);
+}
+
+.pick{
+  border:none;
+  border-radius:999px;
+  padding:17px 28px;
+  font-size:21px;
+  font-weight:900;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ff84af,#ffb367,#8fd8d2,#9e98ff);
+  color:white;
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
+
+.card{
+  margin:26px auto 18px;
+  max-width:780px;
+  min-height:300px;
+  border-radius:28px;
+  padding:28px 20px;
+  background:linear-gradient(160deg,#fff7fb,#f4fbff,#fffce8);
+  border:4px dashed #ffc4db;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.card.shuffle{
+  animation:wiggle .35s ease-in-out 3;
+}
+
+@keyframes wiggle{
+  0%,100%{transform:rotate(0deg) scale(1)}
+  25%{transform:rotate(-2deg) scale(1.02)}
+  75%{transform:rotate(2deg) scale(1.02)}
+}
+
+.emoji{
+  font-size:58px;
+  margin-bottom:10px;
+}
+
+.label{
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1px;
+  color:#8f78a8;
+  text-transform:uppercase;
+}
+
+.title{
+  margin:10px 0 8px;
+  font-size:clamp(26px,5vw,40px);
+  font-weight:900;
+  color:#ff6595;
+}
+
+.idea{
+  font-size:clamp(20px,4vw,30px);
+  line-height:1.35;
+  font-weight:800;
+  color:#3f6584;
+  max-width:700px;
+}
+
+.tip{
+  margin-top:14px;
+  background:#fff4bf;
+  border-radius:16px;
+  padding:10px 14px;
+  font-weight:700;
+  color:#6e6549;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-top:16px;
+}
+
+.actions button{
+  border:none;
+  border-radius:999px;
+  padding:12px 18px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  background:#f4f1ff;
+  color:#5b5f87;
+}
+
+.saved,
+.custom{
+  margin-top:24px;
+  background:white;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 8px 24px rgba(0,0,0,.07);
+}
+
+.saved h2,
+.custom h2{
+  margin-top:0;
+  color:#ff78a6;
+}
+
+.saved-list{
+  display:grid;
+  gap:10px;
+}
+
+.saved-item{
+  background:#fff8fb;
+  border:2px solid #ffd7e5;
+  padding:12px 14px;
+  border-radius:16px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+
+.saved-item button{
+  border:none;
+  background:#ffe4ec;
+  border-radius:999px;
+  padding:8px 11px;
+  cursor:pointer;
+}
+
+.custom input,
+.custom textarea{
+  width:100%;
+  border:2px solid #d9e5ef;
+  border-radius:14px;
+  padding:13px;
+  font-size:16px;
+  font-family:inherit;
+}
+
+.custom textarea{
+  margin-top:10px;
+  min-height:100px;
+  resize:vertical;
+}
+
+.custom-add{
+  margin-top:12px;
+  border:none;
+  border-radius:999px;
+  padding:12px 20px;
+  background:#8fd8d2;
+  color:#204d59;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  transform:translateX(-50%);
+  background:#273f63;
+  color:white;
+  padding:12px 18px;
+  border-radius:999px;
+  opacity:0;
+  transition:.2s;
+  pointer-events:none;
+  z-index:1000;
+}
+
+.toast.show{opacity:1}
+
+.confetti{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:900;
+}
+
+.piece{
+  position:absolute;
+  top:-30px;
+  font-size:22px;
+  animation:fall 2.4s linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(600deg);
+    opacity:.2;
+  }
+}
+
+@media(max-width:650px){
+  .machine{padding:18px 12px}
+  .card{padding:24px 14px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<a class="back" href="classroom-management-new.html?v=83031">
+← Back to Classroom Management
+</a>
+
+<div class="hero">
+  <h1>⏰ Transition Time Machine</h1>
+  <p>Choose where your class is headed, then grab a quick transition idea!</p>
+</div>
+
+<div class="categories">
+  <button class="cat active" data-cat="cleanup">🧹 Clean Up</button>
+  <button class="cat" data-cat="carpet">🪑 Carpet → Seats</button>
+  <button class="cat" data-cat="centers">🌈 Centers</button>
+  <button class="cat" data-cat="lineup">🚶 Line Up</button>
+  <button class="cat" data-cat="subject">📚 Switch Subjects</button>
+  <button class="cat" data-cat="return">🍎 Back From Break</button>
+  <button class="cat" data-cat="all">🎲 Surprise Me</button>
+</div>
+
+<div class="machine">
+
+<button class="pick" id="pickBtn">✨ GIVE ME A TRANSITION! ✨</button>
+
+<div class="card" id="card">
+  <div class="emoji" id="emoji">⏰</div>
+  <div class="label" id="label">Ready?</div>
+  <div class="title" id="title">Choose a transition!</div>
+  <div class="idea" id="idea">Tap the button to get started.</div>
+  <div class="tip" id="tip"></div>
+</div>
+
+<div class="actions">
+  <button id="anotherBtn">🔄 Another One</button>
+  <button id="saveBtn">❤️ Save Favorite</button>
+  <button id="mysteryBtn">🎲 Mystery Pick</button>
+</div>
+
+</div>
+
+<div class="saved">
+  <h2>❤️ My Favorites</h2>
+  <div class="saved-list" id="savedList">
+    <div style="color:#7b8496">Your saved transition ideas will appear here.</div>
+  </div>
+</div>
+
+<div class="custom">
+  <h2>✏️ Add My Own</h2>
+  <input id="customTitle" placeholder="Name your transition...">
+  <textarea id="customIdea" placeholder="Write your transition idea..."></textarea>
+  <button class="custom-add" id="customAdd">➕ Add to Favorites</button>
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="confetti" id="confetti"></div>
+
+<script>
+const transitions = [
+
+{cat:"cleanup",emoji:"🧹",title:"Secret Mission",
+idea:"Can everyone clean up and be sitting on the carpet before I finish counting backward from 20?",
+tip:"Try whispering the countdown for an extra calm challenge."},
+
+{cat:"cleanup",emoji:"🎵",title:"Beat the Song",
+idea:"Play a short classroom song. Everything must be cleaned up before the music ends!",
+tip:"Use the same song regularly so students learn the routine."},
+
+{cat:"cleanup",emoji:"🕵️",title:"Mystery Cleaner",
+idea:"Choose a secret student in your head. If they clean up responsibly, the whole class earns a cheer!",
+tip:"Reveal the mystery cleaner only after the room is ready."},
+
+{cat:"cleanup",emoji:"🌈",title:"Color Clean-Up",
+idea:"First clean up everything red... now blue... now yellow... keep going until the room is ready!",
+tip:"Great when materials are spread around the room."},
+
+{cat:"cleanup",emoji:"🤫",title:"Silent Sweep",
+idea:"See if the class can completely clean the room without anyone talking.",
+tip:"Celebrate with a silent cheer when they finish."},
+
+{cat:"carpet",emoji:"🐭",title:"Quiet as a Mouse",
+idea:"Travel from the carpet to your seat as quietly as a tiny mouse.",
+tip:"Challenge them to make the transition without chair scraping."},
+
+{cat:"carpet",emoji:"☁️",title:"Cloud Walk",
+idea:"Pretend you're floating on a cloud as you calmly move back to your seat.",
+tip:"Perfect after a read-aloud or calm lesson."},
+
+{cat:"carpet",emoji:"🔢",title:"Number Call",
+idea:"If your birthday is January through June, head to your seat. July through December, you're next!",
+tip:"Change the sorting rule each time."},
+
+{cat:"carpet",emoji:"⭐",title:"Ready Position Challenge",
+idea:"Move to your seat and show me your best ready-to-learn position before I count to 10.",
+tip:"Praise students you catch ready right away."},
+
+{cat:"centers",emoji:"🌈",title:"Center Countdown",
+idea:"When I say your center, move there calmly before the countdown reaches zero.",
+tip:"Dismiss one or two groups at a time."},
+
+{cat:"centers",emoji:"🎨",title:"Move Like...",
+idea:"Move to your next center like a robot, astronaut, penguin, or slow-motion superhero!",
+tip:"Choose movements that stay safe and controlled."},
+
+{cat:"centers",emoji:"🔔",title:"Listen for the Signal",
+idea:"Stay frozen until you hear the bell. Then switch centers using whisper voices.",
+tip:"Using one consistent signal makes rotations smoother."},
+
+{cat:"centers",emoji:"🕵️",title:"Secret Center Stars",
+idea:"I'm watching for one group that switches centers quickly, quietly, and safely!",
+tip:"Give the winning group a quick class cheer."},
+
+{cat:"lineup",emoji:"🚶",title:"Show Me You're Ready",
+idea:"If your area is clean and you're ready, silently join the line.",
+tip:"No need to call individual names."},
+
+{cat:"lineup",emoji:"🧩",title:"Riddle Line-Up",
+idea:"If your name has the letter A, line up. If not, stay seated for the next clue!",
+tip:"Try birthdays, shirt colors, sounds, or math facts."},
+
+{cat:"lineup",emoji:"🤫",title:"Silent Line Challenge",
+idea:"Can the entire class get into line without using a single word?",
+tip:"Make it a class goal rather than a competition."},
+
+{cat:"lineup",emoji:"🐢",title:"Slow-Motion Line",
+idea:"Move to the line in super slow motion while keeping your body under control.",
+tip:"Especially fun when students are getting too speedy."},
+
+{cat:"subject",emoji:"📚",title:"Subject Switch Challenge",
+idea:"Put away your current materials and have everything ready for the next subject before I count to 15.",
+tip:"Show the needed materials before starting."},
+
+{cat:"subject",emoji:"🎯",title:"Three-Step Switch",
+idea:"1. Put away. 2. Take out. 3. Show ready. Let's see how smoothly we can do all three!",
+tip:"Keep the same three-step language each day."},
+
+{cat:"subject",emoji:"🎵",title:"Musical Switch",
+idea:"Switch subjects while a short music clip plays. Be ready before the song stops!",
+tip:"Pick a 30–60 second clip."},
+
+{cat:"subject",emoji:"🧠",title:"Brain Switch",
+idea:"Take one deep breath, stretch your hands up high, then quietly get ready for our next subject.",
+tip:"A tiny reset can help students refocus."},
+
+{cat:"return",emoji:"🍎",title:"Back to Learning",
+idea:"Come in, unpack what you need, and show me you're ready before I finish a slow count to 20.",
+tip:"Keep the steps visible for students who need reminders."},
+
+{cat:"return",emoji:"🌬️",title:"Reset Breath",
+idea:"When you reach your seat, take three slow breaths and get your body ready to learn.",
+tip:"Great after recess."},
+
+{cat:"return",emoji:"👀",title:"Spot the Ready Student",
+idea:"I'm looking for students who come in, get settled, and begin quietly. Who will I notice first?",
+tip:"Narrate positive behavior you see."},
+
+{cat:"return",emoji:"✨",title:"Magic Reset",
+idea:"Pretend you're pressing an invisible reset button. Shake off the playground, breathe, and get ready!",
+tip:"Add a silly 'beep!' when everyone resets."}
+
+];
+
+let currentCategory="cleanup";
+let current=null;
+
+const card=document.getElementById("card");
+const emoji=document.getElementById("emoji");
+const label=document.getElementById("label");
+const title=document.getElementById("title");
+const idea=document.getElementById("idea");
+const tip=document.getElementById("tip");
+const toast=document.getElementById("toast");
+
+document.querySelectorAll(".cat").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".cat").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    currentCategory=btn.dataset.cat;
+    pick();
+  });
+});
+
+function prettyCategory(cat){
+  const names={
+    cleanup:"Clean Up",
+    carpet:"Carpet → Seats",
+    centers:"Centers",
+    lineup:"Line Up",
+    subject:"Switch Subjects",
+    return:"Back From Break"
+  };
+  return names[cat] || "Surprise";
+}
+
+function pick(forceAll=false){
+
+  card.classList.remove("shuffle");
+  void card.offsetWidth;
+  card.classList.add("shuffle");
+
+  const pool=(currentCategory==="all" || forceAll)
+    ? transitions
+    : transitions.filter(t=>t.cat===currentCategory);
+
+  current=pool[Math.floor(Math.random()*pool.length)];
+
+  setTimeout(()=>{
+    emoji.textContent=current.emoji;
+    label.textContent=prettyCategory(current.cat);
+    title.textContent=current.title;
+    idea.textContent=current.idea;
+    tip.textContent=current.tip ? "💡 "+current.tip : "";
+  },250);
+}
+
+document.getElementById("pickBtn").onclick=()=>pick();
+document.getElementById("anotherBtn").onclick=()=>pick();
+
+document.getElementById("mysteryBtn").onclick=()=>{
+  confettiBurst();
+  pick(true);
+};
+
+function showToast(msg){
+  toast.textContent=msg;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),1500);
+}
+
+function getFavorites(){
+  return JSON.parse(localStorage.getItem("transitionFavorites") || "[]");
+}
+
+function saveFavorites(arr){
+  localStorage.setItem("transitionFavorites",JSON.stringify(arr));
+  renderFavorites();
+}
+
+document.getElementById("saveBtn").onclick=()=>{
+  if(!current){
+    showToast("Pick a transition first! ⏰");
+    return;
+  }
+
+  const favs=getFavorites();
+
+  if(!favs.some(f=>f.title===current.title && f.idea===current.idea)){
+    favs.push({
+      title:current.title,
+      idea:current.idea,
+      emoji:current.emoji
+    });
+    saveFavorites(favs);
+    showToast("Saved to favorites! ❤️");
+  }else{
+    showToast("Already saved! 💕");
+  }
+};
+
+document.getElementById("customAdd").onclick=()=>{
+  const t=document.getElementById("customTitle").value.trim();
+  const i=document.getElementById("customIdea").value.trim();
+
+  if(!i){
+    showToast("Add your transition idea first ✏️");
+    return;
+  }
+
+  const favs=getFavorites();
+
+  favs.push({
+    title:t || "My Transition",
+    idea:i,
+    emoji:"✏️"
+  });
+
+  saveFavorites(favs);
+
+  document.getElementById("customTitle").value="";
+  document.getElementById("customIdea").value="";
+
+  showToast("Your transition was added! 🌈");
+};
+
+function renderFavorites(){
+
+  const box=document.getElementById("savedList");
+  const favs=getFavorites();
+
+  if(!favs.length){
+    box.innerHTML='<div style="color:#7b8496">Your saved transition ideas will appear here.</div>';
+    return;
+  }
+
+  box.innerHTML="";
+
+  favs.forEach((f,i)=>{
+
+    const item=document.createElement("div");
+    item.className="saved-item";
+
+    const text=document.createElement("div");
+    text.innerHTML=
+      "<strong>"+escapeHtml(f.emoji+" "+f.title)+"</strong>"+
+      "<br><span>"+escapeHtml(f.idea)+"</span>";
+
+    const del=document.createElement("button");
+    del.textContent="✕";
+
+    del.onclick=()=>{
+      const newFavs=getFavorites();
+      newFavs.splice(i,1);
+      saveFavorites(newFavs);
+    };
+
+    item.appendChild(text);
+    item.appendChild(del);
+    box.appendChild(item);
+  });
+}
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g,m=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  }[m]));
+}
+
+function confettiBurst(){
+
+  const area=document.getElementById("confetti");
+  const pieces=["⭐","💗","🌈","✨","⏰","🎉"];
+
+  for(let i=0;i<35;i++){
+
+    const p=document.createElement("div");
+    p.className="piece";
+    p.textContent=pieces[Math.floor(Math.random()*pieces.length)];
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=(1.8+Math.random()*1.6)+"s";
+    p.style.fontSize=(16+Math.random()*18)+"px";
+
+    area.appendChild(p);
+
+    setTimeout(()=>p.remove(),3500);
+  }
+}
+
+renderFavorites();
+pick();
+</script>
+
+</body>
+</html>
