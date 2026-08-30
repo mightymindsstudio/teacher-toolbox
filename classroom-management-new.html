@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Classroom Management | Teacher Toolbox</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:#fff8f5;
+}
+
+body{
+  display:flex;
+  justify-content:center;
+  font-family:Arial,sans-serif;
+}
+
+.stage{
+  position:relative;
+  width:100%;
+  max-width:1536px;
+}
+
+.stage img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+/* CLICKABLE AREAS */
+
+.hit{
+  position:absolute;
+  display:block;
+  border:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+  cursor:pointer;
+  z-index:10;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* FEATURED TOOLS */
+
+.behavior{
+  left:14%;
+  top:38%;
+  width:25%;
+  height:24%;
+}
+
+.rewards{
+  left:38%;
+  top:38%;
+  width:24%;
+  height:24%;
+}
+
+.calm{
+  left:61%;
+  top:38%;
+  width:25%;
+  height:24%;
+}
+
+/* QUICK MANAGEMENT TOOLS */
+
+.q1{
+  left:12%;
+  top:64%;
+  width:19%;
+  height:28%;
+}
+
+.q2{
+  left:30%;
+  top:64%;
+  width:19%;
+  height:28%;
+}
+
+.q3{
+  left:48%;
+  top:64%;
+  width:19%;
+  height:28%;
+}
+
+.q4{
+  left:66%;
+  top:64%;
+  width:19%;
+  height:28%;
+}
+
+/* POP-UP */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translateX(-50%);
+  background:#17315d;
+  color:white;
+  padding:13px 20px;
+  border-radius:30px;
+  font-size:16px;
+  text-align:center;
+  max-width:90%;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s;
+  z-index:100;
+  box-shadow:0 5px 18px rgba(0,0,0,.2);
+}
+
+.toast.show{
+  opacity:1;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="stage">
+
+<img
+src="https://raw.githubusercontent.com/mightymindsstudio/teacher-toolbox/main/classroom-management-cute-2026.PNG"
+alt="Classroom Management Teacher Toolbox">
+
+<!-- FEATURED TOOLS -->
+
+<a
+class="hit behavior"
+href="behavior-tracker.html?v=83001"
+aria-label="Open Behavior Tracker">
+</a>
+
+<a
+class="hit rewards"
+href="classroom-rewards.html?v=83007"
+aria-label="Open Classroom Rewards">
+</a>
+
+<a
+class="hit calm"
+href="calm-down-corner.html?v=83009"
+aria-label="Open Calm-Down Corner">
+</a>
+
+<!-- QUICK MANAGEMENT TOOLS -->
+
+<button
+class="hit q1"
+type="button"
+onclick="showMessage('Attention Getters are coming soon! 📣')"
+aria-label="Attention Getters">
+</button>
+
+<button
+class="hit q2"
+type="button"
+onclick="showMessage('Transition Ideas are coming soon! ⏰')"
+aria-label="Transition Ideas">
+</button>
+
+<button
+class="hit q3"
+type="button"
+onclick="showMessage('Classroom Jobs are coming soon! 📋')"
+aria-label="Classroom Jobs">
+</button>
+
+<button
+class="hit q4"
+type="button"
+onclick="showMessage('Brain Breaks are coming soon! 🧠')"
+aria-label="Brain Breaks">
+</button>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+let toastTimer;
+
+function showMessage(message){
+
+  const toast=document.getElementById("toast");
+
+  toast.textContent=message;
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer=setTimeout(function(){
+    toast.classList.remove("show");
+  },1800);
+}
+
+</script>
+
+</body>
+</html>
