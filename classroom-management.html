@@ -1,328 +1,203 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>Classroom Management | Teacher Toolbox</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:#fff8f5;
+}
 
 body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#fff8f5;
-  color:#27405f;
-}
-
-.page{
-  max-width:1050px;
-  margin:0 auto;
-  padding:20px;
-}
-
-/* TOP NAV */
-.topbar{
   display:flex;
-  flex-wrap:wrap;
   justify-content:center;
-  gap:10px;
-  margin-bottom:22px;
+  font-family:Arial,sans-serif;
 }
 
-.topbar a{
-  text-decoration:none;
-  color:#27405f;
-  background:white;
-  border:2px solid #f1dbe6;
-  padding:9px 14px;
-  border-radius:22px;
-  font-weight:700;
-  box-shadow:0 3px 8px rgba(0,0,0,.06);
+.stage{
+  position:relative;
+  width:min(100vw,1024px);
 }
 
-/* HEADER */
-.hero{
-  text-align:center;
-  background:linear-gradient(135deg,#ffe7ef,#fff6cd,#def7ef,#e9e4ff);
-  border-radius:28px;
-  padding:28px 20px;
-  box-shadow:0 8px 22px rgba(0,0,0,.08);
-  margin-bottom:26px;
+.stage img{
+  display:block;
+  width:100%;
+  height:auto;
 }
 
-.rainbow{
-  font-size:58px;
-  margin-bottom:4px;
-}
+/* INVISIBLE CLICKABLE AREAS */
 
-.hero h1{
-  margin:0;
-  font-size:clamp(32px,7vw,58px);
-  line-height:1;
-  color:#f28aaa;
-  text-shadow:
-    2px 2px 0 #fff,
-    4px 4px 0 #f7cfdc;
-}
-
-.hero h2{
-  margin:7px 0 0;
-  font-size:clamp(25px,5vw,42px);
-  color:#6cae9b;
-}
-
-.hero p{
-  margin:14px auto 0;
-  max-width:700px;
-  font-size:18px;
-}
-
-/* SECTION TITLE */
-.section-title{
-  text-align:center;
-  font-size:28px;
-  margin:28px 0 16px;
-}
-
-/* FEATURE CARDS */
-.feature-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-}
-
-.card{
-  border-radius:24px;
-  padding:22px;
-  text-align:center;
-  box-shadow:0 7px 18px rgba(0,0,0,.08);
-  min-height:245px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-
-.card:nth-child(1){background:#ffe3ec}
-.card:nth-child(2){background:#fff3c7}
-.card:nth-child(3){background:#dff5eb}
-
-.icon{
-  font-size:52px;
-}
-
-.card h3{
-  margin:10px 0 7px;
-  font-size:24px;
-}
-
-.card p{
-  margin:0 0 16px;
-  line-height:1.45;
-}
-
-.card button,
-.quick button{
-  border:none;
-  border-radius:20px;
-  padding:11px 18px;
-  font-weight:700;
-  font-size:16px;
-  color:#27405f;
-  background:white;
+.hit{
+  position:absolute;
+  display:block;
+  border:0;
+  background:transparent;
   cursor:pointer;
-  box-shadow:0 3px 8px rgba(0,0,0,.08);
+  -webkit-tap-highlight-color:transparent;
 }
 
-/* QUICK TOOLS */
-.quick-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
+/* FEATURED TOOLS */
+
+.behavior{
+  left:7%;
+  top:65.5%;
+  width:24%;
+  height:5.5%;
 }
 
-.quick{
-  background:white;
-  border-radius:22px;
-  padding:20px 12px;
-  text-align:center;
-  box-shadow:0 6px 16px rgba(0,0,0,.07);
-  border:3px solid #f5e6ea;
+.rewards{
+  left:38%;
+  top:65.5%;
+  width:24%;
+  height:5.5%;
 }
 
-.quick:nth-child(1){border-color:#f7cbd9}
-.quick:nth-child(2){border-color:#f6e3a8}
-.quick:nth-child(3){border-color:#bfe8dc}
-.quick:nth-child(4){border-color:#d9cff7}
-
-.quick .mini{
-  font-size:38px;
+.calm{
+  left:69%;
+  top:65.5%;
+  width:24%;
+  height:5.5%;
 }
 
-.quick h4{
-  margin:8px 0 12px;
-  font-size:19px;
+/* QUICK MANAGEMENT TOOLS */
+
+.q1{
+  left:3%;
+  top:75%;
+  width:24%;
+  height:18%;
 }
 
-/* QUOTE */
-.quote{
-  margin:28px 0 10px;
-  text-align:center;
-  background:#fff;
-  padding:18px;
-  border-radius:22px;
-  font-size:19px;
-  font-style:italic;
-  box-shadow:0 5px 15px rgba(0,0,0,.06);
+.q2{
+  left:28%;
+  top:75%;
+  width:24%;
+  height:18%;
 }
 
-/* TOAST */
+.q3{
+  left:53%;
+  top:75%;
+  width:24%;
+  height:18%;
+}
+
+.q4{
+  left:77%;
+  top:75%;
+  width:21%;
+  height:18%;
+}
+
+/* POP-UP MESSAGE */
+
 .toast{
   position:fixed;
   left:50%;
-  bottom:22px;
+  bottom:20px;
   transform:translateX(-50%);
-  background:#27405f;
+  background:#17315d;
   color:white;
-  border-radius:24px;
   padding:12px 18px;
+  border-radius:30px;
   opacity:0;
-  pointer-events:none;
   transition:.2s;
-  z-index:50;
+  z-index:30;
+  text-align:center;
+  max-width:90%;
 }
 
 .toast.show{
   opacity:1;
 }
 
-@media(max-width:800px){
-  .feature-grid{
-    grid-template-columns:1fr;
-  }
-
-  .quick-grid{
-    grid-template-columns:1fr 1fr;
-  }
-}
-
-@media(max-width:480px){
-  .quick-grid{
-    grid-template-columns:1fr;
-  }
-
-  .page{
-    padding:12px;
-  }
-}
 </style>
 </head>
 
 <body>
 
-<div class="page">
+<div class="stage">
 
-<div class="topbar">
-  <a href="index.html">🏠 Home</a>
-  <a href="phonics.html">🔤 Phonics</a>
-  <a href="reading.html">📚 Reading</a>
-  <a href="writing.html">✏️ Writing</a>
-  <a href="math.html">➕ Math</a>
-  <a href="centers-new.html">🌈 Centers</a>
-</div>
+<img
+src="classroom-management-bg.PNG"
+alt="Classroom Management Teacher Toolbox">
 
-<div class="hero">
-  <div class="rainbow">🌈</div>
-  <h1>CLASSROOM</h1>
-  <h2>management</h2>
-  <p>Simple, positive tools to help your classroom feel calm, organized, and happy.</p>
-</div>
+<button
+class="hit behavior"
+onclick="toast('Behavior Tracker is coming next! 💗')"
+aria-label="Behavior Tracker">
+</button>
 
-<h3 class="section-title">✨ Featured Tools ✨</h3>
+<button
+class="hit rewards"
+onclick="toast('Classroom Rewards is coming soon! ⭐')"
+aria-label="Classroom Rewards">
+</button>
 
-<div class="feature-grid">
+<button
+class="hit calm"
+onclick="toast('Calm-Down Corner is coming soon! 🌈')"
+aria-label="Calm-Down Corner">
+</button>
 
-  <div class="card">
-    <div>
-      <div class="icon">💗</div>
-      <h3>Behavior Tracker</h3>
-      <p>Keep private notes on positive choices, reminders, goals, and student progress.</p>
-    </div>
-    <button onclick="toast('Behavior Tracker is coming next! 💗')">Open Tool</button>
-  </div>
+<button
+class="hit q1"
+onclick="toast('Attention Getters are coming soon! 📣')"
+aria-label="Attention Getters">
+</button>
 
-  <div class="card">
-    <div>
-      <div class="icon">⭐</div>
-      <h3>Classroom Rewards</h3>
-      <p>Pick fun classroom rewards and simple incentives for individual students or the whole class.</p>
-    </div>
-    <button onclick="toast('Classroom Rewards are coming soon! ⭐')">Open Tool</button>
-  </div>
+<button
+class="hit q2"
+onclick="toast('Transition Ideas are coming soon! ⏰')"
+aria-label="Transition Ideas">
+</button>
 
-  <div class="card">
-    <div>
-      <div class="icon">🌈</div>
-      <h3>Calm-Down Corner</h3>
-      <p>Breathing prompts, feelings check-ins, and gentle reset strategies for students.</p>
-    </div>
-    <button onclick="toast('Calm-Down Corner is coming soon! 🌈')">Open Tool</button>
-  </div>
+<button
+class="hit q3"
+onclick="toast('Classroom Jobs are coming soon! 📋')"
+aria-label="Classroom Jobs">
+</button>
 
-</div>
-
-<h3 class="section-title">💕 Quick Management Tools 💕</h3>
-
-<div class="quick-grid">
-
-  <div class="quick">
-    <div class="mini">📣</div>
-    <h4>Attention Getters</h4>
-    <button onclick="toast('Attention Getters are coming soon! 📣')">Open</button>
-  </div>
-
-  <div class="quick">
-    <div class="mini">⏰</div>
-    <h4>Transition Ideas</h4>
-    <button onclick="toast('Transition Ideas are coming soon! ⏰')">Open</button>
-  </div>
-
-  <div class="quick">
-    <div class="mini">📋</div>
-    <h4>Classroom Jobs</h4>
-    <button onclick="toast('Classroom Jobs are coming soon! 📋')">Open</button>
-  </div>
-
-  <div class="quick">
-    <div class="mini">🧠</div>
-    <h4>Brain Breaks</h4>
-    <button onclick="toast('Brain Breaks are coming soon! 🧠')">Open</button>
-  </div>
-
-</div>
-
-<div class="quote">
-  “A calm teacher creates a safe space to learn and grow.”
-</div>
+<button
+class="hit q4"
+onclick="toast('Brain Breaks are coming soon! 🧠')"
+aria-label="Brain Breaks">
+</button>
 
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-let timer;
+
+let tt;
 
 function toast(message){
-  const box=document.getElementById("toast");
-  box.textContent=message;
-  box.classList.add("show");
 
-  clearTimeout(timer);
+  const t=document.getElementById("toast");
 
-  timer=setTimeout(()=>{
-    box.classList.remove("show");
+  t.textContent=message;
+  t.classList.add("show");
+
+  clearTimeout(tt);
+
+  tt=setTimeout(()=>{
+    t.classList.remove("show");
   },1800);
+
 }
+
 </script>
 
 </body>
