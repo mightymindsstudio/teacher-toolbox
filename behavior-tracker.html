@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Behavior Tracker</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#fff7fb;
+  color:#38445a;
+}
+header{
+  padding:24px 18px 16px;
+  text-align:center;
+}
+h1{
+  margin:0;
+  font-size:clamp(30px,6vw,54px);
+  color:#f16fa1;
+}
+.subtitle{
+  margin-top:8px;
+  font-weight:700;
+  color:#76839a;
+}
+.wrap{
+  width:min(1100px,94%);
+  margin:0 auto 40px;
+}
+.toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin:10px 0 20px;
+}
+button{
+  border:0;
+  border-radius:16px;
+  padding:12px 16px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+.add{background:#ffd6e5}
+.print{background:#d9f4ff}
+.reset{background:#fff0b8}
+.clear{background:#e8dcff}
+
+.add-student{
+  display:flex;
+  gap:10px;
+  margin-bottom:18px;
+}
+.add-student input{
+  flex:1;
+  padding:14px;
+  border:2px solid #f4c5d7;
+  border-radius:14px;
+  font-size:16px;
+}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;
+}
+.card{
+  background:white;
+  border-radius:22px;
+  padding:16px;
+  box-shadow:0 8px 22px rgba(91,77,99,.10);
+  border:2px solid #f7dbe6;
+}
+.name-row{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-bottom:12px;
+}
+.name{
+  flex:1;
+  font-size:20px;
+  font-weight:900;
+  border:0;
+  background:#fff9fc;
+  border-radius:10px;
+  padding:10px;
+}
+.delete{
+  background:#ffe3e3;
+  padding:10px 12px;
+}
+.counts{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.behavior{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  padding:10px;
+  border-radius:14px;
+}
+.behavior button{
+  padding:7px 10px;
+  min-width:44px;
+}
+.positive{background:#fff2b9}
+.kindness{background:#ffd9eb}
+.ontask{background:#dff6e8}
+.reminder{background:#e5e6ff}
+
+.notes{
+  width:100%;
+  min-height:70px;
+  resize:vertical;
+  margin-top:12px;
+  padding:10px;
+  border:2px solid #e9dff3;
+  border-radius:12px;
+  font-family:inherit;
+}
+.legend{
+  margin-top:20px;
+  background:#fff;
+  padding:16px;
+  border-radius:18px;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+.small{
+  font-size:13px;
+  color:#7a8496;
+}
+.back{
+  display:inline-block;
+  margin:18px 0 0;
+  text-decoration:none;
+  font-weight:800;
+  color:#e56c99;
+}
+@media print{
+  .toolbar,.add-student,.back,.delete{display:none!important}
+  body{background:white}
+  .card{break-inside:avoid;box-shadow:none}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>💗 Behavior Tracker</h1>
+  <div class="subtitle">Celebrate positive choices and keep quick private notes.</div>
+</header>
+
+<main class="wrap">
+
+  <div class="toolbar">
+    <button class="print" onclick="window.print()">🖨️ Print</button>
+    <button class="reset" onclick="resetDay()">🌞 Reset Day</button>
+    <button class="clear" onclick="clearAll()">🧹 Clear All</button>
+  </div>
+
+  <div class="add-student">
+    <input id="studentName" placeholder="Type a student name">
+    <button class="add" onclick="addStudent()">➕ Add Student</button>
+  </div>
+
+  <section id="cards" class="cards"></section>
+
+  <div class="legend">
+    <strong>Quick Tracker</strong>
+    <div class="small" style="margin-top:8px">
+      ⭐ Positive Choice &nbsp; 💗 Kindness &nbsp; 🌈 On Task &nbsp; 🔔 Reminder
+    </div>
+  </div>
+
+  <a class="back" href="classroom-management.html?v=60001">← Back to Classroom Management</a>
+
+</main>
+
+<script>
+const STORAGE_KEY = "teacherToolboxBehaviorTrackerV1";
+
+let students = load();
+
+function load(){
+  try{
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  }catch{
+    return [];
+  }
+}
+
+function save(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+}
+
+function addStudent(){
+  const input = document.getElementById("studentName");
+  const name = input.value.trim();
+  if(!name) return;
+
+  students.push({
+    id: Date.now(),
+    name,
+    positive:0,
+    kindness:0,
+    ontask:0,
+    reminder:0,
+    notes:""
+  });
+
+  input.value="";
+  save();
+  render();
+}
+
+function removeStudent(id){
+  students = students.filter(s => s.id !== id);
+  save();
+  render();
+}
+
+function increment(id,key){
+  const s = students.find(s => s.id === id);
+  if(!s) return;
+  s[key]++;
+  save();
+  render();
+}
+
+function changeName(id,value){
+  const s = students.find(s => s.id === id);
+  if(!s) return;
+  s.name=value;
+  save();
+}
+
+function changeNotes(id,value){
+  const s = students.find(s => s.id === id);
+  if(!s) return;
+  s.notes=value;
+  save();
+}
+
+function resetDay(){
+  if(!confirm("Reset today's behavior counts? Names and notes will stay.")) return;
+
+  students.forEach(s=>{
+    s.positive=0;
+    s.kindness=0;
+    s.ontask=0;
+    s.reminder=0;
+  });
+
+  save();
+  render();
+}
+
+function clearAll(){
+  if(!confirm("Remove all students and tracker data?")) return;
+  students=[];
+  save();
+  render();
+}
+
+function render(){
+  const cards = document.getElementById("cards");
+
+  if(students.length===0){
+    cards.innerHTML = `
+      <div class="card" style="text-align:center">
+        <div style="font-size:42px">🌈</div>
+        <strong>Add your first student above!</strong>
+      </div>
+    `;
+    return;
+  }
+
+  cards.innerHTML = students.map(s=>`
+    <article class="card">
+
+      <div class="name-row">
+        <input
+          class="name"
+          value="${escapeHtml(s.name)}"
+          onchange="changeName(${s.id},this.value)">
+        <button class="delete" onclick="removeStudent(${s.id})">✕</button>
+      </div>
+
+      <div class="counts">
+
+        <div class="behavior positive">
+          <span>⭐ Positive</span>
+          <button onclick="increment(${s.id},'positive')">${s.positive}</button>
+        </div>
+
+        <div class="behavior kindness">
+          <span>💗 Kindness</span>
+          <button onclick="increment(${s.id},'kindness')">${s.kindness}</button>
+        </div>
+
+        <div class="behavior ontask">
+          <span>🌈 On Task</span>
+          <button onclick="increment(${s.id},'ontask')">${s.ontask}</button>
+        </div>
+
+        <div class="behavior reminder">
+          <span>🔔 Reminder</span>
+          <button onclick="increment(${s.id},'reminder')">${s.reminder}</button>
+        </div>
+
+      </div>
+
+      <textarea
+        class="notes"
+        placeholder="Goal or quick note..."
+        onchange="changeNotes(${s.id},this.value)">${escapeHtml(s.notes)}</textarea>
+
+    </article>
+  `).join("");
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+document.getElementById("studentName").addEventListener("keydown",e=>{
+  if(e.key==="Enter") addStudent();
+});
+
+render();
+</script>
+
+</body>
+</html>
