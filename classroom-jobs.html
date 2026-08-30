@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Classroom Job Board | Teacher Toolbox</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(circle at top left,#fff0f7 0,transparent 34%),
+    radial-gradient(circle at top right,#eefcff 0,transparent 30%),
+    linear-gradient(180deg,#fffaf7,#fffef9);
+  color:#28405f;
+}
+
+.page{
+  max-width:1150px;
+  margin:auto;
+  padding:22px 16px 50px;
+}
+
+.back{
+  display:inline-block;
+  text-decoration:none;
+  background:white;
+  color:#5e6f8d;
+  padding:10px 16px;
+  border-radius:999px;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+  font-weight:700;
+  margin-bottom:18px;
+}
+
+.hero{
+  text-align:center;
+  background:white;
+  border-radius:28px;
+  padding:26px 18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  border:3px solid #ffd8e8;
+}
+
+.hero h1{
+  margin:0;
+  font-size:clamp(34px,7vw,62px);
+  color:#ff779f;
+  text-shadow:2px 2px 0 #fff1a8;
+}
+
+.hero p{
+  margin:10px 0 0;
+  font-size:18px;
+  color:#61708a;
+}
+
+.setup{
+  margin-top:24px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.panel{
+  background:white;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 8px 24px rgba(0,0,0,.07);
+}
+
+.panel h2{
+  margin-top:0;
+  color:#ff78a6;
+}
+
+textarea{
+  width:100%;
+  min-height:220px;
+  border:2px solid #d9e5ef;
+  border-radius:16px;
+  padding:14px;
+  font-size:16px;
+  font-family:inherit;
+  resize:vertical;
+}
+
+.hint{
+  margin-top:8px;
+  color:#7a8496;
+  font-size:14px;
+}
+
+.controls{
+  margin-top:20px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+}
+
+button{
+  border:none;
+  border-radius:999px;
+  padding:13px 18px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.primary{
+  background:linear-gradient(90deg,#ff84af,#ffb367,#8fd8d2,#9e98ff);
+  color:white;
+  box-shadow:0 6px 18px rgba(0,0,0,.14);
+}
+
+.soft{
+  background:#f4f1ff;
+  color:#5b5f87;
+}
+
+.green{
+  background:#dff8ef;
+  color:#3f6f67;
+}
+
+.yellow{
+  background:#fff5c9;
+  color:#74683b;
+}
+
+.danger{
+  background:#ffe7ed;
+  color:#a55068;
+}
+
+.board{
+  margin-top:24px;
+  background:white;
+  border-radius:28px;
+  padding:22px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.board-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.board h2{
+  margin:0;
+  color:#ff78a6;
+}
+
+.week-label{
+  background:#fff4bf;
+  border-radius:999px;
+  padding:9px 14px;
+  font-weight:800;
+  color:#726546;
+}
+
+.job-grid{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+}
+
+.job-card{
+  border-radius:22px;
+  padding:16px;
+  min-height:160px;
+  background:linear-gradient(160deg,#fff7fb,#f4fbff,#fffce8);
+  border:3px dashed #ffc4db;
+  position:relative;
+}
+
+.job-name{
+  font-size:19px;
+  font-weight:900;
+  color:#4f6587;
+  margin-bottom:10px;
+}
+
+.student{
+  font-size:24px;
+  font-weight:900;
+  color:#ff6698;
+  word-break:break-word;
+}
+
+.lock-row{
+  margin-top:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+
+.lock-btn{
+  background:#f1efff;
+  color:#66618d;
+  padding:8px 12px;
+  font-size:14px;
+}
+
+.locked{
+  background:#fff0b8;
+  color:#796321;
+}
+
+.unassigned{
+  margin-top:20px;
+  background:#effbf7;
+  border-radius:20px;
+  padding:16px;
+}
+
+.unassigned h3{
+  margin-top:0;
+  color:#4a8279;
+}
+
+.student-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.chip{
+  background:white;
+  border:2px solid #cdebe3;
+  border-radius:999px;
+  padding:8px 12px;
+  font-weight:800;
+  color:#50726d;
+}
+
+.history{
+  margin-top:24px;
+  background:white;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 8px 24px rgba(0,0,0,.07);
+}
+
+.history h2{
+  margin-top:0;
+  color:#ff78a6;
+}
+
+.history-item{
+  padding:12px 0;
+  border-bottom:1px solid #eee;
+}
+
+.history-item:last-child{
+  border-bottom:none;
+}
+
+.small{
+  color:#7b8496;
+  font-size:14px;
+  margin-top:4px;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  transform:translateX(-50%);
+  background:#273f63;
+  color:white;
+  padding:12px 18px;
+  border-radius:999px;
+  opacity:0;
+  transition:.2s;
+  pointer-events:none;
+  z-index:1000;
+}
+
+.toast.show{opacity:1}
+
+@media(max-width:750px){
+  .setup{grid-template-columns:1fr}
+}
+
+@media print{
+  body{background:white}
+  .back,.setup,.controls,.history,.lock-btn{display:none!important}
+  .page{max-width:none}
+  .board{box-shadow:none}
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<a class="back" href="classroom-management-new.html?v=83061">
+← Back to Classroom Management
+</a>
+
+<div class="hero">
+  <h1>📋 Classroom Job Board</h1>
+  <p>Enter your class once, then rotate jobs fairly each week. 🌈</p>
+</div>
+
+<div class="setup">
+
+  <div class="panel">
+    <h2>👧🧒 Class List</h2>
+    <textarea id="students" placeholder="One student per line..."></textarea>
+    <div class="hint">Example: Ava, Liam, Sofia — one name on each line.</div>
+  </div>
+
+  <div class="panel">
+    <h2>⭐ Classroom Jobs</h2>
+    <textarea id="jobs" placeholder="One job per line..."></textarea>
+    <div class="hint">Add as many or as few jobs as you use.</div>
+  </div>
+
+</div>
+
+<div class="controls">
+  <button class="primary" id="assignBtn">✨ Assign Jobs</button>
+  <button class="green" id="newWeekBtn">📅 New Week</button>
+  <button class="soft" id="saveBtn">💾 Save Lists</button>
+  <button class="yellow" id="printBtn">🖨️ Print</button>
+  <button class="danger" id="resetBtn">🗑️ Reset Year</button>
+</div>
+
+<div class="board">
+
+  <div class="board-header">
+    <h2>🌈 This Week's Jobs</h2>
+    <div class="week-label" id="weekLabel">Week 1</div>
+  </div>
+
+  <div class="job-grid" id="jobGrid"></div>
+
+  <div class="unassigned" id="unassignedBox" style="display:none">
+    <h3>💗 Classroom Helpers</h3>
+    <div class="student-chips" id="unassignedList"></div>
+  </div>
+
+</div>
+
+<div class="history">
+  <h2>📚 Recent Job History</h2>
+  <div id="historyList">
+    <div class="small">Your weekly job history will appear here.</div>
+  </div>
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY="classroomJobBoardV1";
+
+const defaultJobs=[
+  "⭐ Line Leader",
+  "🚪 Door Holder",
+  "📚 Librarian",
+  "🧹 Floor Checker",
+  "✏️ Supply Helper",
+  "📝 Paper Passer",
+  "🌱 Plant Helper",
+  "💡 Light Helper",
+  "📅 Calendar Helper",
+  "🖥️ Technology Helper"
+];
+
+let state={
+  students:[],
+  jobs:defaultJobs,
+  assignments:[],
+  lockedJobs:[],
+  history:[],
+  week:1
+};
+
+function loadState(){
+  const saved=localStorage.getItem(STORAGE_KEY);
+
+  if(saved){
+    try{
+      state=JSON.parse(saved);
+    }catch(e){}
+  }
+
+  if(!Array.isArray(state.students)) state.students=[];
+  if(!Array.isArray(state.jobs)) state.jobs=defaultJobs;
+  if(!Array.isArray(state.assignments)) state.assignments=[];
+  if(!Array.isArray(state.lockedJobs)) state.lockedJobs=[];
+  if(!Array.isArray(state.history)) state.history=[];
+  if(!state.week) state.week=1;
+
+  document.getElementById("students").value=state.students.join("\n");
+  document.getElementById("jobs").value=state.jobs.join("\n");
+  render();
+}
+
+function saveState(){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+}
+
+function getLines(id){
+  return document.getElementById(id).value
+    .split("\n")
+    .map(x=>x.trim())
+    .filter(Boolean);
+}
+
+function syncLists(){
+  state.students=getLines("students");
+  state.jobs=getLines("jobs");
+  saveState();
+}
+
+function shuffle(arr){
+  const a=[...arr];
+
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+
+  return a;
+}
+
+function getPreviousJob(student){
+  for(let i=state.history.length-1;i>=0;i--){
+    const found=state.history[i].assignments.find(a=>a.student===student);
+    if(found) return found.job;
+  }
+  return null;
+}
+
+function assignJobs(isNewWeek=false){
+
+  syncLists();
+
+  if(!state.students.length){
+    showToast("Add your class list first 💗");
+    return;
+  }
+
+  if(!state.jobs.length){
+    showToast("Add at least one classroom job ⭐");
+    return;
+  }
+
+  if(isNewWeek && state.assignments.length){
+    state.history.push({
+      week:state.week,
+      assignments:state.assignments.map(a=>({...a}))
+    });
+
+    if(state.history.length>8){
+      state.history=state.history.slice(-8);
+    }
+
+    state.week++;
+  }
+
+  const lockedAssignments=[];
+  const lockedStudents=new Set();
+
+  state.assignments.forEach((a,index)=>{
+    if(state.lockedJobs.includes(index) &&
+       state.students.includes(a.student) &&
+       state.jobs[index]===a.job){
+
+      lockedAssignments[index]={...a};
+      lockedStudents.add(a.student);
+    }
+  });
+
+  let availableStudents=shuffle(
+    state.students.filter(s=>!lockedStudents.has(s))
+  );
+
+  const newAssignments=[];
+
+  state.jobs.forEach((job,index)=>{
+
+    if(lockedAssignments[index]){
+      newAssignments[index]=lockedAssignments[index];
+      return;
+    }
+
+    if(!availableStudents.length){
+      newAssignments[index]={
+        job,
+        student:"—"
+      };
+      return;
+    }
+
+    let candidateIndex=availableStudents.findIndex(student=>{
+      return getPreviousJob(student)!==job;
+    });
+
+    if(candidateIndex===-1){
+      candidateIndex=0;
+    }
+
+    const student=availableStudents.splice(candidateIndex,1)[0];
+
+    newAssignments[index]={
+      job,
+      student
+    };
+  });
+
+  state.assignments=newAssignments;
+
+  state.lockedJobs=state.lockedJobs.filter(index=>{
+    return index<state.jobs.length;
+  });
+
+  saveState();
+  render();
+
+  showToast(isNewWeek ? "New week, new jobs! 🌈" : "Jobs assigned! ⭐");
+}
+
+function toggleLock(index){
+
+  if(state.lockedJobs.includes(index)){
+    state.lockedJobs=state.lockedJobs.filter(i=>i!==index);
+  }else{
+    state.lockedJobs.push(index);
+  }
+
+  saveState();
+  render();
+}
+
+function render(){
+
+  document.getElementById("weekLabel").textContent="Week "+state.week;
+
+  const grid=document.getElementById("jobGrid");
+  grid.innerHTML="";
+
+  if(!state.assignments.length){
+    grid.innerHTML=
+      '<div class="small">Tap “Assign Jobs” to create this week’s job board.</div>';
+  }else{
+
+    state.assignments.forEach((a,index)=>{
+
+      const card=document.createElement("div");
+      card.className="job-card";
+
+      const name=document.createElement("div");
+      name.className="job-name";
+      name.textContent=a.job;
+
+      const student=document.createElement("div");
+      student.className="student";
+      student.textContent=a.student || "—";
+
+      const row=document.createElement("div");
+      row.className="lock-row";
+
+      const helper=document.createElement("span");
+      helper.className="small";
+      helper.textContent="Job "+(index+1);
+
+      const lock=document.createElement("button");
+      lock.className=
+        "lock-btn "+(state.lockedJobs.includes(index) ? "locked" : "");
+
+      lock.textContent=
+        state.lockedJobs.includes(index) ? "🔒 Locked" : "🔓 Lock";
+
+      lock.onclick=()=>toggleLock(index);
+
+      row.appendChild(helper);
+      row.appendChild(lock);
+
+      card.appendChild(name);
+      card.appendChild(student);
+      card.appendChild(row);
+
+      grid.appendChild(card);
+    });
+  }
+
+  renderUnassigned();
+  renderHistory();
+}
+
+function renderUnassigned(){
+
+  const assigned=new Set(
+    state.assignments
+      .map(a=>a.student)
+      .filter(s=>s && s!=="—")
+  );
+
+  const extras=state.students.filter(s=>!assigned.has(s));
+
+  const box=document.getElementById("unassignedBox");
+  const list=document.getElementById("unassignedList");
+
+  if(!state.assignments.length || !extras.length){
+    box.style.display="none";
+    return;
+  }
+
+  box.style.display="block";
+  list.innerHTML="";
+
+  extras.forEach(name=>{
+    const chip=document.createElement("div");
+    chip.className="chip";
+    chip.textContent=name;
+    list.appendChild(chip);
+  });
+}
+
+function renderHistory(){
+
+  const box=document.getElementById("historyList");
+
+  if(!state.history.length){
+    box.innerHTML=
+      '<div class="small">Your weekly job history will appear here.</div>';
+    return;
+  }
+
+  box.innerHTML="";
+
+  [...state.history].reverse().slice(0,5).forEach(h=>{
+
+    const div=document.createElement("div");
+    div.className="history-item";
+
+    const title=document.createElement("strong");
+    title.textContent="Week "+h.week;
+
+    const text=document.createElement("div");
+    text.className="small";
+
+    text.textContent=h.assignments
+      .filter(a=>a.student && a.student!=="—")
+      .map(a=>a.student+" — "+a.job)
+      .join(" • ");
+
+    div.appendChild(title);
+    div.appendChild(text);
+    box.appendChild(div);
+  });
+}
+
+function showToast(message){
+  const toast=document.getElementById("toast");
+
+  toast.textContent=message;
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },1600);
+}
+
+document.getElementById("assignBtn").onclick=()=>{
+  assignJobs(false);
+};
+
+document.getElementById("newWeekBtn").onclick=()=>{
+  if(!state.assignments.length){
+    assignJobs(false);
+  }else{
+    assignJobs(true);
+  }
+};
+
+document.getElementById("saveBtn").onclick=()=>{
+  syncLists();
+  showToast("Class list and jobs saved! 💾");
+};
+
+document.getElementById("printBtn").onclick=()=>{
+  window.print();
+};
+
+document.getElementById("resetBtn").onclick=()=>{
+
+  const okay=confirm(
+    "Reset the whole school year? This will clear your class list, jobs, assignments, and history."
+  );
+
+  if(!okay) return;
+
+  state={
+    students:[],
+    jobs:defaultJobs,
+    assignments:[],
+    lockedJobs:[],
+    history:[],
+    week:1
+  };
+
+  saveState();
+
+  document.getElementById("students").value="";
+  document.getElementById("jobs").value=defaultJobs.join("\n");
+
+  render();
+  showToast("Classroom Job Board reset 💗");
+};
+
+loadState();
+</script>
+
+</body>
+</html>
