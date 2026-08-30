@@ -2,393 +2,253 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Brain Break Machine | Teacher Toolbox</title>
 
 <style>
 *{box-sizing:border-box}
 
-:root{
-  --pink:#ff7fa8;
-  --peach:#ffb66f;
-  --yellow:#ffe28a;
-  --mint:#a9ead8;
-  --aqua:#9fdef3;
-  --lav:#c9b3ff;
-  --ink:#3e4f6f;
-}
-
-body{
+html,body{
   margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  color:var(--ink);
-  background:
-    radial-gradient(circle at 10% 10%,#fff0f7 0,transparent 28%),
-    radial-gradient(circle at 90% 15%,#eefcff 0,transparent 30%),
-    linear-gradient(180deg,#fffaf7,#fffefb);
+  min-height:100%;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#fff9f3;
+  color:#4b5473;
 }
 
 .page{
-  max-width:1180px;
-  margin:auto;
-  padding:18px 14px 50px;
+  width:100%;
+  padding:10px 0 30px;
 }
 
 .back{
   display:inline-block;
+  margin:5px 12px 10px;
+  padding:9px 14px;
+  border-radius:999px;
+  background:white;
+  color:#6f6786;
   text-decoration:none;
-  background:white;
-  color:#64728e;
-  padding:10px 16px;
-  border-radius:999px;
-  box-shadow:0 4px 14px rgba(0,0,0,.08);
   font-weight:800;
-  margin-bottom:14px;
+  box-shadow:0 4px 14px rgba(0,0,0,.10);
 }
 
-.hero{
-  text-align:center;
-  background:white;
-  border-radius:28px;
-  padding:22px 16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  border:3px solid #ffd7e5;
-}
-
-.hero h1{
-  margin:0;
-  font-size:clamp(34px,7vw,64px);
-  line-height:1;
-  background:linear-gradient(90deg,#ff5e98,#ff9a52,#f5c329,#59c9aa,#42b9dd,#8c72e6);
-  -webkit-background-clip:text;
-  color:transparent;
-  font-weight:900;
-  letter-spacing:1px;
-}
-
-.hero p{
-  margin:10px 0 0;
-  font-size:18px;
-  font-weight:700;
-}
-
-.categories{
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  gap:10px;
-  margin:20px 0;
-}
-
-.cat{
-  border:none;
-  border-radius:20px;
-  padding:15px 10px;
-  min-height:96px;
-  font-weight:900;
-  cursor:pointer;
-  color:#394d69;
-  box-shadow:0 5px 14px rgba(0,0,0,.08);
-  transition:.18s;
-}
-
-.cat:hover,
-.cat.active{
-  transform:translateY(-2px) scale(1.02);
-  outline:4px solid rgba(255,255,255,.75);
-}
-
-.cat small{
-  display:block;
-  font-size:12px;
-  margin-top:5px;
-  font-weight:700;
-}
-
-.energize{background:#fff0b8}
-.calm{background:#caf4eb}
-.move{background:#ffd7e3}
-.silly{background:#e2d6ff}
-.focus{background:#d5efff}
-.surprise{background:#ffd7aa}
-
-.main-grid{
-  display:grid;
-  grid-template-columns:260px 1fr 330px;
-  gap:18px;
-  align-items:stretch;
-}
-
-.panel{
-  background:white;
-  border-radius:26px;
-  padding:18px;
-  box-shadow:0 9px 28px rgba(0,0,0,.08);
-}
-
-.panel h2{
-  margin-top:0;
-  color:#7b65cc;
-}
-
-.favorites{
-  border:3px dashed #ffc0d5;
-}
-
-.favorite-item{
-  background:#f8f5ff;
-  border-radius:15px;
-  padding:10px 12px;
-  margin-bottom:9px;
-  display:flex;
-  gap:8px;
-  justify-content:space-between;
-  align-items:center;
-  font-weight:800;
-}
-
-.favorite-item button{
-  border:none;
-  background:transparent;
-  cursor:pointer;
-  font-size:18px;
-}
-
-.clear-btn{
-  width:100%;
-  border:none;
-  border-radius:999px;
-  padding:11px;
-  background:#ff8ab2;
-  color:white;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.machine-wrap{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.machine{
-  width:100%;
-  max-width:390px;
-  text-align:center;
-}
-
-.dome{
+.stage{
   position:relative;
+  width:100%;
+  max-width:1536px;
   margin:auto;
-  width:92%;
-  aspect-ratio:1/1;
-  border:10px solid #5ac5da;
-  border-radius:48% 48% 40% 40%;
-  background:
-    radial-gradient(circle at 30% 25%,#fff8,transparent 16%),
-    linear-gradient(180deg,#dff9ff,#c3f2ff);
+  aspect-ratio:3/2;
   overflow:hidden;
-  box-shadow:inset 0 0 0 6px #ffffffaa,0 9px 22px rgba(0,0,0,.12);
 }
 
-.gumballs{
-  position:absolute;
-  inset:15%;
+.stage>img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
 }
 
-.ball{
+/* invisible clickable areas */
+.hit{
   position:absolute;
-  width:74px;
-  height:74px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  box-shadow:inset -6px -8px 12px rgba(0,0,0,.1),0 4px 10px rgba(0,0,0,.12);
-}
-
-.ball:nth-child(1){left:5%;top:8%;background:#ffcddf}
-.ball:nth-child(2){left:35%;top:2%;background:#ffe397}
-.ball:nth-child(3){left:62%;top:12%;background:#9fe5f4}
-.ball:nth-child(4){left:10%;top:38%;background:#baf0df}
-.ball:nth-child(5){left:40%;top:33%;background:#d7c2ff}
-.ball:nth-child(6){left:65%;top:44%;background:#ffc08c}
-.ball:nth-child(7){left:23%;top:65%;background:#fff094}
-.ball:nth-child(8){left:55%;top:67%;background:#ffb6d0}
-
-.machine-btn{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  width:72%;
-  border:none;
-  border-radius:28px;
-  padding:18px 14px;
-  background:white;
-  color:#ff5f92;
-  font-size:24px;
-  font-weight:900;
-  box-shadow:0 5px 14px rgba(0,0,0,.12);
+  border:0;
+  background:transparent;
+  padding:0;
+  margin:0;
+  z-index:20;
   cursor:pointer;
-  border:5px solid #ffd45a;
+  -webkit-tap-highlight-color:transparent;
 }
 
-.base{
-  width:78%;
-  margin:-8px auto 0;
-  background:linear-gradient(180deg,#ff5b9c,#ef4a88);
-  height:180px;
-  border-radius:24px 24px 38px 38px;
-  position:relative;
-  box-shadow:0 10px 22px rgba(0,0,0,.12);
-  border-bottom:18px solid #54c7cf;
+/* category buttons */
+.energize{left:15.0%;top:27.1%;width:11.6%;height:9.8%}
+.calm{left:27.5%;top:27.1%;width:11.6%;height:9.8%}
+.move{left:40.0%;top:27.1%;width:11.6%;height:9.8%}
+.silly{left:52.5%;top:27.1%;width:11.6%;height:9.8%}
+.focus{left:65.0%;top:27.1%;width:11.6%;height:9.8%}
+.surprise{left:77.5%;top:27.1%;width:11.6%;height:9.8%}
+
+/* machine button */
+.give{
+  left:37.0%;
+  top:49.5%;
+  width:25.6%;
+  height:13.4%;
 }
 
-.knob{
+/* right-side controls */
+.start{
+  left:75.1%;
+  top:68.0%;
+  width:12.1%;
+  height:6.6%;
+}
+
+.another{
+  left:70.8%;
+  top:75.3%;
+  width:10.3%;
+  height:6.0%;
+}
+
+.save{
+  left:81.7%;
+  top:75.3%;
+  width:12.1%;
+  height:6.0%;
+}
+
+/* right result overlay */
+.result{
   position:absolute;
-  width:86px;
-  height:86px;
-  background:#d9e6ef;
-  border:9px solid #778a9d;
-  border-radius:50%;
-  left:50%;
-  top:28px;
-  transform:translateX(-50%);
+  z-index:12;
+  left:69.4%;
+  top:41.0%;
+  width:23.1%;
+  height:27.2%;
+  text-align:center;
+  pointer-events:none;
+}
+
+.result-inner{
+  position:absolute;
+  left:5%;
+  right:5%;
+  top:19%;
+  bottom:2%;
+  border-radius:18px;
+  background:rgba(255,255,255,.94);
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
-  font-size:30px;
+  padding:3%;
 }
 
-.slot{
-  position:absolute;
-  width:95px;
-  height:54px;
-  border-radius:12px 12px 30px 30px;
-  background:#2d4766;
-  left:50%;
-  bottom:20px;
-  transform:translateX(-50%);
+.emoji{
+  font-size:clamp(22px,3.1vw,54px);
+  line-height:1;
 }
 
-.output-ball{
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  background:#b9a4ff;
-  position:absolute;
-  left:50%;
-  bottom:-18px;
-  transform:translateX(-50%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-  box-shadow:0 4px 10px rgba(0,0,0,.2);
-}
-
-.result-panel{
-  border:3px solid #7dd6df;
-}
-
-.result-label{
-  background:#51c5cc;
-  color:white;
-  text-align:center;
-  border-radius:999px;
+.title{
+  color:#7056b8;
   font-weight:900;
-  padding:8px;
-  margin-bottom:14px;
+  font-size:clamp(12px,1.75vw,27px);
+  margin:2% 0;
+  line-height:1.05;
 }
 
-.break-title{
-  font-size:32px;
-  font-weight:900;
-  text-align:center;
-  color:#744bc7;
-  margin:10px 0;
-}
-
-.break-emoji{
-  text-align:center;
-  font-size:62px;
-}
-
-.break-desc{
-  text-align:center;
-  font-size:18px;
-  line-height:1.4;
-  min-height:70px;
+.desc{
+  color:#536080;
+  font-size:clamp(8px,1.05vw,16px);
+  font-weight:700;
+  line-height:1.18;
+  max-width:95%;
 }
 
 .duration{
-  width:max-content;
-  margin:12px auto;
-  padding:9px 14px;
+  margin-top:3%;
+  background:#fff0f6;
+  border:2px solid #ffb8d1;
   border-radius:999px;
-  background:#fff0f5;
-  border:2px solid #ffb5ce;
-  color:#e96191;
+  padding:1.5% 5%;
+  color:#d75d8e;
+  font-size:clamp(8px,.9vw,14px);
   font-weight:900;
 }
 
+/* actual timer over image timer area */
 .timer{
-  font-size:52px;
-  font-weight:900;
+  position:absolute;
+  z-index:15;
+  left:75.2%;
+  top:62.2%;
+  width:11.5%;
   text-align:center;
-  letter-spacing:2px;
-  color:#2f8da3;
-  margin:12px 0;
+  font-weight:900;
+  font-size:clamp(18px,3.1vw,48px);
+  color:#4aa9bc;
+  background:rgba(255,255,255,.95);
+  border-radius:10px;
+  line-height:1.05;
+  pointer-events:none;
 }
 
-.controls{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+/* favorites overlay */
+.favorites{
+  position:absolute;
+  z-index:12;
+  left:8.0%;
+  top:43.0%;
+  width:19.8%;
+  height:32%;
+  padding:4.8% 1.1% 1%;
+  overflow:hidden;
+  pointer-events:none;
 }
 
-button.action{
+.favbox{
+  height:100%;
+  background:rgba(255,255,255,.93);
+  border-radius:18px;
+  padding:7px;
+  overflow:auto;
+  pointer-events:auto;
+}
+
+.empty{
+  font-size:clamp(8px,.9vw,14px);
+  text-align:center;
+  color:#8a829b;
+  font-weight:700;
+  padding:8px 4px;
+}
+
+.fav{
+  width:100%;
   border:none;
-  border-radius:999px;
-  padding:12px;
+  background:#f3efff;
+  border-radius:12px;
+  padding:7px 6px;
+  margin:0 0 6px;
+  text-align:left;
+  color:#65548f;
   font-weight:900;
+  font-size:clamp(8px,.95vw,14px);
   cursor:pointer;
-  font-size:15px;
 }
 
-.start{background:#a4df57;color:#254b2d}
-.another{background:#d3c2ff;color:#5c4892}
-.save{background:#ffb5ca;color:#8e395b}
-.stop{background:#fff0bd;color:#705d23}
+.category-glow{
+  outline:5px solid rgba(255,255,255,.92);
+  border-radius:22px;
+  box-shadow:0 0 0 5px rgba(255,217,95,.75);
+}
 
-.celebration{
-  margin-top:22px;
+.celebrate{
+  position:absolute;
+  z-index:30;
+  left:32%;
+  top:82.8%;
+  width:36%;
   text-align:center;
-  background:#fff4cf;
-  border-radius:24px;
-  padding:16px;
+  border-radius:999px;
+  background:#fff6c6;
+  color:#ef6897;
+  font-size:clamp(12px,1.7vw,26px);
   font-weight:900;
-  font-size:26px;
-  color:#ff6a9e;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  padding:.7% 1%;
+  opacity:0;
+  transition:.2s;
+  pointer-events:none;
 }
 
-.tip{
-  margin-top:18px;
-  background:#eefaf7;
-  border-radius:20px;
-  padding:14px 16px;
-  text-align:center;
-  font-size:14px;
-  color:#617780;
-}
+.celebrate.show{opacity:1}
 
 .confetti{
   position:fixed;
-  top:-30px;
-  z-index:9999;
-  font-size:22px;
+  top:-40px;
+  z-index:999;
   pointer-events:none;
   animation:fall 2.8s linear forwards;
 }
@@ -396,33 +256,24 @@ button.action{
 @keyframes fall{
   to{
     transform:translateY(110vh) rotate(720deg);
-    opacity:.9;
+    opacity:.8
   }
 }
 
-.wiggle{
-  animation:wiggle .55s ease;
-}
+@media(max-width:650px){
+  .back{
+    font-size:12px;
+    padding:7px 11px;
+  }
 
-@keyframes wiggle{
-  0%{transform:scale(1)}
-  25%{transform:scale(1.04) rotate(-1deg)}
-  50%{transform:scale(.98) rotate(1deg)}
-  75%{transform:scale(1.03)}
-  100%{transform:scale(1)}
-}
+  .favbox{
+    padding:4px;
+  }
 
-@media(max-width:950px){
-  .categories{grid-template-columns:repeat(3,1fr)}
-  .main-grid{grid-template-columns:1fr}
-  .favorites{order:3}
-  .result-panel{order:2}
-}
-
-@media(max-width:560px){
-  .categories{grid-template-columns:repeat(2,1fr)}
-  .timer{font-size:44px}
-  .machine-btn{font-size:20px}
+  .fav{
+    padding:4px 3px;
+    margin-bottom:3px;
+  }
 }
 </style>
 </head>
@@ -431,354 +282,96 @@ button.action{
 
 <div class="page">
 
-<a class="back" href="classroom-management-new.html?v=992841">
+<a class="back" href="classroom-management-new.html?v=940001">
 ← Back to Classroom Management
 </a>
 
-<div class="hero">
-  <h1>🧠 BRAIN BREAK MACHINE</h1>
-  <p>A little break makes a <strong>BIG</strong> difference! 🌈</p>
-</div>
+<div class="stage" id="stage">
 
-<div class="categories">
-  <button class="cat energize active" data-cat="energize">⚡ ENERGIZE<small>Wake up and power up!</small></button>
-  <button class="cat calm" data-cat="calm">😌 CALM & RESET<small>Breathe, stretch and relax.</small></button>
-  <button class="cat move" data-cat="move">🕺 MOVE IT<small>Get your body moving!</small></button>
-  <button class="cat silly" data-cat="silly">🤪 SILLY<small>Have fun and be goofy!</small></button>
-  <button class="cat focus" data-cat="focus">🎯 FOCUS BOOST<small>Sharpen your brain.</small></button>
-  <button class="cat surprise" data-cat="surprise">🎲 SURPRISE ME!<small>Pick anything!</small></button>
-</div>
+<img
+src="https://raw.githubusercontent.com/mightymindsstudio/teacher-toolbox/main/brain-break-machine-bg.PNG"
+alt="Brain Break Machine">
 
-<div class="main-grid">
+<!-- CATEGORIES -->
+<button class="hit energize category-glow" data-cat="energize" aria-label="Energize"></button>
+<button class="hit calm" data-cat="calm" aria-label="Calm and Reset"></button>
+<button class="hit move" data-cat="move" aria-label="Move It"></button>
+<button class="hit silly" data-cat="silly" aria-label="Silly"></button>
+<button class="hit focus" data-cat="focus" aria-label="Focus Boost"></button>
+<button class="hit surprise" data-cat="surprise" aria-label="Surprise Me"></button>
 
-  <div class="panel favorites">
-    <h2>⭐ My Favorites</h2>
-    <div id="favoritesList"></div>
-    <button class="clear-btn" id="clearFavorites">🗑 Clear Favorites</button>
-  </div>
+<!-- BIG GUMBALL MACHINE BUTTON -->
+<button class="hit give" id="giveBreak" aria-label="Give us a brain break"></button>
 
-  <div class="machine-wrap">
-    <div class="machine">
+<!-- RESULT -->
+<div class="result">
+  <div class="result-inner">
 
-      <div class="dome" id="machineDome">
-        <div class="gumballs">
-          <div class="ball">⭐</div>
-          <div class="ball">🌈</div>
-          <div class="ball">🎵</div>
-          <div class="ball">💫</div>
-          <div class="ball">💗</div>
-          <div class="ball">⚡</div>
-          <div class="ball">😊</div>
-          <div class="ball">🎯</div>
-        </div>
+    <div class="emoji" id="breakEmoji">⚡</div>
 
-        <button class="machine-btn" id="giveBreak">
-          ✨ GIVE US A BRAIN BREAK! ✨
-        </button>
-      </div>
-
-      <div class="base">
-        <div class="knob">💗</div>
-        <div class="slot"></div>
-        <div class="output-ball">⭐</div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="panel result-panel">
-
-    <div class="result-label">⭐ YOUR BRAIN BREAK IS... ⭐</div>
-
-    <div class="break-emoji" id="breakEmoji">🐧</div>
-
-    <div class="break-title" id="breakTitle">
-      Penguin Waddle!
+    <div class="title" id="breakTitle">
+      Jumping Jacks!
     </div>
 
-    <div class="break-desc" id="breakDesc">
-      Waddle around the room like a penguin!
+    <div class="desc" id="breakDesc">
+      Do 20 jumping jacks together!
     </div>
 
-    <div class="duration" id="durationLabel">⏱ 30 seconds</div>
-
-    <div class="timer" id="timer">00:30</div>
-
-    <div class="controls">
-      <button class="action start" id="startTimer">▶ START</button>
-      <button class="action stop" id="stopTimer">⏹ RESET</button>
-      <button class="action another" id="anotherBreak">🔄 ANOTHER ONE</button>
-      <button class="action save" id="saveFavorite">💗 SAVE FAVORITE</button>
+    <div class="duration" id="duration">
+      ⏱ 30 seconds
     </div>
 
   </div>
-
 </div>
 
-<div class="celebration" id="celebration">
-  🌟 BRAIN REFRESHED! 🌟
+<!-- TIMER -->
+<div class="timer" id="timer">00:30</div>
+
+<!-- WORKING BUTTONS OVER IMAGE -->
+<button class="hit start" id="startBtn" aria-label="Start timer"></button>
+<button class="hit another" id="anotherBtn" aria-label="Another brain break"></button>
+<button class="hit save" id="saveBtn" aria-label="Save favorite"></button>
+
+<!-- FAVORITES -->
+<div class="favorites">
+  <div class="favbox" id="favoritesBox"></div>
 </div>
 
-<div class="tip">
-  💡 Teacher Tip: A quick movement or reset break can help students return to learning ready to focus.
+<div class="celebrate" id="celebrate">
+🌟 BRAIN REFRESHED! 🌟
 </div>
 
+</div>
 </div>
 
 <script>
 
-const breaks = [
-
-  {cat:"energize",emoji:"⚡",title:"Jumping Jacks",desc:"Do 20 jumping jacks together!",seconds:30},
-  {cat:"energize",emoji:"🚀",title:"Rocket Launch",desc:"Crouch low, count down from 10, then blast off with a giant jump!",seconds:30},
-  {cat:"energize",emoji:"🥁",title:"Marching Band",desc:"March in place while pretending to play your favorite instrument.",seconds:45},
-  {cat:"energize",emoji:"🌪️",title:"Shake It Out",desc:"Shake your hands, arms, shoulders, legs, and whole body!",seconds:30},
-  {cat:"energize",emoji:"🐇",title:"Bunny Bounce",desc:"Do tiny bunny hops in place.",seconds:30},
-
-  {cat:"calm",emoji:"🌬️",title:"Balloon Breathing",desc:"Breathe in slowly as your belly fills like a balloon, then breathe out.",seconds:45},
-  {cat:"calm",emoji:"⭐",title:"Star Stretch",desc:"Reach your arms and legs wide like a star. Stretch tall, then relax.",seconds:45},
-  {cat:"calm",emoji:"🐻",title:"Teddy Bear Breathing",desc:"Put your hands on your belly and take five slow, gentle breaths.",seconds:60},
-  {cat:"calm",emoji:"☁️",title:"Cloud Float",desc:"Close your eyes and imagine floating on a soft cloud.",seconds:45},
-  {cat:"calm",emoji:"🌿",title:"Quiet Reset",desc:"Sit quietly, relax your shoulders, and take five slow breaths.",seconds:45},
-
-  {cat:"move",emoji:"🐧",title:"Penguin Waddle",desc:"Waddle around the room like a penguin!",seconds:30},
-  {cat:"move",emoji:"💃",title:"Freeze Dance",desc:"Dance in place. Freeze every time the teacher says FREEZE!",seconds:45},
-  {cat:"move",emoji:"🦀",title:"Crab Walk Challenge",desc:"Pretend to crab walk in place with your arms and legs moving.",seconds:30},
-  {cat:"move",emoji:"🏊",title:"Air Swimming",desc:"Swim through the air using giant arm strokes.",seconds:30},
-  {cat:"move",emoji:"🧗",title:"Mountain Climber",desc:"Pretend you are climbing a giant mountain. Reach high and lift those knees!",seconds:45},
-
-  {cat:"silly",emoji:"🤪",title:"Funny Face Freeze",desc:"Make your silliest face and hold it until the timer ends!",seconds:30},
-  {cat:"silly",emoji:"🐔",title:"Chicken Dance",desc:"Flap your wings, wiggle your tail feathers, and strut like a chicken.",seconds:30},
-  {cat:"silly",emoji:"🤖",title:"Robot Mode",desc:"Move around like a slow, squeaky robot.",seconds:45},
-  {cat:"silly",emoji:"🐵",title:"Monkey Moves",desc:"Pretend you are a monkey swinging through the jungle.",seconds:30},
-  {cat:"silly",emoji:"👽",title:"Alien Walk",desc:"Invent the funniest alien walk you can!",seconds:30},
-
-  {cat:"focus",emoji:"🎯",title:"Cross Crawl",desc:"Touch your right elbow to your left knee, then switch sides.",seconds:45},
-  {cat:"focus",emoji:"🧠",title:"Brain Tap",desc:"Tap your head, shoulders, knees, and toes in a repeating pattern.",seconds:30},
-  {cat:"focus",emoji:"⚖️",title:"Balance Challenge",desc:"Stand on one foot for 10 seconds, then switch.",seconds:30},
-  {cat:"focus",emoji:"👏",title:"Copy My Clap",desc:"Teacher claps a pattern. Students repeat it exactly.",seconds:45},
-  {cat:"focus",emoji:"🔢",title:"Count & Move",desc:"Count backward from 20 while marching slowly in place.",seconds:30}
-
-];
-
-let selectedCategory = "energize";
-let currentBreak = breaks.find(b=>b.title==="Penguin Waddle");
-let timerInterval = null;
-let timeLeft = currentBreak.seconds;
-
-const FAVORITES_KEY = "brainBreakFavoritesV1";
-
-function chooseBreak(){
-
-  stopTimer(false);
-
-  let choices;
-
-  if(selectedCategory==="surprise"){
-    choices = breaks;
-  } else {
-    choices = breaks.filter(b=>b.cat===selectedCategory);
-  }
-
-  const next = choices[Math.floor(Math.random()*choices.length)];
-
-  currentBreak = next;
-  timeLeft = next.seconds;
-
-  renderBreak();
-
-  const dome = document.getElementById("machineDome");
-  dome.classList.remove("wiggle");
-  void dome.offsetWidth;
-  dome.classList.add("wiggle");
-}
-
-function renderBreak(){
-
-  document.getElementById("breakEmoji").textContent=currentBreak.emoji;
-  document.getElementById("breakTitle").textContent=currentBreak.title;
-  document.getElementById("breakDesc").textContent=currentBreak.desc;
-
-  const durationText =
-    currentBreak.seconds===60
-      ? "1 minute"
-      : currentBreak.seconds+" seconds";
-
-  document.getElementById("durationLabel").textContent="⏱ "+durationText;
-
-  updateTimerDisplay();
-}
-
-function updateTimerDisplay(){
-
-  const mins=Math.floor(timeLeft/60);
-  const secs=timeLeft%60;
-
-  document.getElementById("timer").textContent =
-    String(mins).padStart(2,"0")+":"+
-    String(secs).padStart(2,"0");
-}
-
-function startTimer(){
-
-  clearInterval(timerInterval);
-
-  if(timeLeft<=0){
-    timeLeft=currentBreak.seconds;
-  }
-
-  timerInterval=setInterval(()=>{
-
-    timeLeft--;
-
-    updateTimerDisplay();
-
-    if(timeLeft<=0){
-      clearInterval(timerInterval);
-      timerInterval=null;
-      celebrate();
-    }
-
-  },1000);
-}
-
-function stopTimer(reset=true){
-
-  clearInterval(timerInterval);
-  timerInterval=null;
-
-  if(reset){
-    timeLeft=currentBreak.seconds;
-    updateTimerDisplay();
-  }
-}
-
-function celebrate(){
-
-  document.getElementById("celebration").textContent=
-    "🌟 BRAIN REFRESHED! You're ready to learn and shine! 🌟";
-
-  const symbols=["🎉","⭐","💗","🌈","✨","💫"];
-
-  for(let i=0;i<55;i++){
-
-    const piece=document.createElement("div");
-    piece.className="confetti";
-    piece.textContent=symbols[Math.floor(Math.random()*symbols.length)];
-    piece.style.left=Math.random()*100+"vw";
-    piece.style.animationDelay=(Math.random()*.8)+"s";
-    piece.style.fontSize=(16+Math.random()*18)+"px";
-
-    document.body.appendChild(piece);
-
-    setTimeout(()=>piece.remove(),3800);
-  }
-}
-
-function getFavorites(){
-
-  try{
-    return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
-  }catch(e){
-    return [];
-  }
-}
-
-function saveFavorites(list){
-  localStorage.setItem(FAVORITES_KEY,JSON.stringify(list));
-}
-
-function addFavorite(){
-
-  const favorites=getFavorites();
-
-  if(!favorites.some(f=>f.title===currentBreak.title)){
-    favorites.push(currentBreak);
-    saveFavorites(favorites);
-  }
-
-  renderFavorites();
-}
-
-function removeFavorite(title){
-
-  let favorites=getFavorites();
-  favorites=favorites.filter(f=>f.title!==title);
-  saveFavorites(favorites);
-  renderFavorites();
-}
-
-function renderFavorites(){
-
-  const list=document.getElementById("favoritesList");
-  const favorites=getFavorites();
-
-  list.innerHTML="";
-
-  if(!favorites.length){
-    list.innerHTML='<div style="font-size:14px;color:#7a8496;margin-bottom:12px;">Your saved brain breaks will appear here! 💗</div>';
-    return;
-  }
-
-  favorites.forEach(f=>{
-
-    const item=document.createElement("div");
-    item.className="favorite-item";
-
-    const text=document.createElement("span");
-    text.textContent=f.emoji+" "+f.title;
-
-    const del=document.createElement("button");
-    del.textContent="✕";
-    del.onclick=()=>removeFavorite(f.title);
-
-    item.onclick=(e)=>{
-      if(e.target===del) return;
-
-      currentBreak=f;
-      timeLeft=f.seconds;
-      renderBreak();
-    };
-
-    item.appendChild(text);
-    item.appendChild(del);
-    list.appendChild(item);
-  });
-}
-
-document.querySelectorAll(".cat").forEach(btn=>{
-
-  btn.addEventListener("click",()=>{
-
-    document.querySelectorAll(".cat").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-
-    selectedCategory=btn.dataset.cat;
-
-    chooseBreak();
-  });
-
-});
-
-document.getElementById("giveBreak").onclick=chooseBreak;
-document.getElementById("anotherBreak").onclick=chooseBreak;
-document.getElementById("startTimer").onclick=startTimer;
-document.getElementById("stopTimer").onclick=()=>stopTimer(true);
-document.getElementById("saveFavorite").onclick=addFavorite;
-
-document.getElementById("clearFavorites").onclick=()=>{
-
-  if(confirm("Clear all saved brain break favorites?")){
-    localStorage.removeItem(FAVORITES_KEY);
-    renderFavorites();
-  }
-
-};
-
-renderBreak();
-renderFavorites();
-
-</script>
-
-</body>
-</html>
+const brainBreaks = [
+
+/* ENERGIZE */
+{cat:"energize",emoji:"⚡",title:"Jumping Jacks!",desc:"Do 20 jumping jacks together!",seconds:30},
+{cat:"energize",emoji:"🚀",title:"Rocket Launch!",desc:"Crouch down, count backward from 10, then BLAST OFF with a giant jump!",seconds:30},
+{cat:"energize",emoji:"🥁",title:"Marching Band!",desc:"March in place while pretending to play an instrument!",seconds:45},
+{cat:"energize",emoji:"🌪️",title:"Shake It Out!",desc:"Shake your hands, arms, shoulders, legs, and whole body!",seconds:30},
+{cat:"energize",emoji:"🐰",title:"Bunny Bounce!",desc:"Do tiny bunny hops in place!",seconds:30},
+{cat:"energize",emoji:"🏃",title:"Run in Place!",desc:"Run in place as fast as you can, then freeze!",seconds:30},
+{cat:"energize",emoji:"🌟",title:"Reach for the Stars!",desc:"Reach high, touch your toes, and repeat!",seconds:30},
+{cat:"energize",emoji:"👏",title:"Clap & Jump!",desc:"Clap twice, jump once, and repeat!",seconds:30},
+
+/* CALM */
+{cat:"calm",emoji:"🌬️",title:"Balloon Breathing",desc:"Breathe in slowly as your belly fills like a balloon. Slowly breathe out.",seconds:45},
+{cat:"calm",emoji:"⭐",title:"Star Stretch",desc:"Stretch your arms and legs wide like a star. Hold, then relax.",seconds:45},
+{cat:"calm",emoji:"☁️",title:"Cloud Float",desc:"Close your eyes and imagine floating gently on a soft cloud.",seconds:45},
+{cat:"calm",emoji:"🌿",title:"Quiet Reset",desc:"Relax your shoulders and take five slow breaths.",seconds:45},
+{cat:"calm",emoji:"🐢",title:"Turtle Slow Down",desc:"Move very slowly like a turtle while taking deep breaths.",seconds:45},
+{cat:"calm",emoji:"🌈",title:"Rainbow Breaths",desc:"Trace an imaginary rainbow as you breathe in and out slowly.",seconds:45},
+{cat:"calm",emoji:"💗",title:"Hand on Heart",desc:"Put your hand on your heart and take five peaceful breaths.",seconds:45},
+
+/* MOVE IT */
+{cat:"move",emoji:"🐧",title:"Penguin Waddle!",desc:"Waddle around like a penguin!",seconds:30},
+{cat:"move",emoji:"💃",title:"Freeze Dance!",desc:"Dance in place. Freeze whenever your teacher says FREEZE!",seconds:45},
+{cat:"move",emoji:"🏊",title:"Air Swimming!",desc:"Pretend to swim through the air using giant arm strokes!",seconds:30},
+{cat:"move",emoji:"🧗",title:"Mountain Climber!",desc:"Pretend to climb a huge mountain. Reach high and lift those knees!",seconds:45},
+{cat:"move",emoji:"🦘",title:"Kangaroo Jumps!",desc:"Bounce gently like a kangaroo!",seconds:30},
+{cat:"move",emoji:"🦋",title:"Butterfly Wings!",desc:"Flap your arms like giant butterfly wings and move around your space!",seconds:30},
+{cat:"move",emoji:"🏄
