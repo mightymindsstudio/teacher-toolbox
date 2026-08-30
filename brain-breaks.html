@@ -99,28 +99,30 @@ html,body{
 
 .result-inner{
   width:100%;
-  background:rgba(255,255,255,.97);
-  border-radius:18px;
-  padding:8px 10px;
+  background:transparent;
+  border-radius:0;
+  padding:0 8px;
 }
 
 .emoji{
-  font-size:clamp(24px,4vw,64px);
+  display:none;
 }
 
 .title{
   font-weight:900;
   color:#14a6b0;
-  font-size:clamp(16px,2.5vw,40px);
+  font-size:clamp(13px,2vw,32px);
   line-height:1;
-  margin:5px 0;
+  margin:0 0 8px;
 }
 
 .desc{
   color:#222;
   font-weight:700;
-  font-size:clamp(10px,1.25vw,20px);
-  line-height:1.25;
+  font-size:clamp(9px,1.05vw,17px);
+  line-height:1.2;
+  max-width:90%;
+  margin:auto;
 }
 
 .duration{
