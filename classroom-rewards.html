@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Classroom Rewards Wheel</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:
+    linear-gradient(#fff7fb,#fffaf5);
+  color:#37435f;
+}
+
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:24px 16px 50px;
+  text-align:center;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
+
+.back{
+  text-decoration:none;
+  background:white;
+  color:#50618a;
+  padding:10px 16px;
+  border-radius:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  font-weight:bold;
+}
+
+h1{
+  margin:8px 0 4px;
+  font-size:clamp(32px,6vw,58px);
+  color:#f07ca8;
+  text-shadow:2px 2px white;
+}
+
+.subtitle{
+  margin:0 0 22px;
+  font-size:18px;
+}
+
+.game{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:24px;
+  align-items:start;
+}
+
+.wheelCard,
+.editor{
+  background:white;
+  border-radius:28px;
+  padding:22px;
+  box-shadow:0 8px 24px rgba(0,0,0,.09);
+}
+
+.wheelWrap{
+  position:relative;
+  width:min(86vw,560px);
+  aspect-ratio:1/1;
+  margin:auto;
+}
+
+canvas{
+  width:100%;
+  height:100%;
+  display:block;
+  filter:drop-shadow(0 7px 10px rgba(0,0,0,.12));
+}
+
+.pointer{
+  position:absolute;
+  top:-10px;
+  left:50%;
+  transform:translateX(-50%);
+  width:0;
+  height:0;
+  border-left:22px solid transparent;
+  border-right:22px solid transparent;
+  border-top:42px solid #ff718f;
+  z-index:5;
+}
+
+.centerButton{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  border:7px solid white;
+  background:#f7c95c;
+  color:#4a5573;
+  font-weight:900;
+  font-size:24px;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+.centerButton:disabled{
+  opacity:.65;
+}
+
+.result{
+  margin-top:20px;
+  min-height:76px;
+}
+
+.resultTitle{
+  font-size:17px;
+  font-weight:bold;
+  color:#7784a2;
+}
+
+.winner{
+  font-size:clamp(28px,5vw,44px);
+  font-weight:900;
+  color:#f0649b;
+  margin-top:5px;
+}
+
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+button{
+  border:0;
+  border-radius:20px;
+  padding:11px 17px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.spinAgain{background:#cceee6;color:#385d58}
+.stop{background:#ffd6df;color:#784b59}
+
+.editor h2{
+  margin-top:0;
+  color:#7286c7;
+}
+
+.help{
+  font-size:14px;
+  color:#777;
+  margin-bottom:14px;
+}
+
+textarea{
+  width:100%;
+  min-height:330px;
+  resize:vertical;
+  border:2px solid #eadff0;
+  border-radius:18px;
+  padding:14px;
+  font-size:16px;
+  line-height:1.5;
+  outline:none;
+}
+
+.editorButtons{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+  flex-wrap:wrap;
+}
+
+.update{background:#d9e7ff;color:#48608c}
+.reset{background:#ffe4bc;color:#7a6040}
+
+.confetti{
+  position:fixed;
+  top:-30px;
+  pointer-events:none;
+  z-index:999;
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(900deg);
+  }
+}
+
+@media(max-width:800px){
+  .game{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="topbar">
+  <a class="back" href="classroom-management.html?v=99991">
+    ← Classroom Management
+  </a>
+</div>
+
+<h1>🎡 Classroom Rewards</h1>
+<p class="subtitle">Spin the wheel and celebrate the winner! 🎉</p>
+
+<div class="game">
+
+<div class="wheelCard">
+
+  <div class="wheelWrap">
+    <div class="pointer"></div>
+    <canvas id="wheel" width="600" height="600"></canvas>
+    <button class="centerButton" id="spinBtn">SPIN</button>
+  </div>
+
+  <div class="result">
+    <div class="resultTitle">Winning Reward</div>
+    <div class="winner" id="winner">Ready to spin! 🌈</div>
+  </div>
+
+  <div class="controls">
+    <button class="spinAgain" id="spinAgain">🎡 Spin Again</button>
+    <button class="stop" id="stopConfetti">🎉 Stop Confetti</button>
+  </div>
+
+</div>
+
+<div class="editor">
+
+  <h2>✨ Edit Your Rewards</h2>
+  <div class="help">
+    Put one reward on each line, then tap Update Wheel.
+  </div>
+
+  <textarea id="rewardList"></textarea>
+
+  <div class="editorButtons">
+    <button class="update" id="updateWheel">🌈 Update Wheel</button>
+    <button class="reset" id="resetRewards">↺ Reset Rewards</button>
+  </div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+
+const spinBtn = document.getElementById("spinBtn");
+const spinAgain = document.getElementById("spinAgain");
+const stopConfetti = document.getElementById("stopConfetti");
+const winner = document.getElementById("winner");
+const rewardList = document.getElementById("rewardList");
+const updateWheel = document.getElementById("updateWheel");
+const resetRewards = document.getElementById("resetRewards");
+
+const defaultRewards = [
+  "Teacher Helper",
+  "Choose Your Seat",
+  "Extra Doodle Time",
+  "Line Leader",
+  "Pick the Brain Break",
+  "Read With a Friend",
+  "Special Pencil",
+  "Classroom DJ",
+  "No Shoes",
+  "Mystery Reward"
+];
+
+let rewards = JSON.parse(localStorage.getItem("classroomRewardsWheel")) || [...defaultRewards];
+let currentRotation = 0;
+let spinning = false;
+let confettiTimer = null;
+
+const colors = [
+  "#ffd6e6",
+  "#cfeee5",
+  "#dce5ff",
+  "#ffe6b8",
+  "#e7d9ff",
+  "#ffd9c9",
+  "#d7f3ff",
+  "#f7d4f0",
+  "#e6f5c9",
+  "#ffe0ec",
+  "#d9e7ff",
+  "#fbe5b8"
+];
+
+function saveRewards(){
+  localStorage.setItem("classroomRewardsWheel", JSON.stringify(rewards));
+}
+
+function loadEditor(){
+  rewardList.value = rewards.join("\n");
+}
+
+function drawWheel(){
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  const cx = canvas.width/2;
+  const cy = canvas.height/2;
+  const radius = 280;
+  const slice = Math.PI * 2 / rewards.length;
+
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.rotate(currentRotation);
+
+  rewards.forEach((reward,i)=>{
+
+    const start = i * slice;
+    const end = start + slice;
+
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.arc(0,0,radius,start,end);
+    ctx.closePath();
+
+    ctx.fillStyle = colors[i % colors.length];
+    ctx.fill();
+
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 5;
+    ctx.stroke();
+
+    ctx.save();
+
+    const angle = start + slice/2;
+    ctx.rotate(angle);
+    ctx.translate(radius * .64,0);
+    ctx.rotate(Math.PI/2);
+
+    ctx.fillStyle = "#4f5875";
+    ctx.font = "bold 18px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    const words = reward.split(" ");
+    const lines = [];
+    let line = "";
+
+    words.forEach(word=>{
+      const test = line ? line + " " + word : word;
+
+      if(ctx.measureText(test).width > 115){
+        lines.push(line);
+        line = word;
+      }else{
+        line = test;
+      }
+    });
+
+    if(line) lines.push(line);
+
+    lines.slice(0,3).forEach((text,index)=>{
+      ctx.fillText(text,0,(index-(lines.length-1)/2)*21);
+    });
+
+    ctx.restore();
+  });
+
+  ctx.restore();
+
+  ctx.beginPath();
+  ctx.arc(cx,cy,64,0,Math.PI*2);
+  ctx.fillStyle="#f7c95c";
+  ctx.fill();
+  ctx.strokeStyle="#ffffff";
+  ctx.lineWidth=8;
+  ctx.stroke();
+}
+
+function getWinner(){
+
+  const slice = Math.PI*2/rewards.length;
+
+  const pointerAngle = -Math.PI/2;
+
+  let normalized =
+    (pointerAngle - currentRotation) % (Math.PI*2);
+
+  if(normalized < 0){
+    normalized += Math.PI*2;
+  }
+
+  const index = Math.floor(normalized / slice) % rewards.length;
+
+  return rewards[index];
+}
+
+function spin(){
+
+  if(spinning || rewards.length < 2) return;
+
+  stopConfettiRain();
+
+  spinning = true;
+  spinBtn.disabled = true;
+  winner.textContent = "Spinning... 🎡";
+
+  const startRotation = currentRotation;
+
+  const extraTurns =
+    (6 + Math.random()*4) * Math.PI*2;
+
+  const randomOffset =
+    Math.random()*Math.PI*2;
+
+  const endRotation =
+    startRotation + extraTurns + randomOffset;
+
+  const duration = 4200;
+  const startTime = performance.now();
+
+  function animate(now){
+
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed/duration,1);
+
+    const eased =
+      1 - Math.pow(1-progress,4);
+
+    currentRotation =
+      startRotation +
+      (endRotation-startRotation)*eased;
+
+    drawWheel();
+
+    if(progress < 1){
+      requestAnimationFrame(animate);
+    }else{
+
+      currentRotation =
+        currentRotation % (Math.PI*2);
+
+      drawWheel();
+
+      const prize = getWinner();
+
+      winner.textContent = "🎉 " + prize + " 🎉";
+
+      startConfettiRain();
+
+      spinning = false;
+      spinBtn.disabled = false;
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+function makeConfetti(){
+
+  const piece = document.createElement("div");
+
+  piece.className="confetti";
+
+  const shapes = ["■","●","★","♥","◆"];
+
+  piece.textContent =
+    shapes[Math.floor(Math.random()*shapes.length)];
+
+  const confettiColors = [
+    "#ff7fa8",
+    "#f7c95c",
+    "#88d8c0",
+    "#8fa8ed",
+    "#c792ea",
+    "#ff9f80"
+  ];
+
+  piece.style.color =
+    confettiColors[Math.floor(Math.random()*confettiColors.length)];
+
+  piece.style.left =
+    Math.random()*100 + "vw";
+
+  piece.style.fontSize =
+    (12 + Math.random()*15) + "px";
+
+  piece.style.animationDuration =
+    (2.2 + Math.random()*2.5) + "s";
+
+  piece.style.opacity =
+    .65 + Math.random()*.35;
+
+  document.body.appendChild(piece);
+
+  setTimeout(()=>{
+    piece.remove();
+  },5000);
+}
+
+function startConfettiRain(){
+
+  if(confettiTimer) return;
+
+  for(let i=0;i<35;i++){
+    setTimeout(makeConfetti,i*35);
+  }
+
+  confettiTimer =
+    setInterval(()=>{
+      makeConfetti();
+      makeConfetti();
+    },90);
+}
+
+function stopConfettiRain(){
+
+  if(confettiTimer){
+    clearInterval(confettiTimer);
+    confettiTimer=null;
+  }
+
+  document.querySelectorAll(".confetti")
+    .forEach(piece=>piece.remove());
+}
+
+updateWheel.addEventListener("click",()=>{
+
+  const newRewards =
+    rewardList.value
+      .split("\n")
+      .map(x=>x.trim())
+      .filter(Boolean);
+
+  if(newRewards.length < 2){
+    alert("Please add at least two rewards.");
+    return;
+  }
+
+  rewards = newRewards;
+  saveRewards();
+
+  currentRotation=0;
+  winner.textContent="Ready to spin! 🌈";
+
+  stopConfettiRain();
+  drawWheel();
+});
+
+resetRewards.addEventListener("click",()=>{
+
+  rewards=[...defaultRewards];
+  saveRewards();
+  loadEditor();
+
+  currentRotation=0;
+  winner.textContent="Ready to spin! 🌈";
+
+  stopConfettiRain();
+  drawWheel();
+});
+
+spinBtn.addEventListener("click",spin);
+spinAgain.addEventListener("click",spin);
+stopConfetti.addEventListener("click",stopConfettiRain);
+
+loadEditor();
+drawWheel();
+</script>
+
+</body>
+</html>
