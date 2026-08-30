@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attention Getter Machine | Teacher Toolbox</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(circle at top left,#fff1f7 0,transparent 35%),
+    radial-gradient(circle at top right,#eefcff 0,transparent 30%),
+    linear-gradient(180deg,#fffaf7,#fffef9);
+  color:#26405f;
+}
+
+.page{
+  max-width:1100px;
+  margin:auto;
+  padding:24px 16px 50px;
+}
+
+.back{
+  display:inline-block;
+  text-decoration:none;
+  background:white;
+  color:#5e6f8d;
+  padding:10px 16px;
+  border-radius:999px;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+  font-weight:700;
+  margin-bottom:18px;
+}
+
+.hero{
+  text-align:center;
+  background:white;
+  border-radius:28px;
+  padding:28px 18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  border:3px solid #ffd8e8;
+}
+
+.hero h1{
+  margin:0;
+  font-size:clamp(34px,7vw,64px);
+  color:#ff6f9f;
+  text-shadow:2px 2px 0 #fff1a8;
+}
+
+.hero p{
+  font-size:18px;
+  margin:10px 0 0;
+  color:#61708a;
+}
+
+.categories{
+  margin:24px 0 18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+  gap:12px;
+}
+
+.cat{
+  border:none;
+  border-radius:20px;
+  padding:16px 12px;
+  font-size:17px;
+  font-weight:800;
+  cursor:pointer;
+  background:white;
+  color:#4f5f79;
+  box-shadow:0 5px 16px rgba(0,0,0,.08);
+  transition:.2s;
+}
+
+.cat:hover,
+.cat.active{
+  transform:translateY(-2px) scale(1.02);
+  background:#fff0f6;
+  outline:3px solid #ff9fc0;
+}
+
+.machine{
+  margin-top:18px;
+  background:white;
+  border-radius:30px;
+  padding:24px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.09);
+}
+
+.pick{
+  border:none;
+  border-radius:999px;
+  padding:17px 28px;
+  font-size:22px;
+  font-weight:900;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ff84af,#ffb367,#8fd8d2,#9e98ff);
+  color:white;
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
+
+.pick:active{
+  transform:scale(.98);
+}
+
+.card{
+  margin:26px auto 18px;
+  max-width:760px;
+  min-height:260px;
+  border-radius:28px;
+  padding:28px 20px;
+  background:linear-gradient(160deg,#fff7fb,#f4fbff,#fffce8);
+  border:4px dashed #ffc4db;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  transition:.25s;
+}
+
+.card.shuffle{
+  animation:wiggle .35s ease-in-out 3;
+}
+
+@keyframes wiggle{
+  0%,100%{transform:rotate(0deg) scale(1)}
+  25%{transform:rotate(-2deg) scale(1.02)}
+  75%{transform:rotate(2deg) scale(1.02)}
+}
+
+.emoji{
+  font-size:54px;
+  margin-bottom:10px;
+}
+
+.label{
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:1px;
+  color:#8f78a8;
+  text-transform:uppercase;
+}
+
+.teacher,
+.students{
+  margin:10px 0;
+  font-size:clamp(24px,5vw,38px);
+  font-weight:900;
+  line-height:1.2;
+}
+
+.teacher{
+  color:#ff6595;
+}
+
+.students{
+  color:#4581a9;
+}
+
+.rhythm{
+  font-size:34px;
+  margin-top:10px;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-top:16px;
+}
+
+.actions button{
+  border:none;
+  border-radius:999px;
+  padding:12px 18px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  background:#f4f1ff;
+  color:#5b5f87;
+}
+
+.actions button:hover{
+  background:#eae5ff;
+}
+
+.saved,
+.custom{
+  margin-top:24px;
+  background:white;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 8px 24px rgba(0,0,0,.07);
+}
+
+.saved h2,
+.custom h2{
+  margin-top:0;
+  color:#ff78a6;
+}
+
+.saved-list{
+  display:grid;
+  gap:10px;
+}
+
+.saved-item{
+  background:#fff8fb;
+  border:2px solid #ffd7e5;
+  padding:12px 14px;
+  border-radius:16px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+
+.saved-item button{
+  border:none;
+  background:#ffe4ec;
+  border-radius:999px;
+  padding:8px 11px;
+  cursor:pointer;
+}
+
+.custom-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.custom input{
+  width:100%;
+  border:2px solid #d9e5ef;
+  border-radius:14px;
+  padding:13px;
+  font-size:16px;
+}
+
+.custom-add{
+  margin-top:12px;
+  border:none;
+  border-radius:999px;
+  padding:12px 20px;
+  background:#8fd8d2;
+  color:#204d59;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  transform:translateX(-50%);
+  background:#273f63;
+  color:white;
+  padding:12px 18px;
+  border-radius:999px;
+  opacity:0;
+  transition:.2s;
+  pointer-events:none;
+  z-index:1000;
+}
+
+.toast.show{opacity:1}
+
+.confetti{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:900;
+}
+
+.piece{
+  position:absolute;
+  top:-30px;
+  font-size:22px;
+  animation:fall 2.4s linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(600deg);
+    opacity:.2;
+  }
+}
+
+@media(max-width:650px){
+  .custom-grid{grid-template-columns:1fr}
+  .machine{padding:18px 12px}
+  .card{padding:24px 14px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<a class="back" href="classroom-management-new.html?v=83011">← Back to Classroom Management</a>
+
+<div class="hero">
+  <h1>📣 Attention Getter Machine</h1>
+  <p>Pick a style, press the button, and grab your class's attention in a fun way!</p>
+</div>
+
+<div class="categories">
+  <button class="cat active" data-cat="silly">😂 Silly</button>
+  <button class="cat" data-cat="calm">🌈 Calm</button>
+  <button class="cat" data-cat="clap">👏 Clap & Move</button>
+  <button class="cat" data-cat="response">💬 Call & Response</button>
+  <button class="cat" data-cat="musical">🎵 Musical</button>
+  <button class="cat" data-cat="all">🎲 Surprise Me</button>
+</div>
+
+<div class="machine">
+  <button class="pick" id="pickBtn">✨ GIVE ME ONE! ✨</button>
+
+  <div class="card" id="card">
+    <div class="emoji" id="emoji">📣</div>
+    <div class="label" id="label">Ready?</div>
+    <div class="teacher" id="teacher">Choose a category and tap the button!</div>
+    <div class="students" id="students"></div>
+    <div class="rhythm" id="rhythm"></div>
+  </div>
+
+  <div class="actions">
+    <button id="anotherBtn">🔄 Another One</button>
+    <button id="saveBtn">❤️ Save Favorite</button>
+    <button id="mysteryBtn">🎲 Mystery Pick</button>
+  </div>
+</div>
+
+<div class="saved">
+  <h2>❤️ My Favorites</h2>
+  <div class="saved-list" id="savedList">
+    <div style="color:#7b8496">Your saved favorites will appear here.</div>
+  </div>
+</div>
+
+<div class="custom">
+  <h2>✏️ Add My Own</h2>
+  <div class="custom-grid">
+    <input id="customTeacher" placeholder="Teacher says...">
+    <input id="customStudents" placeholder="Students respond...">
+  </div>
+  <button class="custom-add" id="customAdd">➕ Add to Favorites</button>
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="confetti" id="confetti"></div>
+
+<script>
+const getters = [
+  {cat:"silly",emoji:"🪄",teacher:"Hocus Pocus!",students:"Everybody Focus!"},
+  {cat:"silly",emoji:"🧀",teacher:"Macaroni and Cheese!",students:"Everybody Freeze!"},
+  {cat:"silly",emoji:"🐊",teacher:"See You Later, Alligator!",students:"After a While, Crocodile!"},
+  {cat:"silly",emoji:"🍌",teacher:"Banana Split!",students:"Time to Sit!"},
+  {cat:"silly",emoji:"🐝",teacher:"Busy Bees!",students:"Eyes on Me, Please!"},
+  {cat:"silly",emoji:"🦄",teacher:"Sparkle Time!",students:"Eyes in Line!"},
+
+  {cat:"calm",emoji:"🌈",teacher:"Rainbow Ready...",students:"Quiet and Steady."},
+  {cat:"calm",emoji:"☁️",teacher:"Clouds Are Floating...",students:"Voices Are Quiet."},
+  {cat:"calm",emoji:"🌿",teacher:"Take a Breath...",students:"Ready for What's Next."},
+  {cat:"calm",emoji:"💗",teacher:"Hands Are Still...",students:"Hearts Are Ready."},
+  {cat:"calm",emoji:"🌙",teacher:"Moonlight Quiet...",students:"Ready to Learn."},
+
+  {cat:"clap",emoji:"👏",teacher:"Copy My Clap!",students:"We Copy It!",rhythm:"👏 👏 — 👏👏👏"},
+  {cat:"clap",emoji:"👐",teacher:"Clap, Clap, Tap!",students:"Eyes in Your Lap!",rhythm:"👏 👏 👐"},
+  {cat:"clap",emoji:"🥁",teacher:"Echo This Beat!",students:"Ready in Our Seat!",rhythm:"👏 👏👏 — 👏"},
+  {cat:"clap",emoji:"✨",teacher:"Clap Once If You Hear Me!",students:"👏",rhythm:"👏"},
+  {cat:"clap",emoji:"🌟",teacher:"Clap Twice If You're Ready!",students:"👏👏",rhythm:"👏 👏"},
+
+  {cat:"response",emoji:"👀",teacher:"1, 2, 3 — Eyes on Me!",students:"1, 2 — Eyes on You!"},
+  {cat:"response",emoji:"🍎",teacher:"Applesauce!",students:"Criss Cross!"},
+  {cat:"response",emoji:"📚",teacher:"Ready to Learn?",students:"Ready to Shine!"},
+  {cat:"response",emoji:"⭐",teacher:"Class, Class!",students:"Yes, Yes!"},
+  {cat:"response",emoji:"💫",teacher:"Eyes and Ears!",students:"Ready Right Here!"},
+  {cat:"response",emoji:"🚀",teacher:"Mission Control!",students:"Ready to Roll!"},
+
+  {cat:"musical",emoji:"🎵",teacher:"If You Can Hear Me, Touch Your Head!",students:"🎵 Touch head quietly"},
+  {cat:"musical",emoji:"🎶",teacher:"Do-Re-Mi...",students:"Eyes on Me!"},
+  {cat:"musical",emoji:"🥁",teacher:"Tap-Tap-Tap!",students:"Tap-Tap Back!"},
+  {cat:"musical",emoji:"🎤",teacher:"Ready, Set...",students:"Let's Learn!"},
+  {cat:"musical",emoji:"🎼",teacher:"Freeze on the Beat!",students:"Freeze! 🧊"}
+];
+
+let currentCategory = "silly";
+let current = null;
+
+const card = document.getElementById("card");
+const emoji = document.getElementById("emoji");
+const label = document.getElementById("label");
+const teacher = document.getElementById("teacher");
+const students = document.getElementById("students");
+const rhythm = document.getElementById("rhythm");
+const toast = document.getElementById("toast");
+
+document.querySelectorAll(".cat").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".cat").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    currentCategory = btn.dataset.cat;
+    pick();
+  });
+});
+
+function pick(forceAll=false){
+  card.classList.remove("shuffle");
+  void card.offsetWidth;
+  card.classList.add("shuffle");
+
+  const pool = (currentCategory==="all" || forceAll)
+    ? getters
+    : getters.filter(g=>g.cat===currentCategory);
+
+  current = pool[Math.floor(Math.random()*pool.length)];
+
+  setTimeout(()=>{
+    emoji.textContent = current.emoji || "📣";
+    label.textContent = current.cat==="clap" ? "Clap & Move" :
+                        current.cat==="response" ? "Call & Response" :
+                        current.cat.charAt(0).toUpperCase()+current.cat.slice(1);
+
+    teacher.textContent = "Teacher: “" + current.teacher + "”";
+    students.textContent = current.students ? "Students: “" + current.students + "”" : "";
+    rhythm.textContent = current.rhythm || "";
+  },260);
+}
+
+document.getElementById("pickBtn").onclick=()=>pick();
+document.getElementById("anotherBtn").onclick=()=>pick();
+
+document.getElementById("mysteryBtn").onclick=()=>{
+  confettiBurst();
+  pick(true);
+};
+
+function showToast(msg){
+  toast.textContent=msg;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),1500);
+}
+
+function getFavorites(){
+  return JSON.parse(localStorage.getItem("attentionGetterFavorites") || "[]");
+}
+
+function saveFavorites(arr){
+  localStorage.setItem("attentionGetterFavorites",JSON.stringify(arr));
+  renderFavorites();
+}
+
+document.getElementById("saveBtn").onclick=()=>{
+  if(!current){
+    showToast("Pick one first! 📣");
+    return;
+  }
+
+  const favs=getFavorites();
+
+  if(!favs.some(f=>f.teacher===current.teacher && f.students===current.students)){
+    favs.push({
+      teacher:current.teacher,
+      students:current.students || "",
+      emoji:current.emoji || "❤️"
+    });
+    saveFavorites(favs);
+    showToast("Saved to favorites! ❤️");
+  }else{
+    showToast("Already saved! 💕");
+  }
+};
+
+document.getElementById("customAdd").onclick=()=>{
+  const t=document.getElementById("customTeacher").value.trim();
+  const s=document.getElementById("customStudents").value.trim();
+
+  if(!t){
+    showToast("Add what the teacher says first ✏️");
+    return;
+  }
+
+  const favs=getFavorites();
+  favs.push({teacher:t,students:s,emoji:"✏️"});
+  saveFavorites(favs);
+
+  document.getElementById("customTeacher").value="";
+  document.getElementById("customStudents").value="";
+  showToast("Your attention getter was added! 🌈");
+};
+
+function renderFavorites(){
+  const box=document.getElementById("savedList");
+  const favs=getFavorites();
+
+  if(!favs.length){
+    box.innerHTML='<div style="color:#7b8496">Your saved favorites will appear here.</div>';
+    return;
+  }
+
+  box.innerHTML="";
+
+  favs.forEach((f,i)=>{
+    const item=document.createElement("div");
+    item.className="saved-item";
+
+    const text=document.createElement("div");
+    text.innerHTML="<strong>"+f.emoji+" "+escapeHtml(f.teacher)+"</strong>"+
+      (f.students ? "<br><span>"+escapeHtml(f.students)+"</span>" : "");
+
+    const del=document.createElement("button");
+    del.textContent="✕";
+    del.onclick=()=>{
+      const newFavs=getFavorites();
+      newFavs.splice(i,1);
+      saveFavorites(newFavs);
+    };
+
+    item.appendChild(text);
+    item.appendChild(del);
+    box.appendChild(item);
+  });
+}
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g,m=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  }[m]));
+}
+
+function confettiBurst(){
+  const area=document.getElementById("confetti");
+  const pieces=["⭐","💗","🌈","✨","🎉","💫"];
+
+  for(let i=0;i<35;i++){
+    const p=document.createElement("div");
+    p.className="piece";
+    p.textContent=pieces[Math.floor(Math.random()*pieces.length)];
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=(1.8+Math.random()*1.6)+"s";
+    p.style.fontSize=(16+Math.random()*18)+"px";
+    area.appendChild(p);
+    setTimeout(()=>p.remove(),3500);
+  }
+}
+
+renderFavorites();
+pick();
+</script>
+
+</body>
+</html>
