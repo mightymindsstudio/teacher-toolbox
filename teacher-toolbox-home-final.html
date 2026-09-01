@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7cfe0">
+<title>Teacher Toolbox</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  background:#f7d7e5;
+}
+
+body{
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+
+.stage{
+  position:relative;
+  width:min(100vw,1536px);
+  aspect-ratio:3/2;
+  overflow:hidden;
+  background:#fff;
+}
+
+.stage img{
+  width:100%;
+  height:100%;
+  display:block;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+.hotspot{
+  position:absolute;
+  display:block;
+  border-radius:18px;
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.hotspot:focus-visible{
+  box-shadow:0 0 0 4px rgba(255,73,137,.75);
+}
+
+/* LEFT NAV */
+.home{left:1.8%;top:41.6%;width:15.4%;height:5.4%}
+.favorites-nav{left:2%;top:48.9%;width:15%;height:5%}
+.resources-nav{left:2%;top:54.7%;width:15%;height:5%}
+.students-nav{left:2%;top:60.6%;width:15%;height:5%}
+.settings-nav{left:2%;top:66.5%;width:15%;height:5%}
+
+/* TOP RESOURCE CARDS */
+.phonics{left:22.9%;top:28.7%;width:13.8%;height:24%}
+.reading{left:37.7%;top:28.7%;width:13.8%;height:24%}
+.writing{left:52.6%;top:28.7%;width:13.8%;height:24%}
+.math{left:67.4%;top:28.7%;width:13.8%;height:24%}
+.centers{left:82.3%;top:28.7%;width:14%;height:24%}
+
+/* SECOND ROW */
+.classroom{left:22.9%;top:55.1%;width:13.8%;height:23%}
+.brain{left:37.7%;top:55.1%;width:13.8%;height:23%}
+.readalouds{left:52.6%;top:55.1%;width:13.8%;height:23%}
+.tools{left:67.4%;top:55.1%;width:13.8%;height:23%}
+.favorites-card{left:82.3%;top:55.1%;width:14%;height:23%}
+
+/* QUICK TOOLS */
+.timer{left:23.6%;top:83.5%;width:10%;height:14%}
+.picker{left:33.9%;top:83.5%;width:10%;height:14%}
+.group{left:44.2%;top:83.5%;width:10%;height:14%}
+.noise{left:54.5%;top:83.5%;width:10%;height:14%}
+.message{left:64.8%;top:83.5%;width:10.8%;height:14%}
+.whatdo{left:75.4%;top:83.5%;width:10.8%;height:14%}
+
+#toast{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  transform:translateX(-50%) translateY(24px);
+  background:rgba(22,42,75,.95);
+  color:#fff;
+  padding:11px 17px;
+  border-radius:999px;
+  font:700 14px Arial,sans-serif;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s ease;
+  z-index:50;
+}
+
+#toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+@media(max-width:700px){
+  body{background:#fff}
+  .stage{width:100vw}
+}
+</style>
+</head>
+
+<body>
+
+<main class="stage" aria-label="Teacher Toolbox home page">
+
+<img
+src="CAEC93DB-0CE1-4904-89EA-432B5F0E122F.png"
+alt="Teacher Toolbox pastel classroom dashboard">
+
+<a class="hotspot home"
+href="teacher-toolbox-home-final.html"
+aria-label="Home"></a>
+
+<a class="hotspot phonics"
+href="phonics.html?v=10"
+aria-label="Open Phonics Toolbox"></a>
+
+<a class="hotspot reading"
+href="reading.html?v=20"
+aria-label="Open Reading Toolbox"></a>
+
+<a class="hotspot writing"
+href="writing.html?v=50"
+aria-label="Open Writing Toolbox"></a>
+
+<a class="hotspot math"
+href="math.html?v=60"
+aria-label="Open Math Toolbox"></a>
+
+<a class="hotspot centers"
+href="centers-final.html"
+aria-label="Open Centers Toolbox"></a>
+
+<a class="hotspot classroom"
+href="classroom-management-new.html?v=94372861"
+aria-label="Open Classroom Management Toolbox"></a>
+
+<a class="hotspot favorites-nav" href="#" data-coming="My Favorites"></a>
+<a class="hotspot resources-nav" href="#" data-coming="My Resources"></a>
+<a class="hotspot students-nav" href="#" data-coming="My Students"></a>
+<a class="hotspot settings-nav" href="#" data-coming="Settings"></a>
+
+<a class="hotspot brain" href="#" data-coming="Brain Breaks"></a>
+<a class="hotspot readalouds" href="#" data-coming="Read Alouds"></a>
+<a class="hotspot tools" href="#" data-coming="Teacher Tools"></a>
+<a class="hotspot favorites-card" href="#" data-coming="My Favorites"></a>
+
+<a class="hotspot timer"
+href="timer.html"
+aria-label="Timer"></a>
+
+<a class="hotspot picker"
+href="student-picker.html"
+aria-label="Student Picker"></a>
+
+<a class="hotspot group"
+href="group-maker.html"
+aria-label="Group Maker"></a>
+
+<a class="hotspot noise"
+href="noise-tools.html"
+aria-label="Noise Level Tools"></a>
+
+<a class="hotspot message"
+href="morning-message-final.html?v=2"
+aria-label="Morning Message"></a>
+
+<a class="hotspot whatdo"
+href="what-can-i-do.html?v=3"
+aria-label="What Can I Do"></a>
+
+</main>
+
+<div id="toast"></div>
+
+<script>
+const toast=document.getElementById('toast');
+let timer;
+
+document.querySelectorAll('[data-coming]').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.preventDefault();
+    clearTimeout(timer);
+    toast.textContent=el.dataset.coming+' — coming soon! 💕';
+    toast.classList.add('show');
+    timer=setTimeout(()=>toast.classList.remove('show'),1800);
+  });
+});
+</script>
+
+</body>
+</html>
